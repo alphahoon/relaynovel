@@ -1,6 +1,9 @@
 .elasticbeanstalk/
 *~
 
+# VS Code Files
+.vscode/*
+
 # Elastic Beanstalk Files
 .elasticbeanstalk/*
 !.elasticbeanstalk/*.cfg.yml
