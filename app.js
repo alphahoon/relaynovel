@@ -10,6 +10,28 @@ var users = require('./routes/users');
 
 var app = express();
 
+var mysql = require('mysql');
+var connection = mysql.createConnection({
+  host     : 'aa1srt9g8p7y84.cza7cgqsf7zv.ap-northeast-2.rds.amazonaws.com',
+  user     : 'renodb',
+  password : 'cs350reno',
+  port     : '3306'
+});
+
+connection.connect();
+var sql_test = 'SELECT * FROM ebdb.User';
+connection.query(sql_test, function(err, rows, fields) {
+    if(err)
+    {
+        console.log(err);
+    }
+    else
+    {
+        console.log('rows', rows);
+        console.log('fields', fields);
+    }
+})
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
