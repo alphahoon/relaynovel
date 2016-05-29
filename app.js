@@ -19,6 +19,10 @@ var connection = mysql.createConnection({
 });
 
 connection.connect();
+
+
+// SQL Test Codes
+/*
 var sql_test = 'SELECT * FROM ebdb.User';
 connection.query(sql_test, function(err, rows, fields) {
     if(err)
@@ -31,6 +35,7 @@ connection.query(sql_test, function(err, rows, fields) {
         console.log('fields', fields);
     }
 })
+*/
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
