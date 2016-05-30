@@ -1,0 +1,25 @@
+{
+  "name": "relaynovel",
+  "description": "relaynovel system",
+  "main": "app.js",
+  "authors": [
+    "Jaehoon Lee <alphahoon@gmail.com>"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "cs350"
+  ],
+  "homepage": "https://github.com/alphahoon/relaynovel",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "^2.2.4",
+    "bootstrap": "^3.3.6"
+  }
+}
