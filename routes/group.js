@@ -3,7 +3,7 @@ var router = express.Router();
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('group', { title: 'relaynovel' });
+  res.render('group', {session: req.session});
 });
 
 module.exports = router;

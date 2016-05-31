@@ -99,4 +99,18 @@ app.use(function(err, req, res, next) {
   });
 });
 
+app.get('/login', function(req, res, next){
+  if(req.session.logined)
+    res.redirect('/');
+  else {
+    res.render('login', {session: req.session})
+  }
+});
+app.get('/group', function(req, res, next){
+    res.redirect('group');
+});
+app.get('/dashboard', function(req, res, next){
+    res.redirect('dashboard');
+});
+
 module.exports = app;
