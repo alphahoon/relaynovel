@@ -1,0 +1,15 @@
+extends layout
+
+block content
+    .row(style="margin:2em;")
+      .col.s0.m2.l4
+        .row
+      .col.s12.m8.l4.grey.lighten-5(style="border:0.2em grey solid; border-radius:1em; padding: 2em;")
+        .row
+          h4.teal-text.text-darken-1(style="text-align:center; font-weight:bold;") 환영합니다!
+        form(action='/logout', method='post' style='text-align:center;')
+          .row
+            button.btn-large.waves-effect.waves-light(type='submit', name='action', style="width:100%;") 로그아웃
+      .col.s0.m2.l4
+        .row
+
