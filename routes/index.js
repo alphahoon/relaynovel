@@ -18,12 +18,12 @@ connection.connect(function(err) {
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'relaynovel' });
+  res.render('index', { session: req.session });
 });
 
 router.get('/login', function(req, res, next){
   if(req.session.logined)
-    res.render('logout', {session: req.session})
+    res.render('index', {session: req.session})
   else {
     res.render('login', {session: req.session})
   }
@@ -32,20 +32,23 @@ router.get('/login', function(req, res, next){
  
 router.post('/login', function(req, res, next){
   var query = connection.query('select * from User where userid='+mysql.escape(req.body.id),function(err,rows){
-    if(req.body.id == rows[0].userid && req.body.pswd === rows[0].Password)
+    console.log(rows);
+    if(rows[0] && req.body.id == rows[0].userid && req.body.pswd === rows[0].Password)
     req.session.regenerate(function(){
       req.session.logined = true;
       req.session.user_id = req.body.id;
-  
-      res.render('logout', {session: req.session})
+      res.render('index', {session: req.session});
     })
-    else res.render('login', {session: req.session})
+    else {
+      console.log("error");
+      res.render('login', {session: req.session});
+    }
   });
 });
  
 router.post('/logout', function(req,res,next){
   req.session.destroy();
-  res.redirect('/login')
+  res.redirect('/')
 })
 
 module.exports = router;
