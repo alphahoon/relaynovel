@@ -8,39 +8,15 @@ var session = require('express-session');
 
 var index = require('./routes/index');
 var login = require('./routes/login');
-var register = require('./routes/register')
-var myprofile = require('./routes/myprofile')
-var group = require('./routes/group')
-var dashboard = require('./routes/dashboard')
-var users = require('./routes/users');
+var logout = require('./routes/logout');
+var home = require('./routes/home');
+var register = require('./routes/register');
+var joinable = require('./routes/joinable');
+// var myprofile = require('./routes/myprofile')
+// var dashboard = require('./routes/dashboard')
+// var test = require('./routes/test');
 
 var app = express();
-
-var mysql = require('mysql');
-var connection = mysql.createConnection({
-  host     : 'aa1srt9g8p7y84.cza7cgqsf7zv.ap-northeast-2.rds.amazonaws.com',
-  user     : 'renodb',
-  password : 'cs350reno',
-  port     : '3306'
-});
-
-connection.connect();
-
-// SQL Test Codes
-/*
-var sql_test = 'SELECT * FROM ebdb.User';
-connection.query(sql_test, function(err, rows, fields) {
-    if(err)
-    {
-        console.log(err);
-    }
-    else
-    {
-        console.log('rows', rows);
-        console.log('fields', fields);
-    }
-})
-*/
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -62,11 +38,12 @@ app.use(session({
 
 app.use('/', index);
 app.use('/login', login);
+app.use('/logout', logout);
+app.use('/home', home);
 app.use('/register', register);
-app.use('/myprofile', myprofile);
-app.use('/group', group);
-app.use('/dashboard', dashboard);
-app.use('/users', users);
+app.use('/joinable', joinable);
+// app.use('/myprofile', myprofile);
+// app.use('/test', test);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

@@ -3,11 +3,8 @@ var router = express.Router();
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
-  if (req.session.logined)
-    res.redirect('/home');
-  else {
-    res.redirect('/login');
-  }
+    console.log(req.session.user_id);
+    res.render('home', { session: req.session });
 });
 
 module.exports = router;
