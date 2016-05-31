@@ -17,7 +17,7 @@ block afterheader
               input#user_pw.validate(name='pswd', type='password')
               label(for='user_pw') 패스워드
           .row
-              input#user_remember.filled-in(type='checkbox')
+              input#user_remember.filled-in(name='rememberme' type='checkbox')
               label(for='user_remember') 기억하기
           .row
             button.btn-large.waves-effect.waves-light(type='submit', name='action', style="width:100%;") 로그인
@@ -26,4 +26,3 @@ block afterheader
             h6 아직 아이디가 없으세요?
       .col.s0.m2.l4
         .row
-

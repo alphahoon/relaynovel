@@ -12,8 +12,8 @@ var logout = require('./routes/logout');
 var home = require('./routes/home');
 var register = require('./routes/register');
 var joinable = require('./routes/joinable');
+var dashboard = require('./routes/dashboard');
 // var myprofile = require('./routes/myprofile')
-// var dashboard = require('./routes/dashboard')
 // var test = require('./routes/test');
 
 var app = express();
@@ -42,11 +42,12 @@ app.use('/logout', logout);
 app.use('/home', home);
 app.use('/register', register);
 app.use('/joinable', joinable);
+app.use('/dashboard', dashboard);
 // app.use('/myprofile', myprofile);
 // app.use('/test', test);
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   var err = new Error('Not Found');
   err.status = 404;
   next(err);
@@ -57,7 +58,7 @@ app.use(function(req, res, next) {
 // development error handler
 // will print stacktrace
 if (app.get('env') === 'development') {
-  app.use(function(err, req, res, next) {
+  app.use(function (err, req, res, next) {
     res.status(err.status || 500);
     res.render('error', {
       message: err.message,
@@ -68,7 +69,7 @@ if (app.get('env') === 'development') {
 
 // production error handler
 // no stacktraces leaked to user
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
   res.status(err.status || 500);
   res.render('error', {
     message: err.message,
