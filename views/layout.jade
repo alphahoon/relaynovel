@@ -28,7 +28,11 @@ html(lang='ko')
             li
               a(href='/dashboard') 대쉬보드
             li
-              a(href='/login') 로그인
+              if session && session.logined
+                form(id = 'logout' action='/logout', method='post' style='text-align:center;')
+                  a(href='#' onclick="document.getElementById('logout').submit();") 로그아웃
+              else
+                 a(href='/login') 로그인
           ul#mobile-demo.side-nav
             li
               a(href='/') 홈
@@ -37,7 +41,11 @@ html(lang='ko')
             li
               a(href='/dashboard') 대쉬보드
             li
-              a(href='/login') 로그인
+              if session && session.logined
+                form(id = 'logout' action='/logout', method='post' style='text-align:center;')
+                  a(href='#' onclick="document.getElementById('logout').submit();") 로그아웃
+              else
+                 a(href='/login') 로그인
 
     block content
     
