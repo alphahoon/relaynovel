@@ -14,7 +14,7 @@ var register = require('./routes/register');
 var joinable = require('./routes/joinable');
 var dashboard = require('./routes/dashboard');
 var create_group = require('./routes/create_group');
-// var myprofile = require('./routes/myprofile')
+var myprofile = require('./routes/myprofile')
 // var test = require('./routes/test');
 
 var app = express();
@@ -45,7 +45,7 @@ app.use('/register', register);
 app.use('/joinable', joinable);
 app.use('/dashboard', dashboard);
 app.use('/create_group', create_group);
-// app.use('/myprofile', myprofile);
+app.use('/myprofile', myprofile);
 // app.use('/test', test);
 
 // catch 404 and forward to error handler
