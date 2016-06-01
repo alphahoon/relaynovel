@@ -26,30 +26,42 @@ html(lang='ko')
             i.material-icons menu
           ul.right.hide-on-med-and-down
             li
-              a(href='/') 홈
+              a.waves-effect(href='/') 홈
             li
-              a(href='/group') 그룹
+              if session && session.logined
+                a.waves-effect(href='/group') 그룹
             li
-              a(href='/dashboard') 대쉬보드
+              if session && session.logined
+                a.waves-effect(href='/dashboard') 대쉬보드
             li
               if session && session.logined
                 form(id = 'logout' action='/logout', method='post' style='text-align:center;')
-                  a(href='#' onclick="document.getElementById('logout').submit();") 로그아웃
+                  a.waves-effect(href='#' onclick="document.getElementById('logout').submit();") 로그아웃
               else
-                 a(href='/login') 로그인
+                a.waves-effect(href='/login') 로그인
+            li
+              if session && session.logined
+              else
+                a.waves-effect(href='/register') 가입하기
           ul#mobile-demo.side-nav
             li
-              a(href='/') 홈
+              a.waves-effect(href='/') 홈
             li
-              a(href='/group') 그룹
+              if session && session.logined
+                a.waves-effect(href='/group') 그룹
             li
-              a(href='/dashboard') 대쉬보드
+              if session && session.logined
+                a.waves-effect(href='/dashboard') 대쉬보드
             li
               if session && session.logined
                 form(id = 'logout' action='/logout', method='post' style='text-align:center;')
-                  a(href='#' onclick="document.getElementById('logout').submit();") 로그아웃
+                  a.waves-effect(href='#' onclick="document.getElementById('logout').submit();") 로그아웃
               else
-                 a(href='/login') 로그인
+                 a.waves-effect(href='/login') 로그인
+            li
+              if session && session.logined
+              else
+                a.waves-effect(href='/register') 가입하기
 
     block content
     

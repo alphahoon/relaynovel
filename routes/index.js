@@ -33,7 +33,7 @@ router.get('/login', function(req, res, next){
 router.post('/login', function(req, res, next){
   var query = connection.query('select * from User where userid='+mysql.escape(req.body.id),function(err,rows){
     console.log(rows);
-    if(rows[0] && req.body.id == rows[0].userid && req.body.pswd === rows[0].Password)
+    if(rows && rows[0] && req.body.id == rows[0].userid && req.body.pswd === rows[0].Password)
     req.session.regenerate(function(){
       req.session.logined = true;
       req.session.user_id = req.body.id;
