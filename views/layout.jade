@@ -1,6 +1,22 @@
-extends header
-
-block afterheader
+doctype html
+html(lang='ko')
+  head
+    meta(charset='utf-8')
+    meta(http-equiv='X-UA-Compatible', content='IE=edge')
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+    // The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags
+    title Relay Novel
+    // Bootstrap
+    // link(href='/stylesheets/bootstrap.min.css', rel='stylesheet')
+    // link(href='/stylesheets/bootstrap-theme.min.css', rel='stylesheet')
+    link(href='/stylesheets/materialize.min.css', rel='stylesheet')
+    link(href='/stylesheets/font-awesome.min.css', rel='stylesheet')
+    link(href='/stylesheets/stylesheet.css', rel='stylesheet')
+    link(href='https://fonts.googleapis.com/icon?family=Material+Icons', rel="stylesheet")
+    script(src='/javascripts/jquery.min.js')
+    // script(src='/javascripts/bootstrap.min.js')
+    script(src='/javascripts/materialize.min.js')
+    script(src='/javascripts/init.js')
   body
     nav.teal.lighten-1
       .container
@@ -10,62 +26,74 @@ block afterheader
             i.material-icons menu
           ul.right.hide-on-med-and-down
             li
-              a(href='/') 홈
+              a.waves-effect(href='/') 홈
             li
-              a(href='/joinable') 그룹
+              if session && session.logined
+                a.waves-effect(href='/joinable') 그룹
             li
-              a(href='/dashboard') 대쉬보드
+              if session && session.logined
+                a.waves-effect(href='/dashboard') 대쉬보드
             li
               if session && session.logined
                 form(id = 'logout' action='/logout', method='post' style='text-align:center;')
-                  a(href='#' onclick="document.getElementById('logout').submit();") 로그아웃
+                  a.waves-effect(href='#' onclick="document.getElementById('logout').submit();") 로그아웃
               else
-                  a(href='/login') 로그인
+                a.waves-effect(href='/login') 로그인
+            li
+              if session && session.logined
+              else
+                a.waves-effect(href='/register') 가입하기
           ul#mobile-demo.side-nav
             li
-              a(href='/') 홈
+              a.waves-effect(href='/') 홈
             li
-              a(href='/joinable') 그룹
+              if session && session.logined
+                a.waves-effect(href='/joinable') 그룹
             li
-              a(href='/dashboard') 대쉬보드
+              if session && session.logined
+                a.waves-effect(href='/dashboard') 대쉬보드
             li
               if session && session.logined
                 form(id = 'logout' action='/logout', method='post' style='text-align:center;')
-                  a(href='#' onclick="document.getElementById('logout').submit();") 로그아웃
+                  a.waves-effect(href='#' onclick="document.getElementById('logout').submit();") 로그아웃
               else
-                  a(href='/') 로그인
+                 a.waves-effect(href='/login') 로그인
+            li
+              if session && session.logined
+              else
+                a.waves-effect(href='/register') 가입하기
 
     block inlayout
-    
     footer.page-footer.teal.lighten-1
-      .container
-        .row
-          .col.l6.s12
-            h5.white-text KAIST CS350
-            p.grey-text.text-lighten-4
-              | Lorem ipsum blah blah ...
-          .col.l3.s12
-            h5.white-text 오늘의 베스트 
-            ul
-              li
-                a.white-text(href='#!') Link 1
-              li
-                a.white-text(href='#!') Link 2
-              li
-                a.white-text(href='#!') Link 3
-              li
-                a.white-text(href='#!') Link 4
-          .col.l3.s12
-            h5.white-text 최근 업데이트
-            ul
-              li
-                a.white-text(href='#!') Link 1
-              li
-                a.white-text(href='#!') Link 2
-              li
-                a.white-text(href='#!') Link 3
-              li
-                a.white-text(href='#!') Link 4
+      if session && session.logined 
+        .container
+          .row
+            .col.l6.s12
+              h5.white-text KAIST CS350
+              p.grey-text.text-lighten-4
+                | Lorem ipsum blah blah ...
+            .col.l3.s12
+              h5.white-text 오늘의 베스트 
+              ul
+                li
+                  a.white-text(href='#!') Link 1
+                li
+                  a.white-text(href='#!') Link 2
+                li
+                  a.white-text(href='#!') Link 3
+                li
+                  a.white-text(href='#!') Link 4
+            .col.l3.s12
+              h5.white-text 최근 업데이트
+              ul
+                li
+                  a.white-text(href='#!') Link 1
+                li
+                  a.white-text(href='#!') Link 2
+                li
+                  a.white-text(href='#!') Link 3
+                li
+                  a.white-text(href='#!') Link 4
       .footer-copyright.teal.darken-2
         .container
           | Made by 
