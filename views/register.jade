@@ -25,16 +25,13 @@ block inlayout
               input#user_pw2.validate(name='pswd2', type='password', length='30')
               label(for='user_pw2') 패스워드 확인
           .row
-            img.circle.profile#img_profile(src='http://naturalpod.com/wp-content/uploads/2012/07/Natural-Pod-Blank-Photo-Person.jpg' style="width:250px; height:250px;")
+            img.circle.profile#img_profile(src='/empty_user.jpg' style="width:250px; height:250px;")
           .row
             .col.s6
-              form(runat='server')
-                .file-field.input-field.btn.green(style="width:100%") 사진 업로드
-                  input#upload_profile(type='file', multiple='')
+              .file-field.input-field.btn.green(style="width:100%") 사진 업로드
+                input#upload_profile(type='file', multiple='')
             .col.s6
-              form
-                .file-field.input-field.btn.red#delete_file(style="width:100%") 사진 삭제
-                  span 
+              .file-field.input-field.btn.red#delete_file(style="width:100%") 사진 삭제
           .row
             button.btn-large.waves-effect.waves-light.teal(type='submit', name='register', style="width:100%;") 가입하기
       .col.s0.m2.l4

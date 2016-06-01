@@ -1,0 +1,124 @@
+extends layout
+
+block inlayout
+  .row(style="margin:2em;")
+    .col.s0.m2.l4
+      .row
+    .col.s12.m8.l4.grey.lighten-5(style="border:0.2em grey solid; border-radius:1em; padding: 2em;")
+      .row
+        h4.teal-text.text-darken-1(style="text-align:center; font-weight:bold;") 그룹 생성
+      form(action='/create_group', method='post' style='text-align:center;')
+        .row
+          .input-field
+            input#user_id.validate(name='id', type='text', length='20')
+            label(for='user_id') 그룹 이름
+        .row
+          label 소설 장르
+            select.browser-default
+              option(value='', disabled='', selected='') 선택
+              option(value='1') 일상
+              option(value='2') 로맨스
+              option(value='3') 무협
+              option(value='4') 전쟁
+              option(value='5') 판타지
+              option(value='6') 공상과학
+              option(value='7') 역사
+              option(value='8') 추리
+              option(value='9') 범죄
+              option(value='10') 공포
+        .row
+          label 작성 시간 제한
+            select.browser-default
+              option(value='', disabled='', selected='') 선택
+              option(value='1') 1시간
+              option(value='2') 2시간
+              option(value='3') 3시간
+              option(value='4') 4시간
+              option(value='6') 6시간
+              option(value='8') 8시간
+              option(value='12') 12시간
+              option(value='24') 24시간
+              option(value='168') 7일 
+              option(value='999') 제한 없음
+        .row
+          label 투표 시간 제한
+            select.browser-default
+              option(value='', disabled='', selected='') 선택 
+              option(value='1') 1시간
+              option(value='2') 2시간
+              option(value='3') 3시간
+              option(value='4') 4시간
+              option(value='6') 6시간
+              option(value='8') 8시간
+              option(value='12') 12시간
+              option(value='24') 24시간
+              option(value='168') 7일 
+              option(value='999') 제한 없음
+        .row
+          label 작가 수 제한
+            select.browser-default
+              option(value='', disabled='', selected='') 선택
+              option(value='1') 1명 (혼자 작성)
+              option(value='2') 2명
+              option(value='3') 3명
+              option(value='4') 4명
+              option(value='5') 5명
+              option(value='10') 10명
+              option(value='20') 20명
+              option(value='30') 30명
+              option(value='40') 40명
+              option(value='50') 50명
+              option(value='50') 100명
+        .row
+          h5.grey-text.text-darken-2 글자수 제한 
+        .row
+          .col.s3
+            h6.grey-text.text-darken-2 최소
+          .range-field.col.s9
+            input#lengthMin(type='range', value='50', min='50', max='250')
+        .row
+          .col.s3
+            h6.grey-text.text-darken-2 최대
+          .range-field.col.s9
+            input#lengthMax(type='range', value='250',min='250', max='1000')
+        .row
+          .col.s6
+            h6.grey-text.text-darken-2 롤백 허용 여부
+          .col.s6
+            input.filled-in#rollback_sw(type='checkbox', checked='checked')
+            label(for='rollback_sw') 허용
+        .row
+          img#img_group(src='/empty_book.jpg' style="width:250px; height:300px;")
+        .row
+          .col.s6
+            .file-field.input-field.btn.green(style="width:100%") 표지 업로드
+              input#upload_profile(type='file', multiple='')
+          .col.s6
+            .file-field.input-field.btn.red#delete_file(style="width:100%") 표지 삭제
+        .row
+          button.btn-large.waves-effect.waves-light.teal(type='submit', name='register', style="width:100%;") 그룹 만들기
+    .col.s0.m2.l4
+      .row
+    script(type="text/javascript").
+      function readURL(input) {
+        if (input.files && input.files[0]) {
+          var reader = new FileReader();
+          reader.onload = function (e) {
+            $('#img_group').attr('src', e.target.result);
+          }
+          reader.readAsDataURL(input.files[0]);
+        }
+      }
+      
+      $("#upload_profile").change(function(){
+        readURL(this);
+      });
+      
+      var control = $("#upload_profile");
+      $("#delete_file").on("click", function () {
+          control.replaceWith( control = control.clone( true ) );
+          $('#img_group').attr('src', '/empty_book.jpg');
+      });
+      
+      document.getElementById("lengthMin").step = 10;
+      document.getElementById("lengthMax").step = 50;

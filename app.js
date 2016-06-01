@@ -13,6 +13,7 @@ var home = require('./routes/home');
 var register = require('./routes/register');
 var joinable = require('./routes/joinable');
 var dashboard = require('./routes/dashboard');
+var create_group = require('./routes/create_group');
 // var myprofile = require('./routes/myprofile')
 // var test = require('./routes/test');
 
@@ -43,6 +44,7 @@ app.use('/home', home);
 app.use('/register', register);
 app.use('/joinable', joinable);
 app.use('/dashboard', dashboard);
+app.use('/create_group', create_group);
 // app.use('/myprofile', myprofile);
 // app.use('/test', test);
 
