@@ -4,6 +4,7 @@
 # VS Code Files
 .vscode/*
 typings/*
+jsconfig.json
 
 # Elastic Beanstalk Files
 .elasticbeanstalk/*
