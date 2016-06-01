@@ -1,5 +1,10 @@
 extends layout
 
 block inlayout
-  .container
-    h1.teal-text.text-darken-3 쪼인할수 있는 그룹들!!
+  .row(style="margin:2em;")
+    .col.s0.m2.l3
+      .row
+    .col.s12.m8.l6(style="text-align:center;")
+      a.btn-large.waves-effect.waves-light.orange(href='/create_group', style="width:100%; max-width:400px; vertical-align:middle;") 새로운 그룹 만들기
+    .col.s0.m2.l3
+      .row
