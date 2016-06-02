@@ -4,11 +4,11 @@ block inlayout
   .row(style="margin:2em;")
       .col.s0.m2.l4
         .row
-      .col.s12.m8.l4.grey.lighten-5(style="border:0.2em grey solid; border-radius:1em; padding: 2em;")
-        .row
-          h4.teal-text.text-darken-1(style="text-align:center; font-weight:bold;") 환영합니다!
         if message
-          strong #{message}
+          .toast.rounded.strong #{message}        
+      .col.s12.m8.l4.grey.lighten-5(style="border:0.2em grey solid; border-radius:1em; padding: 2em;")      
+        .row          
+          h4.teal-text.text-darken-1(style="text-align:center; font-weight:bold;") 환영합니다!
         form(action='/register', method='post', enctype='multipart/form-data', style='text-align:center;')
           .row
             .input-field
@@ -39,16 +39,6 @@ block inlayout
       .col.s0.m2.l4
         .row
       script(type="text/javascript").
-        function readURL(input) {
-          if (input.files && input.files[0]) {
-            var reader = new FileReader();
-            reader.onload = function (e) {
-              $('#img_profile').attr('src', e.target.result);
-            }
-            reader.readAsDataURL(input.files[0]);
-          }
-        }
-        
         $("#upload_profile").change(function(){
           readURL(this);
         });
