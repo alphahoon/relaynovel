@@ -9,7 +9,8 @@ block inlayout
       ul.collection#cgroup
         //- script(type='text/javascript').
         //-   var strgroups= '!{JSON.stringify(groups)}'
-      script(type='text/javascript', src='viewjs/loadmoregroup.js').
+      script(type='text/javascript', src='viewjs/loadmoregroup.js')
+      li.waves-effect.waves-light.btn#loadmorebutton button
       
   .row(style="margin:2em;")
     .col.s0.m2.l3
@@ -18,3 +19,11 @@ block inlayout
       a.btn-large.waves-effect.waves-light.orange(href='/create_group', style="width:100%; max-width:400px; vertical-align:middle;") 새로운 그룹 만들기    
     .col.s0.m2.l3
       .row
+      
+  script(type='text/javascript').
+    //Set # of first loaded groups
+    $(loadmore(3));
+    $( "#loadmorebutton" ).click(function() {
+      //Set # of load groups
+      loadmore(2);
+    });
