@@ -4,8 +4,8 @@ var db = require('../database.js');
 
 /* GET Joinable page */
 router.get('/', function (req, res, next) {
-    // if (!req.session.logined)
-    //     res.redirect('/');
+    if (!req.session.logined)
+        res.redirect('/');
 
     res.render('joinable', {
         session: req.session
