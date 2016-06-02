@@ -1,7 +1,7 @@
 extends layout
   
 block inlayout
-  .row(style="margin:2em;")
+  .row(style="margin-top:1em;")
       .col.s0.m2.l4
         .row
       .col.s12.m8.l4.grey.lighten-5(style="border:0.2em grey solid; border-radius:1em; padding: 2em;")
@@ -34,8 +34,29 @@ block inlayout
         .row
       script(type="text/javascript", src = 'viewjs/imageloader.js')        
       script(type="text/javascript").
+<<<<<<< HEAD
         $(document).ready(function() {
           $('#user_name').attr('value', user_Nickname);
           $('#user_pw1').attr('value', user_Password);
           $('#user_pw2').attr('value', user_Password);
+=======
+        function readURL(input) {
+          if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+              $('#img_profile').attr('src', e.target.result);
+            }
+            reader.readAsDataURL(input.files[0]);
+          }
+        }
+        
+        $("#upload_profile").change(function(){
+          readURL(this);
+        });
+        
+        var control = $("#upload_profile");
+        $("#delete_file").on("click", function () {
+            control.replaceWith( control = control.clone( true ) );
+            $('#img_profile').attr('src', '/userimages/empty_user.jpg');
+>>>>>>> origin/master
         });

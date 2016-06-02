@@ -19,15 +19,15 @@ function loadmore(loadnum) {
                 nowIndex += groups.length;
                 groups.forEach(function (group) {
                     div.innerHTML += `
-<li class="collection-item avatar">
-    <img src="`+ group.GroupImageURL + `" alt="" class="circle">
-    <span class="title">`+ group.Groupname + `</span>
+<li class="collection-item avatar" style="padding-left:90px; padding-right:60px; text-align:left;">
+    <img src="`+ group.GroupImageURL + `" alt="" class="circle responsive-img" style="margin:auto; width:65px; height:65px;">
+    <span class="title"><strong>`+ group.Groupname + `</strong></span>
     <p>
     Genre : `+ group.Genre + `
     <br>
     Second Line
     </p>
-    <a href="#!" class="secondary-content"><i class="medium material-icons">view_module</i></a>
+    <a href="#!" class="secondary-content" style="margin:auto;"><i class="fa fa-sign-in fa-3x" aria-hidden="true"></i></a>
 </li>
 `;
                 });
