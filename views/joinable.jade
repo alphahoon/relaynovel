@@ -4,7 +4,17 @@ block inlayout
   .row(style="margin:2em;")
     .col.s0.m2.l3
       .row
+    .col.s12.m8.l6
+      if(groups.length > 0)
+        ul.collection#cgroup
+        script(type='text/javascript').
+          var strgroups= '!{JSON.stringify(groups)}'
+        script(type='text/javascript', src='viewjs/loadmoregroup.js').
+      
+  .row(style="margin:2em;")
+    .col.s0.m2.l3
+      .row
     .col.s12.m8.l6(style="text-align:center;")
-      a.btn-large.waves-effect.waves-light.orange(href='/create_group', style="width:100%; max-width:400px; vertical-align:middle;") 새로운 그룹 만들기
+      a.btn-large.waves-effect.waves-light.orange(href='/create_group', style="width:100%; max-width:400px; vertical-align:middle;") 새로운 그룹 만들기    
     .col.s0.m2.l3
       .row
