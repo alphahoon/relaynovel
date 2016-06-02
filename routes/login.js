@@ -26,6 +26,7 @@ router.post('/', function (req, res, next) {
           res.redirect('/home');
         })
       else {
+        //req.flash('error','something wrong')
         console.log("error");
         res.redirect('/login');
       }

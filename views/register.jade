@@ -1,5 +1,4 @@
 extends layout
-  
 block inlayout
   .row(style="margin:2em;")
       .col.s0.m2.l4
@@ -7,7 +6,9 @@ block inlayout
       .col.s12.m8.l4.grey.lighten-5(style="border:0.2em grey solid; border-radius:1em; padding: 2em;")
         .row
           h4.teal-text.text-darken-1(style="text-align:center; font-weight:bold;") 환영합니다!
-        form(action='/register', method='post' style='text-align:center;')
+        if message
+            strong #{message}          
+        form(action='/register', method='post', enctype='multipart/form-data' style='text-align:center;')
           .row
             .input-field
               input#user_id.validate(name='id', type='text', length='20')
@@ -28,13 +29,11 @@ block inlayout
             img.circle.profile#img_profile(src='http://naturalpod.com/wp-content/uploads/2012/07/Natural-Pod-Blank-Photo-Person.jpg' style="width:250px; height:250px;")
           .row
             .col.s6
-              form(runat='server')
-                .file-field.input-field.btn.green(style="width:100%") 사진 업로드
-                  input#upload_profile(type='file', multiple='')
+              .file-field.input-field.btn.green(style="width:100%") 사진 업로드
+                input#upload_profile(name='profile', type='file', multiple='')
             .col.s6
-              form
-                .file-field.input-field.btn.red#delete_file(style="width:100%") 사진 삭제
-                  span 
+              .file-field.input-field.btn.red#delete_file(style="width:100%") 사진 삭제
+                span 
           .row
             button.btn-large.waves-effect.waves-light.teal(type='submit', name='register', style="width:100%;") 가입하기
       .col.s0.m2.l4
