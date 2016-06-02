@@ -5,11 +5,11 @@ block inlayout
     .col.s0.m2.l3
       .row
     .col.s12.m8.l6
-      if(groups.length > 0)
-        ul.collection#cgroup
-        script(type='text/javascript').
-          var strgroups= '!{JSON.stringify(groups)}'
-        script(type='text/javascript', src='viewjs/loadmoregroup.js').
+      //- if(groups.length > 0)
+      ul.collection#cgroup
+        //- script(type='text/javascript').
+        //-   var strgroups= '!{JSON.stringify(groups)}'
+      script(type='text/javascript', src='viewjs/loadmoregroup.js').
       
   .row(style="margin:2em;")
     .col.s0.m2.l3
