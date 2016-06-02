@@ -50,9 +50,9 @@ router.post('/', function (req, res, next) {
                     if (file.profile.name) {
                         var new_path = __dirname + '/../public/userimages/' + fields.id + path.extname(file.profile.path);
                         fs.rename(file.profile.path, new_path);
-                        profile_pic = new_path;
+                        profile_pic = 'userimages/' + fields.id + path.extname(file.profile.path);
                     }
-                    else profile_pic = "__dirname + '/../public/userimages/empty_user.jpg";
+                    else profile_pic = "userimages/empty_user.jpg";
                     var post = {
                         userid : fields.id,
                         Nickname : fields.name,

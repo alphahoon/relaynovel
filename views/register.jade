@@ -1,7 +1,7 @@
 extends layout
   
 block inlayout
-  .row(style="margin:2em;")
+  .row(style="margin-top:1em;")
       .col.s0.m2.l4
         .row
         if message
@@ -38,23 +38,5 @@ block inlayout
             button.btn-large.waves-effect.waves-light.teal(type='submit', name='register', style="width:100%;") 가입하기
       .col.s0.m2.l4
         .row
-      script(type="text/javascript").
-        function readURL(input) {
-          if (input.files && input.files[0]) {
-            var reader = new FileReader();
-            reader.onload = function (e) {
-              $('#img_profile').attr('src', e.target.result);
-            }
-            reader.readAsDataURL(input.files[0]);
-          }
-        }
         
-        $("#upload_profile").change(function(){
-          readURL(this);
-        });
-        
-        var control = $("#upload_profile");
-        $("#delete_file").on("click", function () {
-            control.replaceWith( control = control.clone( true ) );
-            $('#img_profile').attr('src', '/empty_user.jpg');
-        });
+      script(type="text/javascript", src = 'viewjs/imageloader.js')
