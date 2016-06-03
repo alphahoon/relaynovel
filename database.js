@@ -8,6 +8,12 @@ var connection = mysql.createConnection({
     database: 'ebdb'
 });
 connection.connect();
+function db_query(query, callback) {
+    connection.query(query, function (err, fields) {
+        callback(fields);
+    });
+}
+
 function get_recentupdate(callback) {
     connection.query('SELECT * FROM RenoGroup ORDER BY createtime DESC LIMIT 4;', function (err, groups) {
         if (groups) {
@@ -19,7 +25,7 @@ function get_recentupdate(callback) {
             callback(recent_groups);
         }
         else {
-            callback("no group");
+            callback("    ");
         }
     });
 }
@@ -35,7 +41,7 @@ function get_best (recent_groups, callback) {
             callback(combined);
         }
         else {
-            callback("no group");
+            callback(recent_groups);
         }
     });
 }
@@ -54,4 +60,5 @@ module.exports = {
     mysql : mysql,
     connection : connection,
     get_layout_links : get_layout_links,
+    db_query : db_query
 }
