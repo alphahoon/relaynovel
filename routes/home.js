@@ -6,11 +6,9 @@ var db = require('../database.js');
 router.get('/', function (req, res, next) {
     if (!req.session.logined)
         res.redirect('/');
-    console.log(req.session.user_id);
-    db.get_recentupdate(function (callback) {
-        console.log(callback);
+    db.get_layout_links(function (callback) {
+        res.render('home', { session: req.session, links : callback });
     });
-    res.render('home', { session: req.session });
 });
 
 module.exports = router;

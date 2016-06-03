@@ -6,9 +6,8 @@ var db = require('../database.js');
 router.get('/', function (req, res, next) {
     if (!req.session.logined)
         res.redirect('/');
-
-    res.render('joinable', {
-        session: req.session
+    db.get_layout_links(function (callback) {
+        res.render('joinable', { session: req.session, links : callback });
     });
 });
 
