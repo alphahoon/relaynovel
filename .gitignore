@@ -6,6 +6,10 @@
 typings/*
 jsconfig.json
 
+#images
+public/groupimages/*.*
+public/userimages/*.*
+
 # Elastic Beanstalk Files
 .elasticbeanstalk/*
 !.elasticbeanstalk/*.cfg.yml
