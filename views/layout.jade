@@ -76,24 +76,40 @@ html(lang='ko')
               h5.white-text 오늘의 베스트 
               ul
                 li
-                  a.white-text(href='#!') #{links[4]}
+                  form(id = 'group4' action='/group', method='get')
+                    input(type="hidden" name="groupname" value="#{links[4]}") 
+                    a.waves-effect(style={color : 'white'}, href='#' onclick="document.getElementById('group3').submit();") #{links[4]}
                 li
-                  a.white-text(href='#!') #{links[5]}
+                  form(id = 'group5' action='/group', method='get')
+                    input(type="hidden" name="groupname" value="#{links[5]}") 
+                    a.waves-effect(style={color : 'white'}, href='#' onclick="document.getElementById('group3').submit();") #{links[5]}
                 li
-                  a.white-text(href='#!') #{links[6]}
+                  form(id = 'group6' action='/group', method='get')
+                    input(type="hidden" name="groupname" value="#{links[6]}") 
+                    a.waves-effect(style={color : 'white'}, href='#' onclick="document.getElementById('group3').submit();") #{links[6]}
                 li
-                  a.white-text(href='#!') #{links[7]}
+                  form(id = 'group7' action='/group', method='get')
+                    input(type="hidden" name="groupname" value="#{links[7]}") 
+                    a.waves-effect(style={color : 'white'}, href='#' onclick="document.getElementById('group3').submit();") #{links[7]}
             .col.l3.s12
               h5.white-text 최근 업데이트
               ul
                 li
-                  a.white-text(href='#!') #{links[0]}
+                  form(id = 'group0' action='/group', method='get')
+                    input(type="hidden" name="groupname" value="#{links[0]}") 
+                    a.waves-effect(style={color : 'white'}, href='#' onclick="document.getElementById('group0').submit();") #{links[0]}                  
                 li
-                  a.white-text(href='#!') #{links[1]}
+                  form(id = 'group1' action='/group', method='get')
+                    input(type="hidden" name="groupname" value="#{links[1]}") 
+                    a.waves-effect(style={color : 'white'}, href='#' onclick="document.getElementById('group1').submit();") #{links[1]}
                 li
-                  a.white-text(href='#!') #{links[2]}
+                  form(id = 'group2' action='/group', method='get')
+                    input(type="hidden" name="groupname" value="#{links[2]}") 
+                    a.waves-effect(style={color : 'white'}, href='#' onclick="document.getElementById('group2').submit();") #{links[2]}
                 li
-                  a.white-text(href='#!') #{links[3]}
+                  form(id = 'group3' action='/group', method='get')
+                    input(type="hidden" name="groupname" value="#{links[3]}") 
+                    a.waves-effect(style={color : 'white'}, href='#' onclick="document.getElementById('group3').submit();") #{links[3]}
       .footer-copyright.teal.darken-2
         .container
           | Made by 

@@ -14,7 +14,8 @@ router.get('/', function (req, res, next) {
 /* Ajax */
 router.post('/', function (req, res, next) {
     var query = db.connection.query(
-        'select * from RenoGroup Limit '+ req.body.start + ', '+ req.body.num,
+        'SELECT * from RenoGroup where Groupname not in (SELECT Groupname from JoinGroup where userid= '
+        +db.mysql.escape(req.session.user_id) +') Limit '+ req.body.start + ', '+ req.body.num,
         function (err, rows) {
             //console.log(rows);
             if (rows) {
