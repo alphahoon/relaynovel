@@ -21,6 +21,16 @@ html(lang='ko')
   body
     block global
     // navigation Start
+    ul#dropdown.dropdown-content
+      li
+        a(href='/joinable') 참여하기
+      li
+        a(href='/create_group') 만들기
+    ul#dropdown_mobile.dropdown-content
+      li
+        a(href='/joinable') 참여하기
+      li
+        a(href='/create_group') 만들기
     nav.teal.lighten-1
       .container.box-large
         .nav-wrapper
@@ -32,7 +42,9 @@ html(lang='ko')
               a.waves-effect(href='/') 홈
             li
               if session && session.logined
-                a.waves-effect(href='/joinable') 그룹
+                a.waves-effect.dropdown-button(href='#!', data-activates='dropdown')
+                  | 그룹
+                  i.material-icons.right arrow_drop_down
             li
               if session && session.logined
                 a.waves-effect(href='/dashboard') 대쉬보드
@@ -54,7 +66,9 @@ html(lang='ko')
               a.waves-effect(href='/') 홈
             li
               if session && session.logined
-                a.waves-effect(href='/joinable') 그룹
+                a.waves-effect.dropdown-button(href='#!', data-activates='dropdown_mobile')
+                  | 그룹
+                  i.material-icons.right arrow_drop_down
             li
               if session && session.logined
                 a.waves-effect(href='/dashboard') 대쉬보드

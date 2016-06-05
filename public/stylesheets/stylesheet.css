@@ -12,8 +12,7 @@ img .profile {
 div .box-sm {
   border: 3px solid #26A69A;
   border-radius: 24px;
-  padding-left: 40px;
-  padding-right: 40px;
+  padding: 40px;
   max-width:480px;
   min-width: 480px;
 }
@@ -21,8 +20,7 @@ div .box-sm {
 div .box-md {
   border: 3px solid #26A69A;
   border-radius: 24px;
-  padding-left: 40px;
-  padding-right: 40px;
+  padding: 40px;
   max-width: 720px;
   min-width: 480px;
 }
@@ -30,8 +28,7 @@ div .box-md {
 div .box-lg {
   border:3px solid #26A69A;
   border-radius: 24px;
-  padding-left: 40px;
-  padding-right: 40px;
+  padding: 40px;
   max-width: 960px;
   min-width: 480px;;
 }
