@@ -88,19 +88,39 @@ block inlayout
             input.filled-in#rollback_sw(type='checkbox', checked='checked')
             label(for='rollback_sw') 허용
         .row
-          img#img_profile(src='/empty_book.jpg' style="width:250px; height:300px;")
+          img.circle.profile#img_profile(src='/empty_group.jpg')
         .row
           .col.s6
-            .file-field.input-field.btn.green(style="width:100%") 표지 업로드
+            .file-field.input-field.btn.green(style="width:100%") 사진 업로드
               input#upload_profile(type='file', multiple='')
           .col.s6
-            .file-field.input-field.btn.red#delete_file(style="width:100%") 표지 삭제
+            .file-field.input-field.btn.red#delete_file(style="width:100%") 사진 삭제
         .row
           button.btn-large.waves-effect.waves-light.teal(type='submit', name='register', style="width:100%;") 그룹 만들기
     .col.s0.m2.l4
       .row
       
-    script(type="text/javascript", src = 'viewjs/imageloader.js')
-    script(type="text/javascript").      
+    
+    script(type="text/javascript").
+      function readURL(input) {
+      if (input.files && input.files[0]) {
+              var reader = new FileReader();
+              reader.onload = function (e) {
+                  $('#img_profile').attr('src', e.target.result);
+              }
+              reader.readAsDataURL(input.files[0]);
+          }
+      }
+
+      $("#upload_profile").change(function () {
+          readURL(this);
+      });
+
+      var control = $("#upload_profile");
+      $("#delete_file").on("click", function () {
+          control.replaceWith(control = control.clone(true));
+          $('#img_profile').attr('src', 'empty_group.jpg');
+      });
+      
       document.getElementById("lengthMin").step = 10;
       document.getElementById("lengthMax").step = 50;
