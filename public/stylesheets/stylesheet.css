@@ -14,7 +14,7 @@ div .box-sm {
   border-radius: 24px;
   padding: 40px;
   max-width:480px;
-  min-width: 480px;
+  min-width: 320px;
 }
 
 div .box-md {
@@ -22,7 +22,7 @@ div .box-md {
   border-radius: 24px;
   padding: 40px;
   max-width: 720px;
-  min-width: 480px;
+  min-width: 320px;
 }
 
 div .box-lg {
@@ -30,7 +30,7 @@ div .box-lg {
   border-radius: 24px;
   padding: 40px;
   max-width: 960px;
-  min-width: 480px;;
+  min-width: 320px;;
 }
 
 .toast-custom {
@@ -65,7 +65,7 @@ div .box-lg {
 
 .card-container {
   padding: 0px;
-  min-width: 480px;;
+  min-width: 320px;
   text-align: center;
 }
 
