@@ -6,10 +6,8 @@ var db = require('../database.js');
 router.get('/', function (req, res, next) {
     if (!req.session.logined)
         res.redirect('/');
-    else{    
-        db.get_layout_links(function (callback) {
-            res.render('home', { session: req.session, links : callback });
-        });
+    else{
+        res.render('home', { session: req.session });
     }   
 });
 

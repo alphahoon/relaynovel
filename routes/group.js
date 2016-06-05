@@ -7,10 +7,8 @@ router.get('/', function (req, res, next) {
     if (!req.session.logined)
         res.redirect('/');
     else{    
-        db.get_layout_links(function (callback) {
-            res.render('group', { session: req.session, links : callback });
-        });
-    }   
+        res.render('group', { session: req.session });
+    }
 });
 
 module.exports = router;

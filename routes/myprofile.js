@@ -17,33 +17,23 @@ function showpage(req, res, pageerror) {
     'select * from User where userid= ' + db.mysql.escape(req.session.user_id),
     function (err, rows) {
       if (rows && rows[0]) {
-        combine(function (callback) {
           if (pageerror)
             res.render('myprofile', {
               session: req.session,
               userdata: rows[0],
               message: pageerror,
-              links: callback
             });
           else
             res.render('myprofile', {
               session: req.session,
               userdata: rows[0],
-              links: callback
             });
-        });
       }
       else {
         res.redirect('/');
       }
 
     });
-}
-
-function combine(callback) {
-  db.get_layout_links(function (links) {
-    callback(links);
-  });
 }
 
 router.post('/', function (req, res, next) {
