@@ -38,7 +38,8 @@ function showpage(req, res, pageerror) {
 
 router.post('/', function (req, res, next) {
   form.handle_req(req, checkfield,
-    'userimages/' + req.session.user_id,
+    'userimages/',
+    req.session.user_id,
     'userimages/empty_user.jpg',
     setpostdata,
     'update User set ? where userid=' + db.mysql.escape(req.session.user_id),
@@ -50,7 +51,7 @@ router.post('/', function (req, res, next) {
     });
 });
 
-function checkfield(entries, cberror, cbsuccess) {
+function checkfield(req, entries, cberror, cbsuccess) {
   if (entries.fields.pswd1) {
     if (!entries.fields.pswd2 || entries.fields.pswd1 != entries.fields.pswd2) {
       cberror('패스워드가 일치하지 않습니다.');
@@ -66,11 +67,11 @@ function checkfield(entries, cberror, cbsuccess) {
       if (db_nickname && db_nickname[0]) {
         cberror("닉네임이 이미 존재합니다.");
       }
-      else cbsuccess(entries);
+      else cbsuccess(req, entries);
     });
 }
 
-function setpostdata(entries, imagepath, callback) {
+function setpostdata(req, entries, imagepath, callback) {
   var post;
   if (!entries.fields.pswd1) {
     post = 'Nickname = ' + db.mysql.escape(entries.fields.name) + ', Profilepic = ' + db.mysql.escape(imagepath);
@@ -78,7 +79,7 @@ function setpostdata(entries, imagepath, callback) {
   else {
     post = 'Nickname = ' + db.mysql.escape(entries.fields.name) + ', Password = ' + db.mysql.escape(entries.fields.pswd1) + ', Profilepic = ' + db.mysql.escape(imagepath);
   }
-  callback(post);
+  callback(req, post);
 }
 
 

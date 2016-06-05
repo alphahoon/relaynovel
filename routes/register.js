@@ -12,7 +12,8 @@ router.get('/', function (req, res, next) {
 
 router.post('/', function (req, res, next) {
     form.handle_req(req, checkfield,
-        'userimages/' + req.session.user_id,
+        'userimages/',
+        req.session.user_id,
         'userimages/empty_user.jpg',
         setpostdata,
         'INSERT INTO User SET ?',
@@ -24,7 +25,7 @@ router.post('/', function (req, res, next) {
         });
 });
 
-function checkfield(entries, cberror, cbsuccess) {
+function checkfield(req, entries, cberror, cbsuccess) {
     if (!(entries.fields.id && entries.fields.name && entries.fields.pswd1 && entries.fields.pswd2))
         cberror('필드를 다 채우세요.');
     else if (entries.fields.pswd1 != entries.fields.pswd2)
@@ -45,14 +46,14 @@ function checkfield(entries, cberror, cbsuccess) {
                             if (db_nickname && db_nickname[0]) {
                                 cberror("닉네임이 이미 존재합니다.");
                             }
-                            else cbsuccess(entries);
+                            else cbsuccess(req, entries);
                         });
                 }
             });
     }
 }
 
-function setpostdata(entries, image, callback) {
+function setpostdata(req, entries, image, callback) {
     var post = {
         userid: entries.fields.id,
         Nickname: entries.fields.name,
@@ -61,7 +62,7 @@ function setpostdata(entries, image, callback) {
         Blocked: false,
         Profilepic: image
     }
-    callback(post);
+    callback(req, post);
 }
 
 module.exports = router;

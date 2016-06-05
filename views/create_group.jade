@@ -22,16 +22,16 @@ block inlayout
           label 소설 장르
             select.browser-default(onChange='OnDropDownChange(this,"genre")')
               option(value='', disabled='', selected='') 선택
-              option(value='1') 일상
-              option(value='2') 로맨스
-              option(value='3') 무협
-              option(value='4') 전쟁
-              option(value='5') 판타지
-              option(value='6') 공상과학
-              option(value='7') 역사
-              option(value='8') 추리
-              option(value='9') 범죄
-              option(value='10') 공포
+              option(value='일상') 일상
+              option(value='로맨스') 로맨스
+              option(value='무협') 무협
+              option(value='전쟁') 전쟁
+              option(value='판타지') 판타지
+              option(value='공상과학') 공상과학
+              option(value='역사') 역사
+              option(value='추리') 추리
+              option(value='범죄') 범죄
+              option(value='공포') 공포
             input#genre(type='hidden', name='genre', value='')
         .row
           label 작성 시간 제한
@@ -102,7 +102,7 @@ block inlayout
         .row
           .col.s6
             .file-field.input-field.btn.green(style="width:100%") 사진 업로드
-              input#upload_profile(name='image', type='file', multiple='')
+              input#upload_profile(name='profile', type='file', multiple='')
           .col.s6
             .file-field.input-field.btn.red#delete_file(style="width:100%") 사진 삭제
         .row
