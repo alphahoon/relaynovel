@@ -87,8 +87,9 @@ div .box-lg {
   z-index: -1;
 }
 
-.card-custom .card-content .card-title {
+.card-custom .card-title {
   font-size: 1em;
+  font-weight: bold;
 }
 
 .card-container .card-custom .card-content {
@@ -105,6 +106,7 @@ div .box-lg {
 
 .card-container .card-custom .card-reveal {
   padding-top: 10px;
+  padding-bottom: 0px;
 }
 
 .rule-card {
