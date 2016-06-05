@@ -16,6 +16,7 @@ var dashboard = require('./routes/dashboard');
 var create_group = require('./routes/create_group');
 var myprofile = require('./routes/myprofile');
 var group = require('./routes/group');
+var layout = require('./routes/layout');
 // var test = require('./routes/test');
 
 var app = express();
@@ -48,6 +49,7 @@ app.use('/dashboard', dashboard);
 app.use('/create_group', create_group);
 app.use('/myprofile', myprofile);
 app.use('/group', group);
+app.use('/layout', layout);
 // app.use('/test', test);
 
 // catch 404 and forward to error handler

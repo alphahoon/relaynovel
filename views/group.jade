@@ -2,36 +2,58 @@ extends layout
   
 block inlayout
   .row(style="margin-top:1em;")
-      .col.s0.m2.l4
+      .col.s0.m2.l3
         .row
         if message
           .toast.rounded.strong #{message}             
-      .col.s12.m8.l4.grey.lighten-5(style="border:0.2em grey solid; border-radius:1em; padding: 2em;")
-        .row
-          h4.teal-text.text-darken-1(style="text-align:center; font-weight:bold;") 그룹명
+      .col.s12.m8.l6.grey.lighten-5(style="border:0.2em grey solid; border-radius:1em; padding: 2em;")
+        .row(style="text-align:center;")
+          h4.teal-text.text-darken-1(style="font-weight:bold;") 그룹명
+          text-darken-1 Ongoing
+        .row(style="text-align:center;")
+          img.circle.profile#img_profile(style="width:250px; height:250px;")
+        .row(style="text-align:center;")
+          .col.s4
+            strong Readers
+          .col.s4
+            strong Writers
+          .col.s4
+            strong Length
+        .row(style="text-align:center;")
+          .col.s4
+            strong 1234
+          .col.s4
+            strong 1234
+          .col.s4
+            strong 1234
+        .row(style="text-align:center;")
+          text(style="text-align:center;") BLABLA is Writing now!(00h 00min left)                      
         form(action='/myprofile', method='post', enctype='multipart/form-data', style='text-align:center;')
           .row
-            .input-field
-              input#user_name.validate(name='name', type='text', length='20')
-              label(for='user_name') 닉네임
-          .row
-            .input-field
-              input#user_pw1.validate(name='pswd1', type='password', length='30')
-              label(for='user_pw1') 패스워드 변경
-          .row
-            .input-field
-              input#user_pw2.validate(name='pswd2', type='password', length='30')
-              label(for='user_pw2') 패스워드 변경 확인
-          .row
-            img.circle.profile#img_profile(style="width:250px; height:250px;")
-          .row
-            .col.s6
-              .file-field.input-field.btn.green(style="width:100%") 사진 업로드
+            .col.s4
+              .file-field.input-field.btn(style="width:100%") 업로드
                 input#upload_profile(name='profile', type='file', multiple='')
-            .col.s6
-              .file-field.input-field.btn.red#delete_file(style="width:100%") 사진 삭제
-          .row
-            button.btn-large.waves-effect.waves-light.teal(type='submit', name='register', style="width:100%;") 변경하기
+            .col.s4
+              .file-field.input-field.btn#delete_file(style="width:100%") 삭제
+            .col.s4
+              .file-field.input-field.btn#delete_file(style="width:100%") 삭제  
+        .row
+          h6.teal-text.text-darken-1(style="font-weight:bold;") Group Information and Rules
+        .row
+          .col.s6
+            text Creator : BLABLA
+          .col.s6
+            text Writing Time Limit : X hours
+        .row
+          .col.s6
+            text Created Time : 00:00 May 9 2016
+          .col.s6
+            text Voting Time Limit : Y Hours
+        .row
+          .col.s6
+            text Genre : Science Fiction
+          .col.s6
+            text Length Rule: 250 < length < 1000                  
       .col.s0.m2.l4
         .row
       script(type="text/javascript", src = 'viewjs/imageloader.js')

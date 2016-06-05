@@ -30,11 +30,11 @@ function get_recentupdate(callback) {
     });
 }
 function get_best (recent_groups, callback) {
-    connection.query('SELECT Group_GroupId, COUNT(Group_GroupId) FROM JoinGroup GROUP BY Group_GroupId LIMIT 4;', function (err, groups) {
+    connection.query('SELECT Groupname, COUNT(Groupname) FROM JoinGroup GROUP BY Groupname LIMIT 4;', function (err, groups) {
         if (groups) {
             var best_groups = [];
             for (var i = 0; i < 4; i++){
-                if (groups[i]) best_groups.push(groups[i].Group_GroupId);
+                if (groups[i]) best_groups.push(groups[i].Groupname);
                 else best_groups.push("");
             }
             var combined = recent_groups.concat(best_groups);
