@@ -7,7 +7,6 @@ block contents
   .container(style='text-align:center;')
     .row
       ul.collection#cgroup
-      script(type='text/javascript', src='viewjs/loadmoregroup.js')
     .row
       .col.s6
         btn.btn-large.waves-effect.waves-light.teal.lighten-1#loadmorebutton(style="width:100%; max-width:200px;") 그룹 더 보기
@@ -15,6 +14,7 @@ block contents
         a.btn-large.waves-effect.waves-light.orange.lighten-1(href='/create_group', style="width:100%; max-width:200px; vertical-align:middle;") 그룹 만들기
 block contents-footer
 block afterload-script
+  script(type='text/javascript', src='viewjs/loadmoregroup.js')
   script(type='text/javascript').
     // Set # of first loaded groups
     $(loadmore(10));
