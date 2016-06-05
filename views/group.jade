@@ -44,18 +44,18 @@ block contents
           .col.s4
             a.btn-large.waves-effect.waves-light(href='/group/joinwriter?groupname='+groupdata.Groupname, style="width:100%") 작가로!
           .col.s4
-            a.btn-large.waves-effect.waves-light.disabled(style="width:100%") 탈퇴
+            a.btn-large.disabled(style="width:100%") 탈퇴
         else
           if(iswriter)
             .col.s4
               a.btn-large.waves-effect.waves-light(href='/group/bereader?groupname='+groupdata.Groupname, style="width:100%") 독자로!
             .col.s4
-              a.btn-large.waves-effect.waves-light.disabled(style="width:100%") 작가로!
+              a.btn-large.disabled(style="width:100%") 작가로!
             .col.s4
               a.btn-large.waves-effect.waves-light.red(href='/group/exit?groupname='+groupdata.Groupname, style="width:100%") 탈퇴
           else
             .col.s4
-              a.btn-large.waves-effect.waves-light.disabled(style="width:100%") 독자로!
+              a.btn-large.disabled(style="width:100%") 독자로!
             .col.s4
               a.btn-large.waves-effect.waves-light(href='/group/bewriter?groupname='+groupdata.Groupname, style="width:100%") 작가로!
             .col.s4
@@ -81,6 +81,10 @@ block contents
         text 장르 : #{groupdata.Genre}
       .col.s6
         text 글자 수 제한 : ??? < length < ???
+    .row
+      br
+      hr
+      br
 block contents-footer
 block afterload-script
   script(type="text/javascript", src = 'viewjs/imageloader.js')
