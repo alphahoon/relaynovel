@@ -32,14 +32,30 @@ block contents
     .row(style="text-align:center;")
       //- 나중에 실시간으로 바꿀것
       text(style="text-align:center;") #{groupdata.writer} is Writing now! (#{remain_time} left)           
-    form(action='/group', method='post', style='text-align:center;')
-      .row
+    .row
+      if(!isjoin)
         .col.s4
-          button.btn(name = 'bereader', type='submit', style="width:100%") Be a Reader
+          a.btn(href='/group/joinreader?groupname='+groupdata.Groupname, style="width:100%") Be a Reader
         .col.s4
-          button.btn(name = 'bewriter', type='submit', style="width:100%") Be a Writer
+          a.btn(href='/group/joinwriter?groupname='+groupdata.Groupname, style="width:100%") Be a Writer
         .col.s4
-          button.btn(name = 'exitgroup', type='submit', style="width:100%") Exit Group  
+          a.btn.disabled(style="width:100%") Exit Group
+      else
+        if(iswriter)
+          .col.s4
+            a.btn(href='/group/bereader?groupname='+groupdata.Groupname, style="width:100%") Be a Reader
+          .col.s4
+            a.btn.disabled(style="width:100%") Be a Writer
+          .col.s4
+            a.btn(href='/group/exit?groupname='+groupdata.Groupname, style="width:100%") Exit Group
+        else
+          .col.s4
+            a.btn.disabled(style="width:100%") Be a Reader
+          .col.s4
+            a.btn(href='/group/bewriter?groupname='+groupdata.Groupname, style="width:100%") Be a Writer
+          .col.s4
+            a.btn(href='/group/exit?groupname='+groupdata.Groupname, style="width:100%") Exit Group
+          
     .row
       h6.teal-text.text-darken-1(style="font-weight:bold;") Group Information and Rules
     .row
