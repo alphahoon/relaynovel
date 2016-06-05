@@ -19,6 +19,7 @@ html(lang='ko')
     script(src='/javascripts/init.js')
     block preload-script
   body
+    block global
     // navigation Start
     nav.teal.lighten-1
       .container.box-large
@@ -35,6 +36,9 @@ html(lang='ko')
             li
               if session && session.logined
                 a.waves-effect(href='/dashboard') 대쉬보드
+            li
+              if session && session.logined
+                a.waves-effect(href='/myprofile') 내 프로필
             li
               if session && session.logined
                 form(id = 'logout' action='/logout', method='post')
@@ -54,6 +58,9 @@ html(lang='ko')
             li
               if session && session.logined
                 a.waves-effect(href='/dashboard') 대쉬보드
+            li
+              if session && session.logined
+                a.waves-effect(href='/myprofile') 내 프로필
             li
               if session && session.logined
                 form(id = 'logout' action='/logout', method='post')

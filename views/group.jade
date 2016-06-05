@@ -2,35 +2,36 @@ extends contents-layout
 block title
   title 그룹
 block preload-script
-block contents-header
+block global
   if message
-    .toast.rounded.strong #{message} 
+    .toast-custom#toast
+      span #{message}
+block contents-header
 block contents
   .container.box-lg(style='text-align:center;')
     .row(style="text-align:center;")
       h4.teal-text.text-darken-1(style="font-weight:bold;") #{groupdata.Groupname} 
+      | 상태: 
       if groupdata.Finished
-        text-darken-1 Finished
+        text-darken-1 연재 종료
       else
-        text-darken-1 Ongoing
+        text-darken-1 연재 중
     .row(style="text-align:center;")
       img.circle.profile#img_profile(src=groupdata.GroupImageURL, style="width:250px; height:250px;")
     .row(style="text-align:center;")
       .col.s4
-        strong Readers
-      .col.s4
-        strong Writers
-      .col.s4
-        strong Length
-    .row(style="text-align:center;")
-      .col.s4
+        h5.teal-text 독자
         strong #{groupdata.readers}
       .col.s4
+        h5.teal-text 작가
         strong #{groupdata.writers}
       .col.s4
-        strong ???
+        h5.teal-text 길이
+        strong 0
+        // 총 글자수 count 하는 모듈
     .row(style="text-align:center;")
       //- 나중에 실시간으로 바꿀것
+<<<<<<< HEAD
       text(style="text-align:center;") #{groupdata.writer} is Writing now! (#{remain_time} left)           
     .row
       if(!isjoin)
@@ -56,23 +57,62 @@ block contents
           .col.s4
             a.btn(href='/group/exit?groupname='+groupdata.Groupname, style="width:100%") Exit Group
           
+=======
+      h6(style="text-align:center;") 현재 
+        span.teal-text.text-darken-1 #{groupdata.writer}
+        |  님이 작성 중입니다! (
+        span.teal-text.text-darken-1 #{remain_time}
+        |  남음)
+    form(action='/group', method='post', style='text-align:center;')
+      .row
+        if(!isjoin)
+          .col.s4
+            a.btn-large.waves-effect.waves-light(href='/group/joinreader?groupname='+groupdata.Groupname, style="width:100%") 독자로!
+          .col.s4
+            a.btn-large.waves-effect.waves-light(href='/group/joinwriter?groupname='+groupdata.Groupname, style="width:100%") 작가로!
+          .col.s4
+            a.btn-large.waves-effect.waves-light.disabled(style="width:100%") 탈퇴
+        else
+          if(iswriter)
+            .col.s4
+              a.btn-large.waves-effect.waves-light(href='/group/bereader?groupname='+groupdata.Groupname, style="width:100%") 독자로!
+            .col.s4
+              a.btn-large.waves-effect.waves-light.disabled(style="width:100%") 작가로!
+            .col.s4
+              a.btn-large.waves-effect.waves-light.red(href='/group/exit?groupname='+groupdata.Groupname, style="width:100%") 탈퇴
+          else
+            .col.s4
+              a.btn-large.waves-effect.waves-light.disabled(style="width:100%") 독자로!
+            .col.s4
+              a.btn-large.waves-effect.waves-light(href='/group/bewriter?groupname='+groupdata.Groupname, style="width:100%") 작가로!
+            .col.s4
+              a.btn-large.waves-effect.waves-light.red(href='/group/exit?groupname='+groupdata.Groupname, style="width:100%") 탈퇴
     .row
-      h6.teal-text.text-darken-1(style="font-weight:bold;") Group Information and Rules
+      br
+      hr
+      br
+>>>>>>> eb9f2ee91176f6784d614ea26cb28f8e0a9bff1c
+    .row
+      h5.teal-text.text-darken-1(style="font-weight:bold;") 그룹 정보
     .row
       .col.s6
-        text Creator : #{groupdata.creator}
+        text 만든이 : #{groupdata.creator}
       .col.s6
-        text Writing Time Limit : #{groupdata.WriteLimit}
+        text 작성 제한 시간 : #{groupdata.WriteLimit}
     .row
       .col.s6
-        text= 'Created Time : '+moment(groupdata.createtime).format("YYYY/MM/DD HH:MM:SS")
+        text= '그룹 생성 날짜 : '+moment(groupdata.createtime).format("YYYY/MM/DD")
       .col.s6
-        text Voting Time Limit : #{groupdata.VoteLimit}
+        text 투표 제한 시간 : #{groupdata.VoteLimit}
     .row
       .col.s6
-        text Genre : #{groupdata.Genre}
+        text 장르 : #{groupdata.Genre}
       .col.s6
-        text Length Rule: ??? < length < ???
+        text 글자 수 제한 : ??? < length < ???
 block contents-footer
 block afterload-script
   script(type="text/javascript", src = 'viewjs/imageloader.js')
+  script.
+    $(document).ready(function() {
+      setTimeout("$('#toast').fadeOut(2000);", 2000);
+    });
