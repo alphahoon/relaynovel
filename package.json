@@ -13,6 +13,7 @@
     "express-session": "^1.13.0",
     "formidable": "^1.0.17",
     "jade": "~1.11.0",
+    "moment": "^2.13.0",
     "morgan": "~1.6.1",
     "mysql": "^2.10.2",
     "serve-favicon": "~2.3.0"
