@@ -7,29 +7,23 @@ block contents-header
     .toast.rounded.strong #{message}
 block contents
   .container.box-sm(style='text-align:center;')
-    h4.teal-text.text-darken-1(style="text-align:center; font-weight:bold;") 프로필 변경
+    .row
+      h4.teal-text.text-darken-1(style="text-align:center; font-weight:bold;") 프로필 변경
     .row
       form(action='/myprofile', method='post', enctype='multipart/form-data', style='text-align:center;')
-      .row
-        .input-field
-          input#user_name.validate(name='name', type='text', length='20', value=userdata.Nickname)
-          label(for='user_name') 닉네임
-      .row
-        .input-field
-          input#user_pw1.validate(name='pswd1', type='password', length='30')
-          label(for='user_pw1') 패스워드 변경
-      .row
-        .input-field
-          input#user_pw2.validate(name='pswd2', type='password', length='30')
-          label(for='user_pw2') 패스워드 변경 확인
-      .row
-        img.circle.profile#img_profile(src=userdata.Profilepic style="width:250px; height:250px;")
-      .row
-        .col.s6
-          .file-field.input-field.btn.green(style="width:100%") 사진 업로드
-            input#upload_profile(name='profile', type='file', multiple='')
-        .col.s6
-          .file-field.input-field.btn.red#delete_file(style="width:100%") 사진 삭제
-    button.btn-large.waves-effect.waves-light.teal(type='submit', name='register', style="width:100%;") 변경하기
+        .row
+          input#user_name.validate(name='name', type='text', length='20', placeholder='닉네임', value=userdata.Nickname, style='text-align:center;')
+          input#user_pw1.validate(name='pswd1', type='password', length='30', placeholder='패스워드', style='text-align:center;')
+          input#user_pw2.validate(name='pswd2', type='password', length='30', placeholder='패스워드 확인', style='text-align:center;')
+        .row
+          img.circle.profile#img_profile(src=userdata.Profilepic style="width:250px; height:250px;")
+        .row
+          .col.s6
+            .file-field.input-field.btn.green(style="width:100%") 사진 업로드
+              input#upload_profile(name='profile', type='file', multiple='')
+          .col.s6
+            .file-field.input-field.btn.red#delete_file(style="width:100%") 사진 삭제
+        .row
+          button.btn-large.waves-effect.waves-light.teal(type='submit', name='register', style="width:100%;") 변경하기
 block afterload-script
   script(type="text/javascript", src = 'viewjs/imageloader.js')

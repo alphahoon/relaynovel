@@ -7,13 +7,12 @@ block contents-header
     .toast.rounded.strong #{message}
 block contents
   .container.box-md(style='text-align:center;')
-    h4.teal-text.text-darken-1(style="text-align:center; font-weight:bold;") 그룹 생성
+    .row
+      h4.teal-text.text-darken-1(style="text-align:center; font-weight:bold;") 그룹 생성
     .row
       form(action='/create_group', method='post', enctype='multipart/form-data', style='text-align:center;')
         .row
-          .input-field
-            input#user_id.validate(name='id', type='text', length='20')
-            label(for='user_id') 그룹 이름
+          input#user_id.validate(name='id', type='text', length='20', placeholder='그룹 이름', style='text-align:center;')
         .row
           label 소설 장르
             select.browser-default(onChange='OnDropDownChange(this,"genre")')
@@ -106,26 +105,4 @@ block contents
 block contents-footer
 block afterload-script
   script(type="text/javascript", src='viewjs/inputdropdown.js')
-  script(type="text/javascript").
-    function readURL(input) {
-    if (input.files && input.files[0]) {
-            var reader = new FileReader();
-            reader.onload = function (e) {
-                $('#img_profile').attr('src', e.target.result);
-            }
-            reader.readAsDataURL(input.files[0]);
-        }
-    }
-
-    $("#upload_profile").change(function () {
-        readURL(this);
-    });
-
-    var control = $("#upload_profile");
-    $("#delete_file").on("click", function () {
-        control.replaceWith(control = control.clone(true));
-        $('#img_profile').attr('src', 'empty_group.jpg');
-    });
-    
-    document.getElementById("lengthMin").step = 10;
-    document.getElementById("lengthMax").step = 50;
+  script(type="text/javascript", src='viewjs/imageloader_group.js')
