@@ -6,6 +6,8 @@ block contents-header
 block contents
   .container(style='text-align:center;')
     .row
+      h4.teal-text.text-darken-1(style="text-align:center; font-weight:bold;") 참여할 수 있는 그룹
+    .row
       ul.collection#cgroup
     .row
       .col.s6
@@ -16,7 +18,7 @@ block contents-footer
 block afterload-script
   script(type='text/javascript', src='viewjs/loadmoregroup.js')
   script(type='text/javascript').
-    var numInitialGroup = 10;
+    var numInitialGroup = 5;
     var numIncremental = 5;
     $(loadmore(numInitialGroup));
     $( "#loadmorebutton" ).click(function() {

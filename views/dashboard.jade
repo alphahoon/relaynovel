@@ -5,6 +5,19 @@ block preload-script
 block contents-header
 block contents
   .container(style='text-align:center;')
-    a.btn-large.waves-effect.waves-light.blue(href='/myprofile', style="width:100%; max-width:400px; vertical-align:middle;") 프로필 변경
+    .row
+      h4.teal-text.text-darken-1(style="text-align:center; font-weight:bold;") 참여중인 그룹 목록
+    .row
+      ul.collection#cgroup
+    .row
+      btn.btn-large.waves-effect.waves-light.teal.lighten-1#loadmorebutton(style="width:100%; max-width:200px;") 그룹 더 보기
 block contents-footer
 block afterload-script
+  script(type='text/javascript', src='viewjs/loadmoregroup.js')
+  script(type='text/javascript').
+    var numInitialGroup = 5;
+    var numIncremental = 5;
+    $(loadmore(numInitialGroup));
+    $( "#loadmorebutton" ).click(function() {
+      loadmore(numIncremental);
+    });

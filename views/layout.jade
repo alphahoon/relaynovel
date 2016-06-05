@@ -38,6 +38,9 @@ html(lang='ko')
                 a.waves-effect(href='/dashboard') 대쉬보드
             li
               if session && session.logined
+                a.waves-effect(href='/myprofile') 내 프로필
+            li
+              if session && session.logined
                 form(id = 'logout' action='/logout', method='post')
                   a.waves-effect(href='#' onclick="document.getElementById('logout').submit();") 로그아웃
               else
@@ -55,6 +58,9 @@ html(lang='ko')
             li
               if session && session.logined
                 a.waves-effect(href='/dashboard') 대쉬보드
+            li
+              if session && session.logined
+                a.waves-effect(href='/myprofile') 내 프로필
             li
               if session && session.logined
                 form(id = 'logout' action='/logout', method='post')
