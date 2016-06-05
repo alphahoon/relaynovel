@@ -2,9 +2,11 @@ extends contents-layout
 block title
   title 그룹
 block preload-script
-block contents-header
+block global
   if message
-    .toast.rounded.strong #{message} 
+    .toast-custom#toast
+      span #{message}
+block contents-header
 block contents
   .container.box-lg(style='text-align:center;')
     .row(style="text-align:center;")
@@ -60,3 +62,7 @@ block contents
 block contents-footer
 block afterload-script
   script(type="text/javascript", src = 'viewjs/imageloader.js')
+  script.
+    $(document).ready(function() {
+      setTimeout("$('#toast').fadeOut(2000);", 2000);
+    });
