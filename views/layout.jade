@@ -39,28 +39,28 @@ html(lang='ko')
             i.material-icons menu
           ul.right.hide-on-med-and-down
             li
-              a.waves-effect(href='/') 홈
+              a.waves-effect.waves-light(href='/') 홈
             li
               if session && session.logined
-                a.waves-effect.dropdown-button(href='#!', data-activates='dropdown')
+                a.waves-effect.waves-light.dropdown-button(href='#!', data-activates='dropdown')
                   | 그룹
                   i.material-icons.right arrow_drop_down
             li
               if session && session.logined
-                a.waves-effect(href='/dashboard') 대쉬보드
+                a.waves-effect.waves-light(href='/dashboard') 대쉬보드
             li
               if session && session.logined
-                a.waves-effect(href='/myprofile') 내 프로필
+                a.waves-effect.waves-light(href='/myprofile') 내 프로필
             li
               if session && session.logined
                 form(id = 'logout' action='/logout', method='post')
-                  a.waves-effect(href='#' onclick="document.getElementById('logout').submit();") 로그아웃
+                  a.waves-effect.waves-light(href='#' onclick="document.getElementById('logout').submit();") 로그아웃
               else
-                a.waves-effect(href='/login') 로그인
+                a.waves-effect.waves-light(href='/login') 로그인
             li
               if session && session.logined
               else
-                a.waves-effect(href='/register') 가입하기
+                a.waves-effect.waves-light(href='/register') 가입하기
           ul#mobile-demo.side-nav
             li
               a.waves-effect(href='/') 홈

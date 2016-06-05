@@ -10,12 +10,20 @@ block contents-header
 block contents
   .container.box-lg(style='text-align:center;')
     .row(style="text-align:center;")
-      h4.teal-text.text-darken-1(style="font-weight:bold;") #{groupdata.Groupname} 
-      | 상태: 
-      if groupdata.Finished
-        text-darken-1 연재 종료
-      else
-        text-darken-1 연재 중
+      h4.teal-text.text-darken-1(style="font-weight:bold;") #{groupdata.Groupname}
+      strong
+        span.grey-text.text-darken-3 Since 
+        span.teal-text= moment(groupdata.createtime).format("YYYY-MM-DD")
+        span.grey-text.text-darken-3  / Made by 
+        span.teal-text= (groupdata.creator)
+        br
+        span.grey-text.text-darken-3 장르 : 
+        span.teal-text= (groupdata.Genre)
+        span.grey-text.text-darken-3  / 상태 : 
+        if groupdata.Finished
+          span.red-text 연재 종료
+        else
+          span.green-text 연재 중
     .row(style="text-align:center;")
       img.circle.profile#img_profile(src=groupdata.GroupImageURL, style="width:250px; height:250px;")
     .row(style="text-align:center;")
@@ -39,48 +47,48 @@ block contents
     form(action='/group', method='post', style='text-align:center;')
       .row
         if(!isjoin)
-          .col.s4
-            a.btn-large.waves-effect.waves-light(href='/group/joinreader?groupname='+groupdata.Groupname, style="width:100%") 독자로!
-          .col.s4
-            a.btn-large.waves-effect.waves-light(href='/group/joinwriter?groupname='+groupdata.Groupname, style="width:100%") 작가로!
-          .col.s4
+          .col.s12.m4
+            a.btn-large.waves-effect.waves-light(href='/group/joinreader?groupname='+groupdata.Groupname, style="width:100%") 독자되기
+          .col.s12.m4
+            a.btn-large.waves-effect.waves-light(href='/group/joinwriter?groupname='+groupdata.Groupname, style="width:100%") 작가되기
+          .col.s12.m4
             a.btn-large.disabled(style="width:100%") 탈퇴
         else
           if(iswriter)
-            .col.s4
-              a.btn-large.waves-effect.waves-light(href='/group/bereader?groupname='+groupdata.Groupname, style="width:100%") 독자로!
-            .col.s4
-              a.btn-large.disabled(style="width:100%") 작가로!
-            .col.s4
+            .col.s12.m4
+              a.btn-large.waves-effect.waves-light(href='/group/bereader?groupname='+groupdata.Groupname, style="width:100%") 독자되기
+            .col.s12.m4
+              a.btn-large.disabled(style="width:100%") 작가되기
+            .col.s12.m4
               a.btn-large.waves-effect.waves-light.red(href='/group/exit?groupname='+groupdata.Groupname, style="width:100%") 탈퇴
           else
-            .col.s4
-              a.btn-large.disabled(style="width:100%") 독자로!
-            .col.s4
-              a.btn-large.waves-effect.waves-light(href='/group/bewriter?groupname='+groupdata.Groupname, style="width:100%") 작가로!
-            .col.s4
+            .col.s12.m4
+              a.btn-large.disabled(style="width:100%") 독자되기
+            .col.s12.m4
+              a.btn-large.waves-effect.waves-light(href='/group/bewriter?groupname='+groupdata.Groupname, style="width:100%") 작가되기
+            .col.s12.m4
               a.btn-large.waves-effect.waves-light.red(href='/group/exit?groupname='+groupdata.Groupname, style="width:100%") 탈퇴
     .row
       br
       hr
       br
     .row
-      h5.teal-text.text-darken-1(style="font-weight:bold;") 그룹 정보
-    .row
-      .col.s6
-        text 만든이 : #{groupdata.creator}
-      .col.s6
-        text 작성 제한 시간 : #{groupdata.WriteLimit}
-    .row
-      .col.s6
-        text= '그룹 생성 날짜 : '+moment(groupdata.createtime).format("YYYY/MM/DD")
-      .col.s6
-        text 투표 제한 시간 : #{groupdata.VoteLimit}
-    .row
-      .col.s6
-        text 장르 : #{groupdata.Genre}
-      .col.s6
-        text 글자 수 제한 : ??? < length < ???
+      h5.teal-text.text-darken-1(style="font-weight:bold;") 그룹 규칙
+      .col.s12.m4(style="padding=20px;")
+        .rule-card.grey.lighten-3
+          strong 작성 제한 시간
+          br
+          span.teal-text #{groupdata.WriteLimit}
+      .col.s12.m4(style="padding=20px;")
+        .rule-card.grey.lighten-3
+          strong 투표 제한 시간
+          br
+          span.teal-text #{groupdata.VoteLimit}
+      .col.s12.m4(style="padding=20px;")
+        .rule-card.grey.lighten-3
+          strong 글자 수 제한
+          br
+          span.teal-text 100-250
     .row
       br
       hr
