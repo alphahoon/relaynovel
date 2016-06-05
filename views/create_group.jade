@@ -1,23 +1,18 @@
-extends layout
-
-block inlayout
-  .row(style="margin:2em;")
-    .col.s0.m2.l4
-      if message
-          .toast.rounded.strong #{message}
-      .row
-    .col.s12.m8.l4.grey.lighten-5(style="border:0.2em grey solid; border-radius:1em; padding: 2em;")
-      .row
-        h4.teal-text.text-darken-1(style="text-align:center; font-weight:bold;") 그룹 생성
-
-      
-      script(type="text/javascript", src='viewjs/inputdropdown.js')
-
+extends contents-layout
+block title
+  title 그룹 만들기
+block preload-script
+block contents-header
+  if message
+    .toast.rounded.strong #{message}
+block contents
+  .container.box-md(style='text-align:center;')
+    .row
+      h4.teal-text.text-darken-1(style="text-align:center; font-weight:bold;") 그룹 생성
+    .row
       form(action='/create_group', method='post', enctype='multipart/form-data', style='text-align:center;')
         .row
-          .input-field
-            input#user_id.validate(name='id', type='text', length='20')
-            label(for='user_id') 그룹 이름
+          input#user_id.validate(name='id', type='text', length='20', placeholder='그룹 이름', style='text-align:center;')
         .row
           label 소설 장르
             select.browser-default(onChange='OnDropDownChange(this,"genre")')
@@ -107,30 +102,7 @@ block inlayout
             .file-field.input-field.btn.red#delete_file(style="width:100%") 사진 삭제
         .row
           button.btn-large.waves-effect.waves-light.teal(type='submit', name='creategroup', style="width:100%;") 그룹 만들기
-    .col.s0.m2.l4
-      .row
-      
-    
-    script(type="text/javascript").
-      function readURL(input) {
-      if (input.files && input.files[0]) {
-              var reader = new FileReader();
-              reader.onload = function (e) {
-                  $('#img_profile').attr('src', e.target.result);
-              }
-              reader.readAsDataURL(input.files[0]);
-          }
-      }
-
-      $("#upload_profile").change(function () {
-          readURL(this);
-      });
-
-      var control = $("#upload_profile");
-      $("#delete_file").on("click", function () {
-          control.replaceWith(control = control.clone(true));
-          $('#img_profile').attr('src', 'empty_group.jpg');
-      });
-      
-      document.getElementById("lengthMin").step = 10;
-      document.getElementById("lengthMax").step = 50;
+block contents-footer
+block afterload-script
+  script(type="text/javascript", src='viewjs/inputdropdown.js')
+  script(type="text/javascript", src='viewjs/imageloader_group.js')

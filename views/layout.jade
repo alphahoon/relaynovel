@@ -1,26 +1,27 @@
 doctype html
 html(lang='ko')
   head
+    // meta tags
     meta(charset='utf-8')
     meta(http-equiv='X-UA-Compatible', content='IE=edge')
     meta(name='viewport', content='width=device-width, initial-scale=1')
-    // The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags
-    title Relay Novel
-    // Bootstrap
-    // link(href='/stylesheets/bootstrap.min.css', rel='stylesheet')
-    // link(href='/stylesheets/bootstrap-theme.min.css', rel='stylesheet')
+    // default title block
+    block title
+      title RELAY NOVEL
+    // stylesheets
     link(href='/stylesheets/materialize.min.css', rel='stylesheet')
-    // link(href='/stylesheets/font-awesome.min.css', rel='stylesheet')
     link(href='/stylesheets/stylesheet.css', rel='stylesheet')
     link(href='https://fonts.googleapis.com/icon?family=Material+Icons', rel="stylesheet")
+    // javascripts
     script(src='/javascripts/jquery.min.js')
-    // script(src='/javascripts/bootstrap.min.js')
     script(src='/javascripts/materialize.min.js')
     script(src='https://use.fontawesome.com/05135ebf77.js')
     script(src='/javascripts/init.js')
+    block preload-script
   body
+    // navigation Start
     nav.teal.lighten-1
-      .container
+      .container.box-large
         .nav-wrapper
           a.brand-logo(href='/') RELAY NOVEL
           a.button-collapse(href-'#', data-activates='mobile-demo')
@@ -36,7 +37,7 @@ html(lang='ko')
                 a.waves-effect(href='/dashboard') 대쉬보드
             li
               if session && session.logined
-                form(id = 'logout' action='/logout', method='post' style='text-align:center;')
+                form(id = 'logout' action='/logout', method='post')
                   a.waves-effect(href='#' onclick="document.getElementById('logout').submit();") 로그아웃
               else
                 a.waves-effect(href='/login') 로그인
@@ -55,17 +56,22 @@ html(lang='ko')
                 a.waves-effect(href='/dashboard') 대쉬보드
             li
               if session && session.logined
-                form(id = 'logout' action='/logout', method='post' style='text-align:center;')
+                form(id = 'logout' action='/logout', method='post')
                   a.waves-effect(href='#' onclick="document.getElementById('logout').submit();") 로그아웃
               else
-                 a.waves-effect(href='/login') 로그인
+                a.waves-effect(href='/login') 로그인
             li
               if session && session.logined
               else
                 a.waves-effect(href='/register') 가입하기
-
-    block inlayout
+    // navigation End
+    // contents-layout start
+    contents
+      block contents-layout
+    // contents-layout end
+    // footer start
     footer.page-footer.teal.lighten-1
+      // footer for users start
       if session && session.logined 
         .container
           .row
@@ -111,13 +117,15 @@ html(lang='ko')
                 //-   form(id = 'group3' action='/group', method='get')
                 //-     input(type="hidden" name="groupname" value="#{links[3]}") 
                 //-     a.waves-effect(style={color : 'white'}, href='#' onclick="document.getElementById('group3').submit();") #{links[3]}
-
         script(type='text/javascript', src='viewjs/loadlayouturl.js')
         script(type='text/javascript').
           $(loadlinks());
-
+      // footer for user end
+      // footer for guest start
       .footer-copyright.teal.darken-2
         .container
           | Made by 
           span.orange-text.text-lighten-2(href='#') Team Fossil
-          
+      // footer for guest end
+    // footer end
+  block afterload-script
