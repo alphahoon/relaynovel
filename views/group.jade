@@ -31,33 +31,6 @@ block contents
         // 총 글자수 count 하는 모듈
     .row(style="text-align:center;")
       //- 나중에 실시간으로 바꿀것
-<<<<<<< HEAD
-      text(style="text-align:center;") #{groupdata.writer} is Writing now! (#{remain_time} left)           
-    .row
-      if(!isjoin)
-        .col.s4
-          a.btn(href='/group/joinreader?groupname='+groupdata.Groupname, style="width:100%") Be a Reader
-        .col.s4
-          a.btn(href='/group/joinwriter?groupname='+groupdata.Groupname, style="width:100%") Be a Writer
-        .col.s4
-          a.btn.disabled(style="width:100%") Exit Group
-      else
-        if(iswriter)
-          .col.s4
-            a.btn(href='/group/bereader?groupname='+groupdata.Groupname, style="width:100%") Be a Reader
-          .col.s4
-            a.btn.disabled(style="width:100%") Be a Writer
-          .col.s4
-            a.btn(href='/group/exit?groupname='+groupdata.Groupname, style="width:100%") Exit Group
-        else
-          .col.s4
-            a.btn.disabled(style="width:100%") Be a Reader
-          .col.s4
-            a.btn(href='/group/bewriter?groupname='+groupdata.Groupname, style="width:100%") Be a Writer
-          .col.s4
-            a.btn(href='/group/exit?groupname='+groupdata.Groupname, style="width:100%") Exit Group
-          
-=======
       h6(style="text-align:center;") 현재 
         span.teal-text.text-darken-1 #{groupdata.writer}
         |  님이 작성 중입니다! (
@@ -91,7 +64,6 @@ block contents
       br
       hr
       br
->>>>>>> eb9f2ee91176f6784d614ea26cb28f8e0a9bff1c
     .row
       h5.teal-text.text-darken-1(style="font-weight:bold;") 그룹 정보
     .row
