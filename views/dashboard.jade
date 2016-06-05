@@ -36,7 +36,7 @@ block afterload-script
         +'<p>Genre : '+ group.Genre + '<br>Second Line</p>'
         +'<a href="group?groupname=' + group.Groupname + '"class="secondary-content" style="margin:auto;"><i class="fa fa-sign-in fa-3x" aria-hidden="true"></i></a>'
     +'</li>'`;
-    $(loadmore(numInitialGroup, '/dashboard/moregroup', grouphtml));
+    $(loadmore('cgroup', numInitialGroup, '/dashboard/moregroup', grouphtml));
     $( "#loadmorebutton" ).click(function() {
-      loadmore(numIncremental, '/dashboard/moregroup', grouphtml);
+      loadmore('cgroup', numIncremental, '/dashboard/moregroup', grouphtml);
     });

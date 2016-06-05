@@ -24,7 +24,7 @@ block afterload-script
           +'<p>Genre : '+ group.Genre + '<br>Second Line</p>'
           +'<a href="group?groupname=' + group.Groupname + '"class="secondary-content" style="margin:auto;"><i class="fa fa-sign-in fa-3x" aria-hidden="true"></i></a>'
       +'</li>'`;
-    $(loadmore(numInitialGroup, '/joinable', grouphtml));
+    $(loadmore('cgroup', numInitialGroup, '/joinable', grouphtml));
     $( "#loadmorebutton" ).click(function() {
-      loadmore(numIncremental, '/joinable', grouphtml);
+      loadmore('cgroup', numIncremental, '/joinable', grouphtml);
     });

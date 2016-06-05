@@ -1,10 +1,10 @@
-var div = document.getElementById("cgroup");
 var nowIndex = 0;
 
 //-----------------------------------------------------------------------
 // 2) Send a http request with AJAX http://api.jquery.com/jQuery.ajax/
 //-----------------------------------------------------------------------
-function loadmore(loadnum, url, html) {
+function loadmore(divid, loadnum, url, html) {
+    var div = document.getElementById(divid);
     $.ajax({
         url: url,                  //the script to call to get data          
         data: {

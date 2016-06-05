@@ -3,13 +3,14 @@ var router = express.Router();
 var db = require('../database.js');
 var moment = require('moment');
 
+///////////////////////// Change Role ////////////////////////////////
 router.get('/joinreader', function (req, res, next) {
   db.connection.query('insert into JoinGroup set Groupname = '
     + db.mysql.escape(req.query.groupname)
     + ', isWriter = false, userid = '
     + db.mysql.escape(req.session.user_id),
     function (err) {
-      res.redirect(encodeURI('/group?groupname='+req.query.groupname));
+      res.redirect(encodeURI('/group?groupname=' + req.query.groupname));
     });
 });
 router.get('/joinwriter', function (req, res, next) {
@@ -18,7 +19,7 @@ router.get('/joinwriter', function (req, res, next) {
     + ', isWriter = true, userid = '
     + db.mysql.escape(req.session.user_id),
     function (err) {
-      res.redirect(encodeURI('/group?groupname='+req.query.groupname));
+      res.redirect(encodeURI('/group?groupname=' + req.query.groupname));
     });
 });
 router.get('/bereader', function (req, res, next) {
@@ -27,7 +28,7 @@ router.get('/bereader', function (req, res, next) {
     + ' and userid = '
     + db.mysql.escape(req.session.user_id),
     function (err) {
-      res.redirect(encodeURI('/group?groupname='+req.query.groupname));
+      res.redirect(encodeURI('/group?groupname=' + req.query.groupname));
     });
 });
 router.get('/bewriter', function (req, res, next) {
@@ -36,7 +37,7 @@ router.get('/bewriter', function (req, res, next) {
     + ' and userid = '
     + db.mysql.escape(req.session.user_id),
     function (err) {
-      res.redirect(encodeURI('/group?groupname='+req.query.groupname));
+      res.redirect(encodeURI('/group?groupname=' + req.query.groupname));
     });
 });
 router.get('/exit', function (req, res, next) {
@@ -45,8 +46,25 @@ router.get('/exit', function (req, res, next) {
     + ' and userid = '
     + db.mysql.escape(req.session.user_id),
     function (err) {
-      res.redirect(encodeURI('/group?groupname='+req.query.groupname));
+      res.redirect(encodeURI('/group?groupname=' + req.query.groupname));
     });
+});
+
+///////////////////////// Post Write ////////////////////////////////
+router.post('/write', function (req, res, next) {
+  // req.body.writearea 이용
+  // userid : req.session.user_id
+  // Groupname : req.query.groupname
+  
+  res.redirect(encodeURI('/group?groupname=' + req.query.groupname));
+});
+
+///////////////////////// Reading Nodes ////////////////////////////////
+router.post('/read', function (req, res, next) {
+  // req.body.writearea 이용
+  // userid : req.session.user_id
+  // Groupname : req.query.groupname
+  
 });
 
 /* GET home page. */

@@ -8,6 +8,7 @@ block global
       span #{message}
 block contents-header
 block contents
+  //- Group Summary Module
   .container.box-lg(style='text-align:center;')
     .row(style="text-align:center;")
       h4.teal-text.text-darken-1(style="font-weight:bold;") #{groupdata.Groupname} 
@@ -28,7 +29,7 @@ block contents
       .col.s4
         h5.teal-text 길이
         strong 0
-        // 총 글자수 count 하는 모듈
+        //- 총 글자수 count 하는 모듈
     .row(style="text-align:center;")
       //- 나중에 실시간으로 바꿀것
       h6(style="text-align:center;") 현재 
@@ -85,10 +86,51 @@ block contents
       br
       hr
       br
+  
+  //- Read Module
+  .container.box-lg(style='text-align:center;')
+    .row
+      form.col.s12(action='/group/write?groupname='+groupdata.Groupname, method='post')
+        .row
+          .input-field.col.s12
+            textarea#writearea.materialize-textarea(name='writearea')
+            label(for='writearea') 소설 작성란
+            button.btn-large.waves-effect.waves-light.teal(type='submit', style="width:100%;") 소설 제출
+            
+  //- Write Module
+  .container.box-lg(style='text-align:center;')
+    .row
+      form.col.s12(action='/group/write?groupname='+groupdata.Groupname, method='post')
+        .row
+          .input-field.col.s12
+            textarea#writearea.materialize-textarea(name='writearea')
+            label(for='writearea') 소설 작성란
+            button.btn-large.waves-effect.waves-light.teal(type='submit', style="width:100%;") 소설 제출
+
+    
 block contents-footer
 block afterload-script
+  //- 토스트 메세지
   script(type="text/javascript", src = 'viewjs/imageloader.js')
   script.
     $(document).ready(function() {
       setTimeout("$('#toast').fadeOut(2000);", 2000);
+    });
+  //- Write Module
+  script(type='text/javascript').
+    $('#writearea').trigger('autoresize');
+  script(type='text/javascript', src='viewjs/loadmoregroup.js')
+  script(type='text/javascript').
+    var numInitialGroup = 5;
+    var numIncremental = 5;
+    var grouphtml = `
+    '<li class="collection-item avatar" style="padding-left:90px; padding-right:60px; text-align:left;">'
+        +'<img src="'+ group.GroupImageURL + '" alt="" class="circle responsive-img" style="margin:auto; width:65px; height:65px;">'
+        +'<span class="title"><strong>'+ group.Groupname + '</strong></span>'
+        +'<p>Genre : '+ group.Genre + '<br>Second Line</p>'
+        +'<a href="group?groupname=' + group.Groupname + '"class="secondary-content" style="margin:auto;"><i class="fa fa-sign-in fa-3x" aria-hidden="true"></i></a>'
+    +'</li>'`;
+    $(loadmore('cgroup', numInitialGroup, '/dashboard/moregroup', grouphtml));
+    $( "#loadmorebutton" ).click(function() {
+      loadmore('cgroup', numIncremental, '/dashboard/moregroup', grouphtml);
     });
