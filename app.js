@@ -50,6 +50,8 @@ app.use('/create_group', create_group);
 app.use('/myprofile', myprofile);
 app.use('/group', group);
 app.use('/layout', layout);
+
+app.locals.moment = require('moment');
 // app.use('/test', test);
 
 // catch 404 and forward to error handler
