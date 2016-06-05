@@ -6,11 +6,23 @@ block contents-header
 block contents
   .container(style='text-align:center;')
     .row
-      h4.teal-text.text-darken-1(style="text-align:center; font-weight:bold;") 참여중인 그룹 목록
+      h4.light-blue-text.text-lighten-1(style="text-align:center; font-weight:bold;") 작성이 필요해요!
     .row
       ul.collection#cgroup
     .row
-      btn.btn-large.waves-effect.waves-light.teal.lighten-1#loadmorebutton(style="width:100%; max-width:200px;") 그룹 더 보기
+      a.btn.waves-effect.waves-light.teal.lighten-1#loadmorebutton(style="width:150px;") 더 보기
+    .row
+      h4.light-blue-text.text-lighten-1(style="text-align:center; font-weight:bold;") 투표가 필요해요!
+    .row
+      ul.collection#cgroup
+    .row
+      a.btn.waves-effect.waves-light.teal.lighten-1#loadmorebutton(style="width:150px;") 더 보기
+    .row
+      h4.light-blue-text.text-lighten-1(style="text-align:center; font-weight:bold;") 참여중인 그룹
+    .row
+      ul.collection#cgroup
+    .row
+      a.btn.waves-effect.waves-light.teal.lighten-1#loadmorebutton(style="width:150px;") 더 보기
 block contents-footer
 block afterload-script
   script(type='text/javascript', src='viewjs/loadmoregroup.js')
