@@ -30,7 +30,7 @@ function showpage(req, res, pageerror) {
           });
       }
       else {
-        res.redirect('/');
+        res.redirect('/dashboard');
       }
 
     });
@@ -46,7 +46,7 @@ router.post('/', function (req, res, next) {
     function (err) {
       showpage(req, res, err);
     },
-    function () {
+    function (req, entries) {
       res.redirect('/');
     });
 });
@@ -79,7 +79,7 @@ function setpostdata(req, entries, imagepath, callback) {
   else {
     post = 'Nickname = ' + db.mysql.escape(entries.fields.name) + ', Password = ' + db.mysql.escape(entries.fields.pswd1) + ', Profilepic = ' + db.mysql.escape(imagepath);
   }
-  callback(req, post);
+  callback(req, entries, post);
 }
 
 

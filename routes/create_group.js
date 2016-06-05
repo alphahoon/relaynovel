@@ -21,8 +21,14 @@ router.post('/', function (req, res, next) {
         function (err) {
             res.render('create_group', { session: req.session, message: err });
         },
-        function () {
-            res.redirect('/');
+        function (req, entries) {
+            db.connection.query('insert into JoinGroup set Groupname = '
+                + db.mysql.escape(entries.fields.id)
+                + ', isWriter = true, userid = '
+                + db.mysql.escape(req.session.user_id),
+                function (err) {
+                    res.redirect('/dashboard');
+                });
         });
 })
 
@@ -67,6 +73,6 @@ function setpostdata(req, entries, image, callback) {
         writer: req.session.user_id,
         creator: req.session.user_id
     }
-    callback(req, post);
+    callback(req, entries, post);
 }
 module.exports = router;

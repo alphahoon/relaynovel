@@ -10,30 +10,33 @@ function handle_req(req, checkfield, imagefolder, imagename, emptyimagepath, set
         },
             function (req, entries) {
                 var profile_pic;
+
                 if (!entries.file.profile)
-                    cberror('페이지오류: entries.fields.id항목이 없습니다');
+                    cberror('서버오류: entries.fields.profile항목이 없습니다');
                 if (entries.file.profile.name) {
-                    if (imagename == null && entries.fields.id)
-                        imagename = entries.fields.id;
-                    else
-                        cberror('페이지오류: entries.fields.id항목이 없습니다');
-                    profile_pic = imagefolder + entries.fields.id + path.extname(entries.file.profile.path);
+                    if (imagename == null) {
+                        if (entries.fields.id)
+                            imagename = entries.fields.id;
+                        else
+                            cberror('서버오류: entries.fields.id항목이 없습니다');
+                    }
+                    profile_pic = imagefolder + imagename + path.extname(entries.file.profile.path);
                     var new_path = __dirname + '/public/' + profile_pic;
                     fs.rename(entries.file.profile.path, new_path);
                 }
                 else profile_pic = emptyimagepath;
-                setpostdata(req, entries, profile_pic, function (req, postdata) {
+                setpostdata(req, entries, profile_pic, function (req, entries, postdata) {
                     if (typeof postdata == 'string') {
                         postquery = postquery.replace("?", postdata);
                         var query = db.connection.query(postquery, function (err) {
                             if (err) cberror(err);
-                            else cbsuccess();
+                            else cbsuccess(req, entries);
                         });
                     }
                     else {
                         var query = db.connection.query(postquery, postdata, function (err) {
                             if (err) cberror(err);
-                            else cbsuccess();
+                            else cbsuccess(req, entries);
                         });
                     }
                 });

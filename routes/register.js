@@ -20,7 +20,7 @@ router.post('/', function (req, res, next) {
         function (err) {
             res.render('register', { message: err });
         },
-        function () {
+        function (req, entries) {
             res.redirect('/');
         });
 });
@@ -62,7 +62,7 @@ function setpostdata(req, entries, image, callback) {
         Blocked: false,
         Profilepic: image
     }
-    callback(req, post);
+    callback(req, entries, post);
 }
 
 module.exports = router;
