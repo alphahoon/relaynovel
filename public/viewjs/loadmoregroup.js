@@ -4,9 +4,9 @@ var nowIndex = 0;
 //-----------------------------------------------------------------------
 // 2) Send a http request with AJAX http://api.jquery.com/jQuery.ajax/
 //-----------------------------------------------------------------------
-function loadmore(loadnum) {
+function loadmore(loadnum, url) {
     $.ajax({
-        url: '/joinable',                  //the script to call to get data          
+        url: url,                  //the script to call to get data          
         data: {
             start: nowIndex,
             num: loadnum
