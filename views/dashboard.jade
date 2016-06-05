@@ -6,36 +6,38 @@ block contents-header
 block contents
   .container(style='text-align:center;')
     .row
-      h4.light-blue-text.text-lighten-1(style="text-align:center; font-weight:bold;") 작성이 필요해요!
-    .row
-      ul.collection#cgroup
-    .row
-      a.btn.waves-effect.waves-light.teal.lighten-1#loadmorebutton(style="width:150px;") 더 보기
-    .row
-      h4.light-blue-text.text-lighten-1(style="text-align:center; font-weight:bold;") 투표가 필요해요!
-    .row
-      ul.collection#cgroup
-    .row
-      a.btn.waves-effect.waves-light.teal.lighten-1#loadmorebutton(style="width:150px;") 더 보기
-    .row
       h4.light-blue-text.text-lighten-1(style="text-align:center; font-weight:bold;") 참여중인 그룹
-    .row
-      ul.collection#cgroup
+    .card-container#cgroup
     .row
       a.btn.waves-effect.waves-light.teal.lighten-1#loadmorebutton(style="width:150px;") 더 보기
 block contents-footer
 block afterload-script
   script(type='text/javascript', src='viewjs/loadmoregroup.js')
   script(type='text/javascript').
-    var numInitialGroup = 5;
-    var numIncremental = 5;
+    var numInitialGroup = 8;
+    var numIncremental = 8;
     var grouphtml = `
-    '<li class="collection-item avatar" style="padding-left:90px; padding-right:60px; text-align:left;">'
-        +'<img src="'+ group.GroupImageURL + '" alt="" class="circle responsive-img" style="margin:auto; width:65px; height:65px;">'
-        +'<span class="title"><strong>'+ group.Groupname + '</strong></span>'
-        +'<p>Genre : '+ group.Genre + '<br>Second Line</p>'
-        +'<a href="group?groupname=' + group.Groupname + '"class="secondary-content" style="margin:auto;"><i class="fa fa-sign-in fa-3x" aria-hidden="true"></i></a>'
-    +'</li>'`;
+      '<div class="card small card-custom">'
+        +'<div class="card-image waves-effect waves-block waves-light">'
+          +'<img src="'+ group.GroupImageURL + '" class="activator" style="width: 200px; height:200px;"/>'
+        +'</div>'
+        +'<div class="card-content">'
+          +'<a href="group?groupname=' + group.Groupname + '">'
+            +'<span class="card-title black-text"><strong>'+ group.Groupname + '</strong></span>'
+          +'</a>'
+          +'<a class="activator">'
+            +'<span><i class="material-icons right">more_vert</i></span>'
+          +'</a>'
+        +'</div>'
+        +'<div class="card-reveal"><span class="card-title grey-text text-darken-4"><strong>'+ group.Groupname + '</strong><i class="material-icons right">close</i></span>'
+          +'만든이 : '+ group.creator +'<br>'
+          +'독자 수 : '+ group.readers +'<br>'
+          +'작가 수 : '+ group.writers +'<br>'
+          +'장르 : '+ group.Genre +'<br>'
+          +'길이 : '+ 0 +'<br>'
+          +'<span style="text-align: right;"><a href="group?groupname=' + group.Groupname + '"><i class="material-icons right">input</i></a></span>'
+        +'</div>'
+      +'</div>'`;
     $(loadmore(numInitialGroup, '/dashboard/moregroup', grouphtml));
     $( "#loadmorebutton" ).click(function() {
       loadmore(numIncremental, '/dashboard/moregroup', grouphtml);
