@@ -16,29 +16,7 @@ block afterload-script
   script(type='text/javascript').
     var numInitialGroup = 8;
     var numIncremental = 8;
-    var grouphtml = `
-      '<div class="card small card-custom">'
-        +'<div class="card-image waves-effect waves-block waves-light">'
-          +'<img src="'+ group.GroupImageURL + '" class="activator" style="width: 200px; height:200px;"/>'
-        +'</div>'
-        +'<div class="card-content">'
-          +'<a href="group?groupname=' + group.Groupname + '">'
-            +'<span class="card-title black-text"><strong>'+ group.Groupname + '</strong></span>'
-          +'</a>'
-          +'<a class="activator">'
-            +'<span><i class="material-icons right">more_vert</i></span>'
-          +'</a>'
-        +'</div>'
-        +'<div class="card-reveal"><span class="card-title grey-text text-darken-4"><strong>'+ group.Groupname + '</strong><i class="material-icons right">close</i></span>'
-          +'만든이 : '+ group.creator +'<br>'
-          +'독자 수 : '+ group.readers +'<br>'
-          +'작가 수 : '+ group.writers +'<br>'
-          +'장르 : '+ group.Genre +'<br>'
-          +'길이 : '+ 0 +'<br>'
-          +'<span style="text-align: right;"><a href="group?groupname=' + group.Groupname + '"><i class="material-icons right">input</i></a></span>'
-        +'</div>'
-      +'</div>'`;
-    $(loadmore(numInitialGroup, '/joinable', grouphtml));
+    $(loadmore('cgroup', numInitialGroup, '/joinable', '/joinable/joinablecard'));
     $( "#loadmorebutton" ).click(function() {
-      loadmore('cgroup', numIncremental, '/joinable', grouphtml);
+      loadmore('cgroup', numIncremental, '/joinable', '/joinable/joinablecard');
     });

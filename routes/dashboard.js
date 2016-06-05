@@ -1,13 +1,9 @@
 var express = require('express');
 var router = express.Router();
 var db = require('../database.js');
+var fs = require('fs');
 
 /* GET home page. */
-router.get('/', function (req, res, next) {
-    if (!req.session.logined)
-        res.redirect('/');
-    res.render('dashboard', { session: req.session });
-});
 
 router.post('/moregroup', function (req, res, next) {
     db.connection.query(
@@ -21,4 +17,18 @@ router.post('/moregroup', function (req, res, next) {
         });
 })
 
+router.get('/dashboardcard', function (req, res, next) {
+    fs.readFile(__dirname +'/../public/fakehtmls/dashboardcard.html', 'utf8', function (err, data) {
+        if (err) {
+            return console.log(err);
+        }
+        res.send(data);
+    });
+});
+
+router.get('/', function (req, res, next) {
+    if (!req.session.logined)
+        res.redirect('/');
+    res.render('dashboard', { session: req.session });
+});
 module.exports = router;
