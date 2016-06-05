@@ -11,54 +11,60 @@ block contents
   .container.box-lg(style='text-align:center;')
     .row(style="text-align:center;")
       h4.teal-text.text-darken-1(style="font-weight:bold;") #{groupdata.Groupname} 
+      | 상태: 
       if groupdata.Finished
-        text-darken-1 Finished
+        text-darken-1 연재 종료
       else
-        text-darken-1 Ongoing
+        text-darken-1 연재 중
     .row(style="text-align:center;")
       img.circle.profile#img_profile(src=groupdata.GroupImageURL, style="width:250px; height:250px;")
     .row(style="text-align:center;")
       .col.s4
-        strong Readers
-      .col.s4
-        strong Writers
-      .col.s4
-        strong Length
-    .row(style="text-align:center;")
-      .col.s4
+        h5.teal-text 독자
         strong #{groupdata.readers}
       .col.s4
+        h5.teal-text 작가
         strong #{groupdata.writers}
       .col.s4
-        strong ???
+        h5.teal-text 길이
+        strong 0
+        // 총 글자수 count 하는 모듈
     .row(style="text-align:center;")
       //- 나중에 실시간으로 바꿀것
-      text(style="text-align:center;") #{groupdata.writer} is Writing now! (#{remain_time} left)           
+      h6(style="text-align:center;") 현재 
+        span.teal-text.text-darken-1 #{groupdata.writer}
+        |  님이 작성 중입니다! (
+        span.teal-text.text-darken-1 #{remain_time}
+        |  남음)
     form(action='/group', method='post', style='text-align:center;')
       .row
         .col.s4
-          button.btn(name = 'bereader', type='submit', style="width:100%") Be a Reader
+          button.btn-large.waves-effect.waves-light(name = 'bereader', type='submit', style="width:100%") 독자로!
         .col.s4
-          button.btn(name = 'bewriter', type='submit', style="width:100%") Be a Writer
+          button.btn-large.waves-effect.waves-light(name = 'bewriter', type='submit', style="width:100%") 작가로!
         .col.s4
-          button.btn(name = 'exitgroup', type='submit', style="width:100%") Exit Group  
+          button.btn-large.waves-effect.waves-light.red(name = 'exitgroup', type='submit', style="width:100%") 탈퇴
     .row
-      h6.teal-text.text-darken-1(style="font-weight:bold;") Group Information and Rules
+      br
+      hr
+      br
     .row
-      .col.s6
-        text Creator : #{groupdata.creator}
-      .col.s6
-        text Writing Time Limit : #{groupdata.WriteLimit}
-    .row
-      .col.s6
-        text= 'Created Time : '+moment(groupdata.createtime).format("YYYY/MM/DD HH:MM:SS")
-      .col.s6
-        text Voting Time Limit : #{groupdata.VoteLimit}
+      h5.teal-text.text-darken-1(style="font-weight:bold;") 그룹 정보
     .row
       .col.s6
-        text Genre : #{groupdata.Genre}
+        text 만든이 : #{groupdata.creator}
       .col.s6
-        text Length Rule: ??? < length < ???
+        text 작성 제한 시간 : #{groupdata.WriteLimit}
+    .row
+      .col.s6
+        text= '그룹 생성 날짜 : '+moment(groupdata.createtime).format("YYYY/MM/DD")
+      .col.s6
+        text 투표 제한 시간 : #{groupdata.VoteLimit}
+    .row
+      .col.s6
+        text 장르 : #{groupdata.Genre}
+      .col.s6
+        text 글자 수 제한 : ??? < length < ???
 block contents-footer
 block afterload-script
   script(type="text/javascript", src = 'viewjs/imageloader.js')

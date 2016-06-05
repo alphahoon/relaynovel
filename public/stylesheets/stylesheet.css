@@ -11,26 +11,29 @@ img .profile {
 
 div .box-sm {
   border: 3px solid #26A69A;
-  border-radius: 0.5em;
-  padding: 4em;
+  border-radius: 24px;
+  padding-left: 40px;
+  padding-right: 40px;
   max-width:480px;
   min-width: 480px;
 }
 
 div .box-md {
   border: 3px solid #26A69A;
-  border-radius: 0.5em;
-  padding: 4em;
+  border-radius: 24px;
+  padding-left: 40px;
+  padding-right: 40px;
   max-width: 720px;
   min-width: 480px;
 }
 
 div .box-lg {
   border:3px solid #26A69A;
-  border-radius: 0.5em;
-  padding: 4em;
+  border-radius: 24px;
+  padding-left: 40px;
+  padding-right: 40px;
   max-width: 960px;
-  min-width: 720px;
+  min-width: 480px;;
 }
 
 .toast-custom {
