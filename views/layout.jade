@@ -50,7 +50,7 @@ html(lang='ko')
                 a.waves-effect.waves-light(href='/dashboard') 대쉬보드
             li
               if session && session.logined
-                a.waves-effect.waves-light(href='/myprofile') 내 프로필
+                a.waves-effect.waves-light(href='/profile') 내 프로필
             li
               if session && session.logined
                 form(id = 'logout' action='/logout', method='post')
@@ -74,7 +74,7 @@ html(lang='ko')
                 a.waves-effect(href='/dashboard') 대쉬보드
             li
               if session && session.logined
-                a.waves-effect(href='/myprofile') 내 프로필
+                a.waves-effect(href='/profile') 내 프로필
             li
               if session && session.logined
                 form(id = 'logout' action='/logout', method='post')
