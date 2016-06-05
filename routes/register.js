@@ -12,7 +12,7 @@ router.get('/', function (req, res, next) {
 
 router.post('/', function (req, res, next) {
     form.handle_req(req, checkfield,
-        'userimages/',
+        'userimages/' + req.session.user_id,
         'userimages/empty_user.jpg',
         setpostdata,
         'INSERT INTO User SET ?',

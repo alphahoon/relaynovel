@@ -3,7 +3,7 @@ var formidable = require('formidable');
 var fs = require('fs');
 var path = require('path');
 
-function handle_req(req, checkfield, savedir, emptyimage, setpostdata, postquery, cberror, cbsuccess) {
+function handle_req(req, checkfield, imagename, emptyimagepath, setpostdata, postquery, cberror, cbsuccess) {
     upload_file(req, function (entries) {
         checkfield(entries, function (err) {
             cberror(err);
@@ -11,11 +11,11 @@ function handle_req(req, checkfield, savedir, emptyimage, setpostdata, postquery
             function (entries) {
                 var profile_pic;
                 if (entries.file.profile.name) {
-                    var new_path = __dirname + '/public/' + savedir + entries.fields.id + path.extname(entries.file.profile.path);
+                    profile_pic = imagename + path.extname(entries.file.profile.path);
+                    var new_path = __dirname + '/public/' + imagename + path.extname(entries.file.profile.path);
                     fs.rename(entries.file.profile.path, new_path);
-                    profile_pic = savedir + entries.fields.id + path.extname(entries.file.profile.path);
                 }
-                else profile_pic = emptyimage;
+                else profile_pic = emptyimagepath;
                 setpostdata(entries, profile_pic, function (postdata) {
                     if (typeof postdata == 'string') {
                         postquery = postquery.replace("?", postdata);

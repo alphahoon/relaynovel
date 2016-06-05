@@ -17,17 +17,17 @@ function showpage(req, res, pageerror) {
     'select * from User where userid= ' + db.mysql.escape(req.session.user_id),
     function (err, rows) {
       if (rows && rows[0]) {
-          if (pageerror)
-            res.render('myprofile', {
-              session: req.session,
-              userdata: rows[0],
-              message: pageerror,
-            });
-          else
-            res.render('myprofile', {
-              session: req.session,
-              userdata: rows[0],
-            });
+        if (pageerror)
+          res.render('myprofile', {
+            session: req.session,
+            userdata: rows[0],
+            message: pageerror,
+          });
+        else
+          res.render('myprofile', {
+            session: req.session,
+            userdata: rows[0],
+          });
       }
       else {
         res.redirect('/');
@@ -38,7 +38,7 @@ function showpage(req, res, pageerror) {
 
 router.post('/', function (req, res, next) {
   form.handle_req(req, checkfield,
-    'userimages/',
+    'userimages/' + req.session.user_id,
     'userimages/empty_user.jpg',
     setpostdata,
     'update User set ? where userid=' + db.mysql.escape(req.session.user_id),
@@ -70,13 +70,13 @@ function checkfield(entries, cberror, cbsuccess) {
     });
 }
 
-function setpostdata(entries, image, callback) {
+function setpostdata(entries, imagepath, callback) {
   var post;
   if (!entries.fields.pswd1) {
-    post = 'Nickname = ' + db.mysql.escape(entries.fields.name) + ', Profilepic = ' + db.mysql.escape(image);
+    post = 'Nickname = ' + db.mysql.escape(entries.fields.name) + ', Profilepic = ' + db.mysql.escape(imagepath);
   }
   else {
-    post = 'Nickname = ' + db.mysql.escape(entries.fields.name) + ', Password = ' + db.mysql.escape(entries.fields.pswd1) + ', Profilepic = ' + db.mysql.escape(image);
+    post = 'Nickname = ' + db.mysql.escape(entries.fields.name) + ', Password = ' + db.mysql.escape(entries.fields.pswd1) + ', Profilepic = ' + db.mysql.escape(imagepath);
   }
   callback(post);
 }
