@@ -9,4 +9,16 @@ router.get('/', function (req, res, next) {
     res.render('dashboard', { session: req.session });
 });
 
+router.post('/moregroup', function (req, res, next) {
+    db.connection.query(
+        'SELECT * from RenoGroup where Groupname in (SELECT Groupname from JoinGroup where userid= '
+        + db.mysql.escape(req.session.user_id) + ') Limit ' + req.body.start + ', ' + req.body.num,
+        function (err, rows) {
+            //console.log(rows);
+            if (rows) {
+                res.send(rows);
+            }
+        });
+})
+
 module.exports = router;

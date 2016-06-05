@@ -29,7 +29,7 @@ block afterload-script
   script(type='text/javascript').
     var numInitialGroup = 5;
     var numIncremental = 5;
-    $(loadmore(numInitialGroup));
+    $(loadmore(numInitialGroup, '/dashboard/moregroup'));
     $( "#loadmorebutton" ).click(function() {
-      loadmore(numIncremental);
+      loadmore(numIncremental, '/dashboard/moregroup');
     });
