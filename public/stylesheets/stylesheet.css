@@ -42,7 +42,7 @@ div .box-lg {
   clear: both;
   left: 50%;
   top: 10%;
-  width: 480px;
+  width: 320px;
   height: 60px;
   margin-left: -240px;
   
@@ -105,4 +105,9 @@ div .box-lg {
 
 .card-container .card-custom .card-reveal {
   padding-top: 10px;
+}
+
+.rule-card {
+  padding: 20px;
+  min-height: 60px;
 }

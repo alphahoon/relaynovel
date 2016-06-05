@@ -1,0 +1,22 @@
+extends contents-layout
+// 다른 사람 프로필도 조회 할 수 있어야 함
+block title
+  title 프로필 조회
+block preload-script
+block contents-header
+block contents
+  .container.box-sm(style='text-align:center;')
+    .row
+      h4.teal-text.text-darken-1(style="text-align:center; font-weight:bold;")= (userdata.Nickname)
+    .row
+      img.circle.profile#img_profile(src=userdata.Profilepic style="width:250px; height:250px;")
+    .row
+      p 기타정보
+    .row
+      // 프로필을 조회한 사람이 자기 자신일 경우 아래 버튼 표시
+      a.btn-large.waves-effect.waves-light.teal(href="/myprofile", style="width:100%;") 프로필 변경
+      // 프로필을 조회한 사람이 타인일 경우 아래 버튼 표시
+      // block 새로 만들어야 함
+      a.btn-large.waves-effect.waves-light.red(href="/block", style="width:100%;") 신고하기
+block contents-footer
+block afterload-script
