@@ -75,7 +75,6 @@ html(lang='ko')
             .col.l3.s12
               h5.white-text 오늘의 베스트 
               ul#bestgroups
-              script(type='text/javascript', src='viewjs/loadlayouturl.js')              
                 //- li
                 //-   form(id = 'group4' action='/group', method='get')
                 //-     input(type="hidden" name="groupname" value="#{links[4]}") 
@@ -95,7 +94,6 @@ html(lang='ko')
             .col.l3.s12
               h5.white-text 최근 업데이트
               ul#recentgroups
-              script(type='text/javascript', src='viewjs/loadlayouturl.js')           
                 //- li
                 //-   form(id = 'group0' action='/group', method='get')
                 //-     input(type="hidden" name="groupname" value="#{links[0]}") 
@@ -112,10 +110,13 @@ html(lang='ko')
                 //-   form(id = 'group3' action='/group', method='get')
                 //-     input(type="hidden" name="groupname" value="#{links[3]}") 
                 //-     a.waves-effect(style={color : 'white'}, href='#' onclick="document.getElementById('group3').submit();") #{links[3]}
+
+        script(type='text/javascript', src='viewjs/loadlayouturl.js')
+        script(type='text/javascript').
+          $(loadlinks());
+
       .footer-copyright.teal.darken-2
         .container
           | Made by 
           span.orange-text.text-lighten-2(href='#') Team Fossil
           
-  script(type='text/javascript').
-    $(loadlinks());
