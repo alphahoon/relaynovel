@@ -29,7 +29,14 @@ block afterload-script
   script(type='text/javascript').
     var numInitialGroup = 5;
     var numIncremental = 5;
-    $(loadmore(numInitialGroup, '/dashboard/moregroup'));
+    var grouphtml = `
+    '<li class="collection-item avatar" style="padding-left:90px; padding-right:60px; text-align:left;">'
+        +'<img src="'+ group.GroupImageURL + '" alt="" class="circle responsive-img" style="margin:auto; width:65px; height:65px;">'
+        +'<span class="title"><strong>'+ group.Groupname + '</strong></span>'
+        +'<p>Genre : '+ group.Genre + '<br>Second Line</p>'
+        +'<a href="group?groupname=' + group.Groupname + '"class="secondary-content" style="margin:auto;"><i class="fa fa-sign-in fa-3x" aria-hidden="true"></i></a>'
+    +'</li>'`;
+    $(loadmore(numInitialGroup, '/dashboard/moregroup', grouphtml));
     $( "#loadmorebutton" ).click(function() {
-      loadmore(numIncremental, '/dashboard/moregroup');
+      loadmore(numIncremental, '/dashboard/moregroup', grouphtml);
     });
