@@ -50,7 +50,7 @@ block contents
           .col.s12.m4
             a.btn-large.waves-effect.waves-light(href='/group/joinreader?groupname='+groupdata.Groupname, style="width:100%") 독자되기
           .col.s12.m4
-            a.btn-large.waves-effect.waves-light(href='/group/joinwriter?groupname='+groupdata.Groupname, style="width:100%") 작가되기
+            a.btn-large.waves-effect.waves-light.blue(href='/group/joinwriter?groupname='+groupdata.Groupname, style="width:100%") 작가되기
           .col.s12.m4
             a.btn-large.disabled(style="width:100%") 탈퇴
         else
@@ -65,7 +65,7 @@ block contents
             .col.s12.m4
               a.btn-large.disabled(style="width:100%") 독자되기
             .col.s12.m4
-              a.btn-large.waves-effect.waves-light(href='/group/bewriter?groupname='+groupdata.Groupname, style="width:100%") 작가되기
+              a.btn-large.waves-effect.waves-light.blue(href='/group/bewriter?groupname='+groupdata.Groupname, style="width:100%") 작가되기
             .col.s12.m4
               a.btn-large.waves-effect.waves-light.red(href='/group/exit?groupname='+groupdata.Groupname, style="width:100%") 탈퇴
     .row
