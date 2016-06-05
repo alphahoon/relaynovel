@@ -15,26 +15,14 @@ router.post('/', function (req, res, next) {
         'userimages/',
         'userimages/empty_user.jpg',
         setpostdata,
+        'INSERT INTO User SET ?',
         function (err) {
             res.render('register', { message: err });
         },
         function () {
             res.redirect('/');
         });
-
 });
-
-function setpostdata(entries, image, callback) {
-    var post = {
-        userid: entries.fields.id,
-        Nickname: entries.fields.name,
-        Password: entries.fields.pswd1,
-        Admin: false,
-        Blocked: false,
-        Profilepic: image
-    }
-    callback(post);
-}
 
 function checkfield(entries, cberror, cbsuccess) {
     if (!(entries.fields.id && entries.fields.name && entries.fields.pswd1 && entries.fields.pswd2))
@@ -62,6 +50,18 @@ function checkfield(entries, cberror, cbsuccess) {
                 }
             });
     }
+}
+
+function setpostdata(entries, image, callback) {
+    var post = {
+        userid: entries.fields.id,
+        Nickname: entries.fields.name,
+        Password: entries.fields.pswd1,
+        Admin: false,
+        Blocked: false,
+        Profilepic: image
+    }
+    callback(post);
 }
 
 module.exports = router;

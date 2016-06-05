@@ -3,7 +3,7 @@ var formidable = require('formidable');
 var fs = require('fs');
 var path = require('path');
 
-function handle_req(req, checkfield, savedir, emptyimage, setpostdata, cberror, cbsuccess) {
+function handle_req(req, checkfield, savedir, emptyimage, setpostdata, postquery, cberror, cbsuccess) {
     upload_file(req, function (entries) {
         checkfield(entries, function (err) {
             cberror(err);
@@ -17,10 +17,20 @@ function handle_req(req, checkfield, savedir, emptyimage, setpostdata, cberror, 
                 }
                 else profile_pic = emptyimage;
                 setpostdata(entries, profile_pic, function (postdata) {
-                    var query = db.connection.query('INSERT INTO User SET ?', postdata, function (err) {
-                        if (err) cberror(err);
-                        else cbsuccess();
-                    });
+                    if (typeof postdata == 'string') {
+                        postquery = postquery.replace("?", postdata);
+                        console.log(postquery);
+                        var query = db.connection.query(postquery, function (err) {
+                            if (err) cberror(err);
+                            else cbsuccess();
+                        });
+                    }
+                    else {
+                        var query = db.connection.query(postquery, postdata, function (err) {
+                            if (err) cberror(err);
+                            else cbsuccess();
+                        });
+                    }
                 });
             });
     });

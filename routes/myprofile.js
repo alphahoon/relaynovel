@@ -1,40 +1,97 @@
 var express = require('express');
 var router = express.Router();
-// var db = require('../database.js');
-// var file = require('../file.js');
-// var fs = require('fs');
-// var path = require('path');
+var form = require('../postedform.js');
+var db = require('../database.js');
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
+  if (!req.session.logined)
+    res.redirect('/');
+  else {
+    showpage(req, res, null);
+  }
 });
-//   if (!req.session.logined)
-//     res.redirect('/');
-//   else {
-//     var query = db.connection.query(
-//       'select * from User where userid= ' + db.mysql.escape(req.session.user_id),
-//       function (err, rows) {
-//         if (rows && rows[0]) {
-//           combine (function(callback) {
-//             res.render('myprofile', {
-//               session : req.session,
-//               userdata : rows[0],
-//               links : callback
-//             });
-//           });
-//           // res.render('myprofile', {
-//           //   title: 'relaynovel',
-//           //   session: req.session,
-//           //   userdata: rows[0] 
-//           // });
-//         }
-//         else {
-//           res.redirect('/');
-//         }
 
-//       });
-//   }
-// });
+function showpage(req, res, pageerror) {
+  var query = db.connection.query(
+    'select * from User where userid= ' + db.mysql.escape(req.session.user_id),
+    function (err, rows) {
+      if (rows && rows[0]) {
+        combine(function (callback) {
+          if (pageerror)
+            res.render('myprofile', {
+              session: req.session,
+              userdata: rows[0],
+              message: pageerror,
+              links: callback
+            });
+          else
+            res.render('myprofile', {
+              session: req.session,
+              userdata: rows[0],
+              links: callback
+            });
+        });
+      }
+      else {
+        res.redirect('/');
+      }
+
+    });
+}
+
+function combine(callback) {
+  db.get_layout_links(function (links) {
+    callback(links);
+  });
+}
+
+router.post('/', function (req, res, next) {
+  form.handle_req(req, checkfield,
+    'userimages/',
+    'userimages/empty_user.jpg',
+    setpostdata,
+    'update User set ? where userid=' + db.mysql.escape(req.session.user_id),
+    function (err) {
+      showpage(req, res, err);
+    },
+    function () {
+      res.redirect('/');
+    });
+});
+
+function checkfield(entries, cberror, cbsuccess) {
+  if (entries.fields.pswd1) {
+    if (!entries.fields.pswd2 || entries.fields.pswd1 != entries.fields.pswd2) {
+      cberror('패스워드가 일치하지 않습니다.');
+      return;
+    }
+  }
+  if (entries.fields.name.length < 4 || entries.fields.name.length > 16) {
+    cberror('닉네임은 4~16자 이내로 작성 바랍니다.');
+    return;
+  }
+  db.connection.query('select Nickname from User where Nickname=' + db.mysql.escape(entries.fields.nickname),
+    function (err, db_nickname) {
+      if (db_nickname && db_nickname[0]) {
+        cberror("닉네임이 이미 존재합니다.");
+      }
+      else cbsuccess(entries);
+    });
+}
+
+function setpostdata(entries, image, callback) {
+  var post;
+  if (!entries.fields.pswd1) {
+    post = 'Nickname = ' + db.mysql.escape(entries.fields.name) + ', Profilepic = ' + db.mysql.escape(image);
+  }
+  else {
+    post = 'Nickname = ' + db.mysql.escape(entries.fields.name) + ', Password = ' + db.mysql.escape(entries.fields.pswd1) + ', Profilepic = ' + db.mysql.escape(image);
+  }
+  callback(post);
+}
+
+
 
 // router.post('/', function (req, res, next) {
 //     file.upload_file (req, function (entries) {
@@ -106,11 +163,7 @@ router.get('/', function (req, res, next) {
 //     });
 // });
 
-// function combine (callback) {
-//     db.get_layout_links(function (links) {
-//       callback(links);
-//     });
-// }
+
 
 
 module.exports = router;
