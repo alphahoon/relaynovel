@@ -1,23 +1,22 @@
-extends layout
-
-block inlayout
-  .row(style="margin-top:1em; text-align:center;")
-    .col.s0.m2.l3
-      .row
-    .col.s12.m8.l6
-      .row
-        ul.collection#cgroup
-        script(type='text/javascript', src='viewjs/loadmoregroup.js')
-      .row
-        .col.s6
-          btn.btn-large.waves-effect.waves-light.teal.lighten-1#loadmorebutton(style="width:100%; max-width:200px;") 그룹 더 보기
-        .col.s6
-          a.btn-large.waves-effect.waves-light.orange.lighten-1(href='/create_group', style="width:100%; max-width:200px; vertical-align:middle;") 그룹 만들기
-    .col.s0.m2.l3
-      .row
-      
+extends contents-layout
+block title
+  title 그룹 목록
+block preload-script
+block contents-header
+block contents
+  .container(style='text-align:center;')
+    .row
+      ul.collection#cgroup
+      script(type='text/javascript', src='viewjs/loadmoregroup.js')
+    .row
+      .col.s6
+        btn.btn-large.waves-effect.waves-light.teal.lighten-1#loadmorebutton(style="width:100%; max-width:200px;") 그룹 더 보기
+      .col.s6
+        a.btn-large.waves-effect.waves-light.orange.lighten-1(href='/create_group', style="width:100%; max-width:200px; vertical-align:middle;") 그룹 만들기
+block contents-footer
+block afterload-script
   script(type='text/javascript').
-    //Set # of first loaded groups
+    // Set # of first loaded groups
     $(loadmore(10));
     $( "#loadmorebutton" ).click(function() {
       //Set # of load groups

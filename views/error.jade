@@ -1,7 +1,12 @@
-extends header
-
-block afterheader
+extends contents-layout
+block title
+  title ERROR!
+block preload-script
+block contents-header
+block contents
   .container
     h1= message
     h2= error.status
     pre #{error.stack}
+block contents-footer
+block afterload-script

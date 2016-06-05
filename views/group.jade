@@ -1,62 +1,62 @@
-extends layout
-  
-block inlayout
-  .row(style="margin-top:1em;")
-      .col.s0.m2.l3
-        .row
-        if message
-          .toast.rounded.strong #{message}             
-      .col.s12.m8.l6.grey.lighten-5(style="border:0.2em grey solid; border-radius:1em; padding: 2em;")
-        .row(style="text-align:center;")
-          h4.teal-text.text-darken-1(style="font-weight:bold;") #{groupdata.Groupname} 
-          if groupdata.Finished
-            text-darken-1 Finished
-          else
-            text-darken-1 Ongoing
-        .row(style="text-align:center;")
-          img.circle.profile#img_profile(src=groupdata.GroupImageURL, style="width:250px; height:250px;")
-        .row(style="text-align:center;")
-          .col.s4
-            strong Readers
-          .col.s4
-            strong Writers
-          .col.s4
-            strong Length
-        .row(style="text-align:center;")
-          .col.s4
-            strong #{groupdata.readers}
-          .col.s4
-            strong #{groupdata.writers}
-          .col.s4
-            strong ???
-        .row(style="text-align:center;")
-          //- 나중에 실시간으로 바꿀것
-          text(style="text-align:center;") #{groupdata.writer} is Writing now! (#{remain_time} left)           
-        form(action='/group', method='post', style='text-align:center;')
-          .row
-            .col.s4
-              button.btn(name = 'bereader', type='submit', style="width:100%") Be a Reader
-            .col.s4
-              button.btn(name = 'bewriter', type='submit', style="width:100%") Be a Writer
-            .col.s4
-              button.btn(name = 'exitgroup', type='submit', style="width:100%") Exit Group  
-        .row
-          h6.teal-text.text-darken-1(style="font-weight:bold;") Group Information and Rules
-        .row
-          .col.s6
-            text Creator : #{groupdata.creator}
-          .col.s6
-            text Writing Time Limit : #{groupdata.WriteLimit}
-        .row
-          .col.s6
-            text= 'Created Time : '+moment(groupdata.createtime).format("YYYY/MM/DD HH:MM:SS")
-          .col.s6
-            text Voting Time Limit : #{groupdata.VoteLimit}
-        .row
-          .col.s6
-            text Genre : #{groupdata.Genre}
-          .col.s6
-            text Length Rule: ??? < length < ???                  
-      .col.s0.m2.l4
-        .row
-      script(type="text/javascript", src = 'viewjs/imageloader.js')
+extends contents-layout
+block title
+  title 그룹
+block preload-script
+block contents-header
+  if message
+    .toast.rounded.strong #{message} 
+block contents
+  .container.box-lg(style='text-align:center;')
+    .row(style="text-align:center;")
+      h4.teal-text.text-darken-1(style="font-weight:bold;") #{groupdata.Groupname} 
+      if groupdata.Finished
+        text-darken-1 Finished
+      else
+        text-darken-1 Ongoing
+    .row(style="text-align:center;")
+      img.circle.profile#img_profile(src=groupdata.GroupImageURL, style="width:250px; height:250px;")
+    .row(style="text-align:center;")
+      .col.s4
+        strong Readers
+      .col.s4
+        strong Writers
+      .col.s4
+        strong Length
+    .row(style="text-align:center;")
+      .col.s4
+        strong #{groupdata.readers}
+      .col.s4
+        strong #{groupdata.writers}
+      .col.s4
+        strong ???
+    .row(style="text-align:center;")
+      //- 나중에 실시간으로 바꿀것
+      text(style="text-align:center;") #{groupdata.writer} is Writing now! (#{remain_time} left)           
+    form(action='/group', method='post', style='text-align:center;')
+      .row
+        .col.s4
+          button.btn(name = 'bereader', type='submit', style="width:100%") Be a Reader
+        .col.s4
+          button.btn(name = 'bewriter', type='submit', style="width:100%") Be a Writer
+        .col.s4
+          button.btn(name = 'exitgroup', type='submit', style="width:100%") Exit Group  
+    .row
+      h6.teal-text.text-darken-1(style="font-weight:bold;") Group Information and Rules
+    .row
+      .col.s6
+        text Creator : #{groupdata.creator}
+      .col.s6
+        text Writing Time Limit : #{groupdata.WriteLimit}
+    .row
+      .col.s6
+        text= 'Created Time : '+moment(groupdata.createtime).format("YYYY/MM/DD HH:MM:SS")
+      .col.s6
+        text Voting Time Limit : #{groupdata.VoteLimit}
+    .row
+      .col.s6
+        text Genre : #{groupdata.Genre}
+      .col.s6
+        text Length Rule: ??? < length < ???
+block contents-footer
+block afterload-script
+  script(type="text/javascript", src = 'viewjs/imageloader.js')
