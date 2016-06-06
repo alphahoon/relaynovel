@@ -2,6 +2,8 @@ var express = require('express');
 var router = express.Router();
 var form = require('../postedform.js');
 var db = require('../database.js');
+var crypto = require('crypto');
+var bcrypt = require('bcrypt-nodejs');
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
@@ -57,7 +59,7 @@ function setpostdata(req, entries, image, callback) {
     var post = {
         userid: entries.fields.id,
         Nickname: entries.fields.name,
-        Password: entries.fields.pswd1,
+        Password: bcrypt.hashSync(entries.fields.pswd1),
         Admin: false,
         Blocked: false,
         Profilepic: image
