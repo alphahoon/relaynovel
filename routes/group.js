@@ -32,13 +32,6 @@ router.get('/bereader', function (req, res, next) {
     }, function () {
       res.redirect(encodeURI('/group?groupname=' + req.query.groupname));
     })
-  // db.connection.query('update JoinGroup set isWriter = false where Groupname = '
-  //   + db.mysql.escape(req.query.groupname)
-  //   + ' and userid = '
-  //   + db.mysql.escape(req.session.user_id),
-  //   function (err) {
-  //     res.redirect(encodeURI('/group?groupname=' + req.query.groupname));
-  //   });
 });
 router.get('/bewriter', function (req, res, next) {
   renodb.beWriter(req.query.groupname, req.session.user_id,
@@ -85,7 +78,7 @@ function recursiveRead(curnode, callback) {
     'select Node.*, User.Nickname, User.Profilepic from Node left join User on User.userid = Node.writer where Node.NodeID = '
     + db.mysql.escape(curnode.ParentNode),
     function (err, rows) {
-      if (rows) {
+      if (rows&&rows[0]) {
         recursiveRead(rows[0], function (result) {
           result.push(rows[0]);
           callback(result);

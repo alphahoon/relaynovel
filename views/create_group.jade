@@ -34,31 +34,27 @@ block contents
           label 작성 시간 제한
             select.browser-default(onChange='OnDropDownChange(this,"writetimelimit")')
               option(value='', disabled='', selected='') 선택
-              option(value='1') 1시간
-              option(value='2') 2시간
-              option(value='3') 3시간
-              option(value='4') 4시간
-              option(value='6') 6시간
-              option(value='8') 8시간
-              option(value='12') 12시간
-              option(value='24') 24시간
-              option(value='168') 7일 
-              option(value='999') 제한 없음
+              option(value='01:00:00') 1시간
+              option(value='02:00:00') 2시간
+              option(value='03:00:00') 3시간
+              option(value='04:00:00') 4시간
+              option(value='06:00:00') 6시간
+              option(value='08:00:00') 8시간
+              option(value='12:00:00') 12시간
+              option(value='24:00:00') 24시간
             input#writetimelimit(type='hidden', name='writetimelimit', value='')
         .row
           label 투표 시간 제한
             select.browser-default(onChange='OnDropDownChange(this,"votetimelimit")')
               option(value='', disabled='', selected='') 선택 
-              option(value='1') 1시간
-              option(value='2') 2시간
-              option(value='3') 3시간
-              option(value='4') 4시간
-              option(value='6') 6시간
-              option(value='8') 8시간
-              option(value='12') 12시간
-              option(value='24') 24시간
-              option(value='168') 7일 
-              option(value='999') 제한 없음
+              option(value='01:00:00') 1시간
+              option(value='02:00:00') 2시간
+              option(value='03:00:00') 3시간
+              option(value='04:00:00') 4시간
+              option(value='06:00:00') 6시간
+              option(value='08:00:00') 8시간
+              option(value='12:00:00') 12시간
+              option(value='24:00:00') 24시간
             input#votetimelimit(type='hidden', name='votetimelimit', value='')
         .row
           label 작가 수 제한

@@ -29,10 +29,10 @@ router.post('/', function (req, res, next) {
                 + db.mysql.escape(req.session.user_id),
                 function (err) {
                     renodb.setWriterTimer(postdata.Groupname + "TurnEvent", postdata.createtime,
-                        postdata.WriteLimit, postdata.Groupname,
+                        '00:00:30', postdata.Groupname,
                         function (err) {
                         }, function () {
-                            res.redirect('/group?groupname=' + postdata.Groupname);
+                            res.redirect(encodeURI('/group?groupname=' + postdata.Groupname));
                         })
                 });
         });
@@ -60,7 +60,8 @@ function checkfield(req, entries, cberror, cbsuccess) {
 }
 
 function setpostdata(req, entries, image, callback) {
-    var timenow = moment(new Date()).format("YYYY-MM-DD HH:mm:ss");
+    var timenow = moment().format("YYYY-MM-DD HH:mm:ss");
+    var rollback = entries.fields.allowrollback == 'on';
     var post = {
         Groupname: entries.fields.id,
         Genre: entries.fields.genre,
@@ -71,7 +72,7 @@ function setpostdata(req, entries, image, callback) {
         WriterLimit: entries.fields.writerlimit,
         CurrentNode: null,
         Finished: false,
-        AllowRollback: entries.fields.allowrollback,
+        AllowRollback: rollback,
         GroupImageURL: image,
         createtime: timenow,
         writerchanged: false,
