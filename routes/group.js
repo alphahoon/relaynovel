@@ -100,7 +100,7 @@ router.post('/read', function (req, res, next) {
     'select Node.*, User.Nickname, User.Profilepic from Node left join User on User.userid = Node.writer where Node.NodeID = (SELECT CurrentNode from RenoGroup where Groupname='
     + db.mysql.escape(groupname) + ')',
     function (err, rows) {
-      if (rows) {
+      if (rows&&rows[0]) {
         recursiveRead(rows[0], function (result) {
           result.push(rows[0]);
           res.send(result.splice(req.body.start, req.body.num));
