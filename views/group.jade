@@ -69,10 +69,8 @@ block contents
               a.btn-large.waves-effect.waves-light.blue(href='/group/bewriter?groupname='+groupdata.Groupname, style="width:100%; margin-bottom: 10px;") 작가되기
             .col.s12.m4
               a.btn-large.waves-effect.waves-light.red(href='/group/exit?groupname='+groupdata.Groupname, style="width:100%; margin-bottom: 10px;") 탈퇴
-    .row
-      br
-      hr
-      br
+    hr
+    //- Rules
     .row
       h5.teal-text.text-darken-1(style="font-weight:bold;") 그룹 규칙
       .col.s12.m4(style="padding=20px; margin-bottom: 10px;")
@@ -90,30 +88,64 @@ block contents
           strong 글자 수 제한
           br
           span.teal-text 100-250
+    hr
+    //- Read Module
     .row
-      br
-      hr
-      br
-  
-  //- Read Module
-  .container.box-lg(style='text-align:center;')
+      h5.teal-text.text-darken-1(style="font-weight:bold;") 소설 읽기
+      .row(style="text-align: right; padding-right: 20px;")
+        a.btn.waves-effect.waves-light.teal.lighten-1(href="#!") 히스토리
+      .row
+        .col.s12
+          .card.grey.lighten-3
+            .card-content.grey-text.text-darken-3(style="text-align: left;")
+              .row(style="margin-bottom: 20px;")
+                p Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc elit magna, tincidunt quis nisl id, venenatis tincidunt ligula. Morbi sit amet consectetur ligula. Aliquam ac risus enim. Mauris scelerisque odio vel purus luctus, at eleifend augue porttitor. Phasellus malesuada efficitur elit, id congue nisi ultricies eu. Praesent pulvinar nisl eget venenatis lobortis. Duis mauris diam, fermentum nec quam ut, vestibulum viverra mauris. Sed consequat nibh et porta eleifend. Aliquam erat volutpat. Nulla id nulla nisi. In facilisis neque ut sem malesuada, eget pulvinar odio cursus. Duis scelerisque ipsum eget elit eleifend imperdiet. Nam venenatis nunc et felis volutpat tincidunt. Cras nec enim nibh. Nam a augue id lorem iaculis malesuada at vitae nisl.
+              .row(style="text-align: right; padding-right: 20px;")
+                img.circle.profile(src="userimages/empty_user.gif", onerror="this.src='image_404.png'", style="width:50px; height:50px; clear:left;")
+                .teal-text(style="float:right; margin-left: 20px;")
+                  strong User.Nickname
+                  br
+                  | 2016-XX-XX 
+      .row
+        .col.s12
+          .card.grey.lighten-3
+            .card-content.grey-text.text-darken-3(style="text-align: left;")
+              .row(style="margin-bottom: 20px;")
+                p Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc elit magna, tincidunt quis nisl id, venenatis tincidunt ligula. Morbi sit amet consectetur ligula. Aliquam ac risus enim. Mauris scelerisque odio vel purus luctus, at eleifend augue porttitor. Phasellus malesuada efficitur elit, id congue nisi ultricies eu. Praesent pulvinar nisl eget venenatis lobortis. Duis mauris diam, fermentum nec quam ut, vestibulum viverra mauris. Sed consequat nibh et porta eleifend. Aliquam erat volutpat. Nulla id nulla nisi. In facilisis neque ut sem malesuada, eget pulvinar odio cursus. Duis scelerisque ipsum eget elit eleifend imperdiet. Nam venenatis nunc et felis volutpat tincidunt. Cras nec enim nibh. Nam a augue id lorem iaculis malesuada at vitae nisl.
+              .row(style="text-align: right; padding-right: 20px;")
+                img.circle.profile(src="userimages/empty_user.gif", onerror="this.src='image_404.png'", style="width:50px; height:50px; clear:left;")
+                .teal-text(style="float:right; margin-left: 20px;")
+                  strong User.Nickname
+                  br
+                  | 2016-XX-XX 
+      .row
+        .col.s12
+          .card.grey.lighten-3
+            .card-content.grey-text.text-darken-3(style="text-align: left;")
+              .row(style="margin-bottom: 20px;")
+                p Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc elit magna, tincidunt quis nisl id, venenatis tincidunt ligula. Morbi sit amet consectetur ligula. Aliquam ac risus enim. Mauris scelerisque odio vel purus luctus, at eleifend augue porttitor. Phasellus malesuada efficitur elit, id congue nisi ultricies eu. Praesent pulvinar nisl eget venenatis lobortis. Duis mauris diam, fermentum nec quam ut, vestibulum viverra mauris. Sed consequat nibh et porta eleifend. Aliquam erat volutpat. Nulla id nulla nisi. In facilisis neque ut sem malesuada, eget pulvinar odio cursus. Duis scelerisque ipsum eget elit eleifend imperdiet. Nam venenatis nunc et felis volutpat tincidunt. Cras nec enim nibh. Nam a augue id lorem iaculis malesuada at vitae nisl.
+              .row(style="text-align: right; padding-right: 20px;")
+                img.circle.profile(src="userimages/empty_user.gif", onerror="this.src='image_404.png'", style="width:50px; height:50px; clear:left;")
+                .teal-text(style="float:right; margin-left: 20px;")
+                  strong User.Nickname
+                  br
+                  | 2016-XX-XX
+                
+    hr
+    //- Write Module
     .row
+      h5.teal-text.text-darken-1(style="font-weight:bold;") 작성하기
       form.col.s12(action='/group/write?groupname='+groupdata.Groupname, method='post')
         .row
           .input-field.col.s12
-            textarea#writearea.materialize-textarea(name='writearea')
+            i.material-icons.prefix mode_edit
+            textarea#writearea.materialize-textarea(name='writearea', length='250')
             label(for='writearea') 소설 작성란
-            button.btn-large.waves-effect.waves-light.teal(type='submit', style="width:100%;") 소설 제출
-            
-  //- Write Module
-  .container.box-lg(style='text-align:center;')
+          button.btn-large.waves-effect.waves-light.teal(type='submit', style="width:100%; max-width: 200px;") 소설 제출
+    hr
     .row
-      form.col.s12(action='/group/write?groupname='+groupdata.Groupname, method='post')
-        .row
-          .input-field.col.s12
-            textarea#writearea.materialize-textarea(name='writearea')
-            label(for='writearea') 소설 작성란
-            button.btn-large.waves-effect.waves-light.teal(type='submit', style="width:100%;") 소설 제출
+      h5.teal-text.text-darken-1(style="font-weight:bold;") 진행중인 투표
+    
 
     
 block contents-footer

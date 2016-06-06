@@ -96,15 +96,15 @@ html(lang='ko')
       if session && session.logined 
         .container
           .row
-            .col.l6.s12
-              h5.white-text KAIST CS350
-              p.grey-text.text-lighten-4
-                | Lorem ipsum blah blah ...
-            .col.l3.s12
-              h5.white-text 오늘의 베스트 
+            .col.s12.m6
+              h5.white-text 
+                i.material-icons thumb_up
+                |  오늘의 베스트
               ul#bestgroups
-            .col.l3.s12
-              h5.white-text 최근 업데이트
+            .col.s12.m6
+              h5.white-text 
+                i.material-icons recent_actors
+                |  최근 업데이트
               ul#recentgroups
         script(type='text/javascript', src='viewjs/loadlayouturl.js')
         script(type='text/javascript').
@@ -112,9 +112,9 @@ html(lang='ko')
       // footer for user end
       // footer for guest start
       .footer-copyright.teal.darken-2
-        .container
+        .container(style="text-align:right;")
           | Made by 
-          span.orange-text.text-lighten-2(href='#') Team Fossil
+          span.orange-text.text-lighten-2(href='#') KAIST 350 Team Fossil
       // footer for guest end
     // footer end
   block afterload-script
