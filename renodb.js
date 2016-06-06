@@ -3,6 +3,24 @@ var moment = require('moment');
 
 //cberror : function(err)
 //cbsuccess : function()
+function joinGroup(groupname, userid, iswriter, cberror, cbsuccess) {
+    var delwriter = iswriter?'+1':'+0';
+    var delreader = '+1';
+    db.connection.query('insert into JoinGroup set Groupname = '
+        + db.mysql.escape(groupname)
+        + ', isWriter = ' + iswriter + ', userid = '
+        + db.mysql.escape(userid),
+        function (err) {
+            if (err) cberror(err);
+            else setWritersReaders(groupname, delwriter, delreader,
+                function (err) {
+                    cberror(err);
+                }, function () {
+                    cbsuccess();
+                });
+        });
+}
+
 function beWriter(groupname, userid, cberror, cbsuccess) {
     db.connection.query('update JoinGroup set isWriter = true where Groupname = '
         + db.mysql.escape(groupname)
@@ -10,7 +28,7 @@ function beWriter(groupname, userid, cberror, cbsuccess) {
         + db.mysql.escape(userid),
         function (err) {
             if (err) cberror(err);
-            else setWritersReaders(groupname, '+1', '-1',
+            else setWritersReaders(groupname, '+1', '+0',
                 function (err) {
                     cberror(err);
                 }, function () {
@@ -25,7 +43,7 @@ function beReader(groupname, userid, cberror, cbsuccess) {
         + db.mysql.escape(userid),
         function (err) {
             if (err) cberror(err);
-            else setWritersReaders(groupname, '-1', '+1',
+            else setWritersReaders(groupname, '-1', '+0',
                 function (err) {
                     cberror(err);
                 }, function () {
@@ -33,7 +51,31 @@ function beReader(groupname, userid, cberror, cbsuccess) {
                 });
         });
 }
+function exitGroup(groupname, userid, cberror, cbsuccess) {
+    db.connection.query('select isWriter from JoinGroup where Groupname = '
+        + db.mysql.escape(groupname)
+        + ' and userid = '
+        + db.mysql.escape(userid),
+        function(err, rows) {
+            if (rows) {
+                var delwriter = rows[0].isWriter ? '-1' : '+0';
 
+                db.connection.query('delete from JoinGroup where Groupname = '
+                    + db.mysql.escape(groupname)
+                    + ' and userid = '
+                    + db.mysql.escape(userid),
+                    function(err) {
+                        if (err) cberror(err);
+                        else setWritersReaders(groupname, delwriter, '-1',
+                            function(err) {
+                                cberror(err);
+                            }, function() {
+                                cbsuccess();
+                            });
+                    });
+            }
+        });
+}
 function setWritersReaders(groupname, deltawriters, deltareaders, cberror, cbsuccess) {
     db.connection.query('update RenoGroup '
         + 'set writers = writers' + deltawriters
@@ -177,5 +219,7 @@ module.exports = {
     beWriter: beWriter,
     setWriterTimer : setWriterTimer,
     submitContent : submitContent,
-    setNewWriter : setNewWriter
+    setNewWriter : setNewWriter,
+    exitGroup : exitGroup,
+    joinGroup : joinGroup
 }

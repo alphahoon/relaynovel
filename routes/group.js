@@ -7,27 +7,22 @@ var fs = require('fs');
 
 ///////////////////////// Change Role ////////////////////////////////
 router.get('/joinreader', function (req, res, next) {
-  db.connection.query('insert into JoinGroup set Groupname = '
-    + db.mysql.escape(req.query.groupname)
-    + ', isWriter = false, userid = '
-    + db.mysql.escape(req.session.user_id),
-    function (err) {
-      res.redirect(encodeURI('/group?groupname=' + req.query.groupname));
-    });
+  renodb.joinGroup(req.query.groupname, req.session.user_id, false, function (err) {
+    res.redirect(encodeURI('/group?groupname=' + req.query.groupname));
+  }, function () {
+    res.redirect(encodeURI('/group?groupname=' + req.query.groupname));
+  });
 });
 router.get('/joinwriter', function (req, res, next) {
-  db.connection.query('insert into JoinGroup set Groupname = '
-    + db.mysql.escape(req.query.groupname)
-    + ', isWriter = true, userid = '
-    + db.mysql.escape(req.session.user_id),
-    function (err) {
-      res.redirect(encodeURI('/group?groupname=' + req.query.groupname));
-    });
+  renodb.joinGroup(req.query.groupname, req.session.user_id, true, function (err) {
+    res.redirect(encodeURI('/group?groupname=' + req.query.groupname));
+  }, function () {
+    res.redirect(encodeURI('/group?groupname=' + req.query.groupname));
+  });
 });
 router.get('/bereader', function (req, res, next) {
   renodb.beReader(req.query.groupname, req.session.user_id,
     function (err) {
-      console.log("beReader Error");
       res.redirect(encodeURI('/group?groupname=' + req.query.groupname));
     }, function () {
       res.redirect(encodeURI('/group?groupname=' + req.query.groupname));
@@ -36,7 +31,6 @@ router.get('/bereader', function (req, res, next) {
 router.get('/bewriter', function (req, res, next) {
   renodb.beWriter(req.query.groupname, req.session.user_id,
     function (err) {
-      console.log("beWriter Error");
       res.redirect(encodeURI('/group?groupname=' + req.query.groupname));
     }, function () {
       res.redirect(encodeURI('/group?groupname=' + req.query.groupname));
@@ -50,13 +44,11 @@ router.get('/bewriter', function (req, res, next) {
   //   });
 });
 router.get('/exit', function (req, res, next) {
-  db.connection.query('delete from JoinGroup where Groupname = '
-    + db.mysql.escape(req.query.groupname)
-    + ' and userid = '
-    + db.mysql.escape(req.session.user_id),
-    function (err) {
-      res.redirect(encodeURI('/group?groupname=' + req.query.groupname));
-    });
+  renodb.exitGroup(req.query.groupname, req.session.user_id, function (err) {
+    res.redirect(encodeURI('/group?groupname=' + req.query.groupname));
+  }, function () {
+    res.redirect(encodeURI('/group?groupname=' + req.query.groupname));
+  });
 });
 
 ///////////////////////// Post Write ////////////////////////////////
@@ -64,8 +56,11 @@ router.post('/write', function (req, res, next) {
   // req.body.writearea 이용
   // userid : req.session.user_id
   // Groupname : req.query.groupname
-
-  res.redirect(encodeURI('/group?groupname=' + req.query.groupname));
+  renodb.submitContent(req.body.writearea, req.session.user_id, req.query.groupname, function (err) {
+    res.redirect(encodeURI('/group?groupname=' + req.query.groupname));
+  }, function (nodeid) {
+    res.redirect(encodeURI('/group?groupname=' + req.query.groupname + '&nodeid=' + nodeid));
+  });
 });
 
 ///////////////////////// Reading Nodes ////////////////////////////////
@@ -98,7 +93,11 @@ router.post('/read', function (req, res, next) {
         if (rows && rows[0]) {
           recursiveRead(rows[0], function (result) {
             result.push(rows[0]);
-            res.send(result.splice(req.body.start, req.body.num));
+            result = result.splice(req.body.start, req.body.num);
+            for (var i = 0; i < result.length; i++) {
+              result[i].TimeWritten = moment(result[i].TimeWritten).format('YYYY-MM-DD HH:mm:ss');
+            }
+            res.send(result);
           });
         }
       });
@@ -112,7 +111,11 @@ router.post('/read', function (req, res, next) {
           if (rows[0].Groupname == groupname) {
             recursiveRead(rows[0], function (result) {
               result.push(rows[0]);
-              res.send(result.splice(req.body.start, req.body.num));
+              result = result.splice(req.body.start, req.body.num);
+              for (var i = 0; i < result.length; i++) {
+                result[i].TimeWritten = moment(result[i].TimeWritten).format('YYYY-MM-DD HH:mm:ss');
+              }
+              res.send(result);
             });
           }
         }
