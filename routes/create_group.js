@@ -31,7 +31,7 @@ router.post('/', function (req, res, next) {
                 + db.mysql.escape(req.session.user_id),
                 function (err) {
                     if (err) console.log(err);
-                    else renodb.setWriterTimer(postdata.Groupname.replace(/[^a-zA-Z0-9]+/g, '') + "TurnEvent", postdata.createtime,
+                    else renodb.setWriterTimer(postdata.Groupname + "TurnEvent", postdata.createtime,
                         postdata.WriteLimit, postdata.Groupname,
                         function (err) {
                             console.log(err);
@@ -48,6 +48,8 @@ function checkfield(req, entries, cberror, cbsuccess) {
         entries.fields.lenmin && entries.fields.lenmax && entries.fields.allowrollback &&
         entries.fields.lenmax))
         cberror('필드를 다 채우세요.');
+    else if (entries.fields.id.match(/[^ㄱ-ㅎ가-힣a-zA-Z0-9]+$/g))
+        cberror('그룹이름에는 특수문자와 공백을 사용할 수 없습니다');
     else if (entries.fields.id.length < 4 || entries.fields.id.length > 20)
         cberror('그룹이름은 4~20자 이내로 작성 바랍니다.');
     else if (parseInt(entries.fields.lenmin) > parseInt(entries.fields.lenmax))

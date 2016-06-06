@@ -131,7 +131,7 @@ function submitContent(content, writer, groupname, cberror, cbsuccess) {
                             function (err) {
                                 cberror(err);
                             }, function () {
-                                cbsuccess();
+                                cbsuccess(nodevalues.NodeID);
                             });                        
                     }                    
                 });
