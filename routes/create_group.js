@@ -12,17 +12,9 @@ router.get('/', function (req, res, next) {
     res.render('create_group', { session: req.session });
 });
 
-String.prototype.hashCode = function() {
-  var hash = 0, i, chr, len;
-  if (this.length === 0) return hash;
-  for (i = 0, len = this.length; i < len; i++) {
-    chr   = this.charCodeAt(i);
-    hash  = ((hash << 5) - hash) + chr;
-    hash |= 0; // Convert to 32bit integer
-  }
-  return hash;
-};
 router.post('/', function (req, res, next) {
+    if (!req.session.logined)
+        res.redirect('/');
     form.handle_req(req, checkfield,
         'groupimages/',
         null,
@@ -39,7 +31,7 @@ router.post('/', function (req, res, next) {
                 + db.mysql.escape(req.session.user_id),
                 function (err) {
                     if (err) console.log(err);
-                    else renodb.setWriterTimer("Event" + postdata.Groupname.hashCode() + "Turn", postdata.createtime,
+                    else renodb.setWriterTimer(postdata.Groupname + "TurnEvent", postdata.createtime,
                         postdata.WriteLimit, postdata.Groupname,
                         function (err) {
                             console.log(err);
@@ -56,6 +48,8 @@ function checkfield(req, entries, cberror, cbsuccess) {
         entries.fields.lenmin && entries.fields.lenmax && entries.fields.allowrollback &&
         entries.fields.lenmax))
         cberror('필드를 다 채우세요.');
+    else if (entries.fields.id.match(/[^ㄱ-ㅎ가-힣a-zA-Z0-9]+$/g))
+        cberror('그룹이름에는 특수문자와 공백을 사용할 수 없습니다');
     else if (entries.fields.id.length < 4 || entries.fields.id.length > 20)
         cberror('그룹이름은 4~20자 이내로 작성 바랍니다.');
     else if (parseInt(entries.fields.lenmin) > parseInt(entries.fields.lenmax))

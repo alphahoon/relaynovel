@@ -34,6 +34,8 @@ function checkfield(req, entries, cberror, cbsuccess) {
         cberror('패스워드가 일치하지 않습니다.');
     else if (entries.fields.id.length < 4 || entries.fields.id.length > 16)
         cberror('ID는 4~16자 이내로 작성 바랍니다.');
+    else if (entries.fields.id.match(/[^a-zA-Z0-9]+/g))
+        cberror('ID에는 특수문자와 공백을 사용할 수 없습니다');
     else if (entries.fields.name.length < 4 || entries.fields.name.length > 16)
         cberror('닉네임은 4~16자 이내로 작성 바랍니다.');
     else {

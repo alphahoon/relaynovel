@@ -37,6 +37,8 @@ function showpage(req, res, pageerror) {
 }
 
 router.post('/', function (req, res, next) {
+    if (!req.session.logined)
+        res.redirect('/');
   form.handle_req(req, checkfield,
     'userimages/',
     req.session.user_id,

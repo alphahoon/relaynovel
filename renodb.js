@@ -131,7 +131,7 @@ function submitContent(content, writer, groupname, cberror, cbsuccess) {
                             function (err) {
                                 cberror(err);
                             }, function () {
-                                cbsuccess();
+                                cbsuccess(nodevalues.NodeID);
                             });                        
                     }                    
                 });
@@ -213,6 +213,61 @@ function setWriterTimer(timername, groupcreationtime, writelimit, groupname, cbe
         }); 
 }
 
+function setVoteTimer (timername, VoteID, VoteStart, VoteLimit, cberror, cbsuccess) {
+    db.connection.query("CREATE EVENT " + timername + " ON SCHEDULE AT (ADDTIME('" + VoteStart + "', '"+VoteLimit +"')) "+
+    "DO BEGIN "+
+        "DECLARE vote_type varchar(45);"+
+        "DECLARE vote_yes INTEGER;"+
+        "DECLARE count_members INTEGER;"+
+        "DECLARE current_vote INTEGER;"+
+        "DECLARE group_name varchar(45);"+
+        "DECLARE current_node varchar(45);"+
+        "DECLARE modify_node varchar(45);"+
+        "SET current_vote = "+VoteID+";"+
+        "SET group_name = (SELECT Group_GroupId FROM Vote where VoteID = current_vote);"+
+        "SET count_members = (SELECT Count(*) FROM JoinGroup WHERE Groupname=group_name);"+
+        "SET current_node = (SELECT NodeID FROM Vote where VoteID = current_vote);"+
+        "SET vote_yes = (Select Count(*) from Voting where Vote_VoteID = current_vote AND Vote_Value='yes');"+
+        "SET modify_node = (SELECT ModifyNode FROM Vote where VoteID = current_vote);"+
+        "SET vote_type = (SELECT Votetype FROM Vote where VoteID = current_vote);"+
+        "update Vote set VoteStatus = 0 where VoteID = current_vote;"+
+        "IF (vote_type = 'add') "+
+        "THEN "+
+            "IF (vote_yes >= count_members*0.5) "+
+            "THEN "+					
+                "UPDATE RenoGroup set CurrentNode = current_node where Groupname = group_name;"+
+                "UPDATE Node set vote_status = 'approve' where NodeID = current_node;"+
+            "ELSE "+
+                "UPDATE Node set vote_status = 'inactive' where NodeID = current_node;"+
+            "END IF;"+
+        "ELSEIF (vote_type = 'rollback' or vote_type = 'complete') "+
+        "THEN "+
+            "IF (vote_yes >= count_members*0.75) "+
+            "THEN "+
+                "UPDATE RenoGroup set CurrentNode = current_node where Groupname = group_name;"+
+                "UPDATE Node set vote_status = 'approve' where NodeID = current_node;"+
+                "IF (vote_type = 'complete') "+
+                "THEN "+
+                    "UPDATE RenoGroup set Finished = 1 where Groupname = group_name;"+
+                    "UPDATE Vote SET VoteStatus = 0 where Group_GroupId = group_name;"+
+                "END IF;"+
+            "ELSE "+
+                "UPDATE Node set vote_status = 'inactive' where NodeID = current_node;"+                    
+            "END IF;"+
+        "ELSEIF (vote_type = 'change') "+
+        "THEN "+
+            "IF (vote_yes >= count_members/2) "+
+            "THEN "+
+                "UPDATE Node set Content=(SELECT * FROM (SELECT Content from Node where NodeID=modify_node) Node) where NodeID=current_node;"+
+            "END IF;"+
+            "DELETE from Node where NodeID=current_node;"+
+        "END IF;"+
+    "END",
+        function (err) {
+            if (err) cberror(err);
+            else cbsuccess();
+        });
+}
 
 module.exports = {
     beReader: beReader,
@@ -221,5 +276,6 @@ module.exports = {
     submitContent : submitContent,
     setNewWriter : setNewWriter,
     exitGroup : exitGroup,
-    joinGroup : joinGroup
+    joinGroup : joinGroup,
+    setVoteTimer : setVoteTimer
 }
