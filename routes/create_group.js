@@ -12,6 +12,16 @@ router.get('/', function (req, res, next) {
     res.render('create_group', { session: req.session });
 });
 
+String.prototype.hashCode = function() {
+  var hash = 0, i, chr, len;
+  if (this.length === 0) return hash;
+  for (i = 0, len = this.length; i < len; i++) {
+    chr   = this.charCodeAt(i);
+    hash  = ((hash << 5) - hash) + chr;
+    hash |= 0; // Convert to 32bit integer
+  }
+  return hash;
+};
 router.post('/', function (req, res, next) {
     form.handle_req(req, checkfield,
         'groupimages/',
@@ -29,10 +39,10 @@ router.post('/', function (req, res, next) {
                 + db.mysql.escape(req.session.user_id),
                 function (err) {
                     if (err) console.log(err);
-                    else renodb.setWriterTimer(postdata.Groupname + "TurnEvent", postdata.createtime,
+                    else renodb.setWriterTimer("Event" + postdata.Groupname.hashCode() + "Turn", postdata.createtime,
                         postdata.WriteLimit, postdata.Groupname,
                         function (err) {
-                            console.log(setWriterTimer);
+                            console.log(err);
                         }, function () {
                             res.redirect(encodeURI('/group?groupname=' + postdata.Groupname));
                         })
