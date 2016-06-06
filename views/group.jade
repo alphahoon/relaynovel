@@ -15,7 +15,7 @@ block contents
       strong
         span.grey-text.text-darken-3 Since 
         span.teal-text= moment(groupdata.createtime).format("YYYY-MM-DD")
-        span.grey-text.text-darken-3  / Made by 
+        span.grey-text.text-darken-3  / Created by 
         span.teal-text= (groupdata.creator)
         br
         span.grey-text.text-darken-3 장르 : 
@@ -106,6 +106,10 @@ block contents
                   strong User.Nickname
                   br
                   | 2016-XX-XX 
+              .row(style="text-align: right;")
+                  a.btn.btn-small.waves-effect.waves-light.blue.darken-1(href="#!", style="margin-right:5px;") 수정
+                  a.btn.btn-small.waves-effect.waves-light.orange.darken-1(href="#!", style="margin-right:5px;") 롤백
+                  a.btn.btn-small.waves-effect.waves-light.red.darken-1(href="#!") 신고
       .row
         .col.s12
           .card.grey.lighten-3
@@ -118,6 +122,10 @@ block contents
                   strong User.Nickname
                   br
                   | 2016-XX-XX 
+              .row(style="text-align: right;")
+                  a.btn.btn-small.waves-effect.waves-light.blue.darken-1(href="#!", style="margin-right:5px;") 수정
+                  a.btn.btn-small.waves-effect.waves-light.orange.darken-1(href="#!", style="margin-right:5px;") 롤백
+                  a.btn.btn-small.waves-effect.waves-light.red.darken-1(href="#!") 신고
       .row
         .col.s12
           .card.grey.lighten-3
@@ -130,13 +138,17 @@ block contents
                   strong User.Nickname
                   br
                   | 2016-XX-XX
+              .row(style="text-align: right;")
+                  a.btn.btn-small.waves-effect.waves-light.blue.darken-1(href="#!", style="margin-right:5px;") 수정
+                  a.btn.btn-small.waves-effect.waves-light.orange.darken-1(href="#!", style="margin-right:5px;") 롤백
+                  a.btn.btn-small.waves-effect.waves-light.red.darken-1(href="#!") 신고
     //- Write Module 접속자가 작성 turn 일때만 글쓰기 form이 보여야 함
     .row
       h5.blue-text.text-darken-1(style="font-weight:bold;") 당신의 작성 차례입니다!
-      form.col.s12(action='/group/write?groupname='+groupdata.Groupname, method='post')
-        .row
-          textarea#writearea.materialize-textarea.z-depth-2(name='writearea', placeholder='여기에 작성해 주세요!', style="border: 1px solid lightgrey; clear: both; background-color: #eeeeee; font-size: 1.1em; width:100%; min-height: 100px; max-width: 800px; padding: 30px;")
-        .row
+      form(action='/group/write?groupname='+groupdata.Groupname, method='post')
+        .col.s12
+          textarea.materialize-textarea#writearea(name='writearea', placeholder='여기에 작성해 주세요!', style="box-sizing:border-box; background-color: #eeeeee; border: 1px solid grey; padding-left: 10px; padding-right: 10px; min-height: 200px;")
+        .col.s12
           button.btn-large.waves-effect.waves-light.blue(type='submit', style="width:100%; max-width: 200px;") 단락 추가
     //- Write form end
     hr
