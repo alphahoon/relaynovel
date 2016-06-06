@@ -36,7 +36,7 @@ function handle_req(req, checkfield, imagefolder, imagename, emptyimagepath, set
                     else {
                         var query = db.connection.query(postquery, postdata, function (err) {
                             if (err) cberror(err);
-                            else cbsuccess(req, entries);
+                            else cbsuccess(req, entries, postdata);
                         });
                     }
                 });
