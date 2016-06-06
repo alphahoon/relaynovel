@@ -15,5 +15,5 @@ $("#upload_profile").change(function () {
 var control = $("#upload_profile");
 $("#delete_file").on("click", function () {
     control.replaceWith(control = control.clone(true));
-    $('#img_profile').attr('src', 'groupimages/empty_group.jpg');
+    $('#img_profile').attr('src', 'groupimages/empty_group.png');
 });

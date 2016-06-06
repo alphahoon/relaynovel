@@ -26,7 +26,7 @@ block contents
         else
           span.green-text 연재 중
     .row(style="text-align:center;")
-      img.circle.profile#img_profile(src=groupdata.GroupImageURL, style="width:250px; height:250px;")
+      img.circle.profile.z-depth-2#img_profile(src=groupdata.GroupImageURL, onerror="this.src='/image_404.png'", style="width:250px; height:250px;")
     .row(style="text-align:center;")
       .col.s4
         h5.teal-text 독자
@@ -49,43 +49,43 @@ block contents
       .row
         if(!isjoin)
           .col.s12.m4
-            a.btn-large.waves-effect.waves-light(href='/group/joinreader?groupname='+groupdata.Groupname, style="width:100%") 독자되기
+            a.btn-large.waves-effect.waves-light(href='/group/joinreader?groupname='+groupdata.Groupname, style="width:100%; margin-bottom: 10px;") 독자되기
           .col.s12.m4
-            a.btn-large.waves-effect.waves-light.blue(href='/group/joinwriter?groupname='+groupdata.Groupname, style="width:100%") 작가되기
+            a.btn-large.waves-effect.waves-light.blue(href='/group/joinwriter?groupname='+groupdata.Groupname, style="width:100%; margin-bottom: 10px;") 작가되기
           .col.s12.m4
-            a.btn-large.disabled(style="width:100%") 탈퇴
+            a.btn-large.disabled(style="width:100%; margin-bottom: 10px;") 탈퇴
         else
           if(iswriter)
             .col.s12.m4
-              a.btn-large.waves-effect.waves-light(href='/group/bereader?groupname='+groupdata.Groupname, style="width:100%") 독자되기
+              a.btn-large.waves-effect.waves-light(href='/group/bereader?groupname='+groupdata.Groupname, style="width:100%; margin-bottom: 10px;") 독자되기
             .col.s12.m4
-              a.btn-large.disabled(style="width:100%") 작가되기
+              a.btn-large.disabled(style="width:100%; margin-bottom: 10px;") 작가되기
             .col.s12.m4
-              a.btn-large.waves-effect.waves-light.red(href='/group/exit?groupname='+groupdata.Groupname, style="width:100%") 탈퇴
+              a.btn-large.waves-effect.waves-light.red(href='/group/exit?groupname='+groupdata.Groupname, style="width:100%; margin-bottom: 10px;") 탈퇴
           else
             .col.s12.m4
-              a.btn-large.disabled(style="width:100%") 독자되기
+              a.btn-large.disabled(style="width:100%; margin-bottom: 10px;") 독자되기
             .col.s12.m4
-              a.btn-large.waves-effect.waves-light.blue(href='/group/bewriter?groupname='+groupdata.Groupname, style="width:100%") 작가되기
+              a.btn-large.waves-effect.waves-light.blue(href='/group/bewriter?groupname='+groupdata.Groupname, style="width:100%; margin-bottom: 10px;") 작가되기
             .col.s12.m4
-              a.btn-large.waves-effect.waves-light.red(href='/group/exit?groupname='+groupdata.Groupname, style="width:100%") 탈퇴
+              a.btn-large.waves-effect.waves-light.red(href='/group/exit?groupname='+groupdata.Groupname, style="width:100%; margin-bottom: 10px;") 탈퇴
     .row
       br
       hr
       br
     .row
       h5.teal-text.text-darken-1(style="font-weight:bold;") 그룹 규칙
-      .col.s12.m4(style="padding=20px;")
+      .col.s12.m4(style="padding=20px; margin-bottom: 10px;")
         .rule-card.grey.lighten-3
           strong 작성 제한 시간
           br
           span.teal-text #{groupdata.WriteLimit}
-      .col.s12.m4(style="padding=20px;")
+      .col.s12.m4(style="padding=20px; margin-bottom: 10px;")
         .rule-card.grey.lighten-3
           strong 투표 제한 시간
           br
           span.teal-text #{groupdata.VoteLimit}
-      .col.s12.m4(style="padding=20px;")
+      .col.s12.m4(style="padding=20px; margin-bottom: 10px;")
         .rule-card.grey.lighten-3
           strong 글자 수 제한
           br

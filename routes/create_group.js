@@ -15,7 +15,7 @@ router.post('/', function (req, res, next) {
     form.handle_req(req, checkfield,
         'groupimages/',
         null,
-        'groupimages/empty_group.jpg',
+        'groupimages/empty_group.png',
         setpostdata,
         'INSERT INTO RenoGroup SET ?',
         function (err) {

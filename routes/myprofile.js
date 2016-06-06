@@ -40,7 +40,7 @@ router.post('/', function (req, res, next) {
   form.handle_req(req, checkfield,
     'userimages/',
     req.session.user_id,
-    'userimages/empty_user.jpg',
+    'userimages/empty_user.gif',
     setpostdata,
     'update User set ? where userid=' + db.mysql.escape(req.session.user_id),
     function (err) {
@@ -122,7 +122,7 @@ function setpostdata(req, entries, imagepath, callback) {
 //               if (entries.fields.pswd1=="") password = rows[0].Password;
 //               else password = entries.fields.pswd1;
 //               var profile_pic;
-//               if (rows[0].Profilepic != 'userimages/empty_user.jpg') fs.unlinkSync(__dirname + '/../public/'+rows[0].Profilepic);
+//               if (rows[0].Profilepic != 'userimages/empty_user.gif') fs.unlinkSync(__dirname + '/../public/'+rows[0].Profilepic);
 //               if (entries.file.profile.name) {
 //                 console.log(rows[0].userid);
 //                 console.log(entries.file.profile.path);
@@ -130,7 +130,7 @@ function setpostdata(req, entries, imagepath, callback) {
 //                   fs.rename(entries.file.profile.path, new_path);
 //                   profile_pic = 'userimages/' + rows[0].userid + path.extname(entries.file.profile.path);
 //               }
-//               else profile_pic = "userimages/empty_user.jpg";
+//               else profile_pic = "userimages/empty_user.gif";
 //               console.log(profile_pic);
 //               var query = db.connection.query(
 //                 'update User set Nickname = ' + db.mysql.escape(entries.fields.name) + ', Password = ' + db.mysql.escape(password) + ', Profilepic = ' + db.mysql.escape(profile_pic) + 'where userid= ' + db.mysql.escape(rows[0].userid),
