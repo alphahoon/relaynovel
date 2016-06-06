@@ -3,6 +3,7 @@ var router = express.Router();
 var db = require('../database.js');
 var renodb = require('../renodb.js');
 var moment = require('moment');
+var fs = require('fs');
 
 ///////////////////////// Change Role ////////////////////////////////
 router.get('/joinreader', function (req, res, next) {
@@ -75,11 +76,51 @@ router.post('/write', function (req, res, next) {
 });
 
 ///////////////////////// Reading Nodes ////////////////////////////////
-router.post('/read', function (req, res, next) {
-  // req.body.writearea 이용
-  // userid : req.session.user_id
-  // Groupname : req.query.groupname
+function recursiveRead(curnode, callback) {
+  if(ParentNode == null){
+    var result = new Array();
+    result.push(curnode.Content);
+    callback(null, result);
+  }
+  else db.connection.query(
+    'select Content, ParentNode from Node where NodeID = '
+    + db.mysql.escape(curnode.ParentNode),
+    function (err, rows) {
+      if (rows) {
+        var curnode = rows[0].CurrentNode;
+        recursiveRead(curnode, function(){
+        });
+      }
+    });
+}
 
+router.post('/read', function (req, res, next) {
+  // var groupname = req.body.senddata;
+  // db.connection.query(
+  //   'SELECT CurrentNode from RenoGroup where Groupname='
+  //   + db.mysql.escape(groupname),
+  //   function (err, rows) {
+  //     if (rows) {
+  //       var curnode = rows[0].CurrentNode;
+        
+  //     }
+  //   });
+  var data = {
+    text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc elit magna, tincidunt quis nisl id, venenatis tincidunt ligula. Morbi sit amet consectetur ligula. Aliquam ac risus enim. Mauris scelerisque odio vel purus luctus, at eleifend augue porttitor. Phasellus malesuada efficitur elit, id congue nisi ultricies eu. Praesent pulvinar nisl eget venenatis lobortis. Duis mauris diam, fermentum nec quam ut, vestibulum viverra mauris. Sed consequat nibh et porta eleifend. Aliquam erat volutpat. Nulla id nulla nisi. In facilisis neque ut sem malesuada, eget pulvinar odio cursus. Duis scelerisque ipsum eget elit eleifend imperdiet. Nam venenatis nunc et felis volutpat tincidunt. Cras nec enim nibh. Nam a augue id lorem iaculis malesuada at vitae nisl.',
+    Profilepic: 'userimages/empty_user.gif',
+    Nickname: 'User_NickName',
+    TimeWritten: '2016-XX-XX'
+  };
+  var rows = [data, data, data, data, data, data, data, data, data, data];
+  res.send(rows);
+});
+router.get('/readnode', function (req, res, next) {
+  fs.readFile(__dirname + '/../public/fakehtmls/readnode.html', 'utf8', function (err, data) {
+    if (err) {
+      return console.log(err);
+    }
+    res.send(data);
+  });
 });
 
 /* GET home page. */
