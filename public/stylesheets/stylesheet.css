@@ -113,3 +113,9 @@ div .box-lg {
   padding: 20px;
   min-height: 60px;
 }
+
+hr {
+  border: 1px solid lightgrey;
+  margin-top: 50px;
+  margin-bottom: 50px;
+}
