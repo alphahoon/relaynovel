@@ -43,7 +43,7 @@ block contents
       h6(style="text-align:center;") 현재 
         span.teal-text.text-darken-1 #{groupdata.writer}
         |  님이 작성 중입니다! (
-        span.teal-text.text-darken-1 #{remain_time}
+        span(style="color:#00897b")#tiktok #{remain_time}
         |  남음)
     form(action='/group', method='post', style='text-align:center;')
       .row
@@ -278,3 +278,15 @@ block afterload-script
     $( "#loadreadbutton" ).click(function() {
       loadmore('readnodes', numIncremental, '/group/read', '/group/readnode', '#{groupdata.Groupname}');
     });
+  script(type='text/javascript', src='viewjs/time2sec.js')
+  script(type='text/javascript').
+    var totalsec = time2sec('#{remain_time}');
+    setInterval(function (){
+      if(totalsec > 0){
+        totalsec = totalsec - 1;
+        $('span#tiktok').text(sec2time(totalsec));
+      }
+      else{
+        $('span#tiktok').css('color','red');
+      }
+    }, 1000);
