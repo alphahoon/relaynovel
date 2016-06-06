@@ -18,6 +18,7 @@ var profile = require('./routes/profile');
 var myprofile = require('./routes/myprofile');
 var group = require('./routes/group');
 var layout = require('./routes/layout');
+var history = require('./routes/history')
 // var test = require('./routes/test');
 
 var app = express();
@@ -52,6 +53,7 @@ app.use('/profile', profile);
 app.use('/myprofile', myprofile);
 app.use('/group', group);
 app.use('/layout', layout);
+app.use('/history', history);
 
 app.locals.moment = require('moment');
 // app.use('/test', test);

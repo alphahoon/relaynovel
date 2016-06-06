@@ -4,6 +4,41 @@ block title
 block preload-script
 block contents-header
 block contents
-  .container
+  .container.box-md(style="font-size: 1em;")
+    .row
+      h4.teal-text.text-lighten-1(style="text-align:center; font-weight:bold;") 히스토리
+    .row
+      .col.s2(style="text-align: center;")
+        a(href='#!', style="text-decoration: underline") Rev.1
+      .col.s10
+        span.teal-text
+          strong 단락 추가 
+        | by 
+        span.teal-text
+          strong User.Nickname 
+        | at 
+        span 2016-06-07 17:30:15
+    .row
+      .col.s2(style="text-align: center;")
+        a(href='#!', style="text-decoration: underline") Rev.2
+      .col.s10
+        span.teal-text
+          strong 단락 수정 
+        | by 
+        span.teal-text
+          strong User.Nickname 
+        | at 
+        span 2016-06-07 17:30:15
+    .row
+      .col.s2(style="text-align: center;")
+        a(href='#!', style="text-decoration: underline") Rev.3
+      .col.s10
+        span.teal-text
+          strong 롤백  
+        | by 
+        span.teal-text
+          strong User.Nickname 
+        | at 
+        span 2016-06-07 17:30:15
 block contents-footer
 block afterload-script
