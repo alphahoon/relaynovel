@@ -78,7 +78,7 @@ function recursiveRead(curnode, callback) {
     'select Node.*, User.Nickname, User.Profilepic from Node left join User on User.userid = Node.writer where Node.NodeID = '
     + db.mysql.escape(curnode.ParentNode),
     function (err, rows) {
-      if (rows&&rows[0]) {
+      if (rows && rows[0]) {
         recursiveRead(rows[0], function (result) {
           result.push(rows[0]);
           callback(result);
@@ -88,18 +88,36 @@ function recursiveRead(curnode, callback) {
 }
 
 router.post('/read', function (req, res, next) {
-  var groupname = req.body.senddata;
-  db.connection.query(
-    'select Node.*, User.Nickname, User.Profilepic from Node left join User on User.userid = Node.writer where Node.NodeID = (SELECT CurrentNode from RenoGroup where Groupname='
-    + db.mysql.escape(groupname) + ')',
-    function (err, rows) {
-      if (rows&&rows[0]) {
-        recursiveRead(rows[0], function (result) {
-          result.push(rows[0]);
-          res.send(result.splice(req.body.start, req.body.num));
-        });
-      }
-    });
+  var groupname = req.body.groupname;
+  var curid = req.body.nodeid;
+  if (curid == 'null') {
+    db.connection.query(
+      'select Node.*, User.Nickname, User.Profilepic from Node left join User on User.userid = Node.writer where Node.NodeID = (SELECT CurrentNode from RenoGroup where Groupname='
+      + db.mysql.escape(groupname) + ')',
+      function (err, rows) {
+        if (rows && rows[0]) {
+          recursiveRead(rows[0], function (result) {
+            result.push(rows[0]);
+            res.send(result.splice(req.body.start, req.body.num));
+          });
+        }
+      });
+  }
+  else {
+    db.connection.query(
+      'select Node.*, User.Nickname, User.Profilepic from Node left join User on User.userid = Node.writer where Node.NodeID='
+      + db.mysql.escape(curid),
+      function (err, rows) {
+        if (rows && rows[0]) {
+          if (rows[0].Groupname == groupname) {
+            recursiveRead(rows[0], function (result) {
+              result.push(rows[0]);
+              res.send(result.splice(req.body.start, req.body.num));
+            });
+          }
+        }
+      });
+  }
 });
 
 router.get('/readnode', function (req, res, next) {
@@ -121,6 +139,11 @@ router.get('/', function (req, res, next) {
 });
 
 function showpage(req, res, pageerror) {
+  var nodeid;
+  if (req.query.nodeid)
+    nodeid = req.query.nodeid;
+  else
+    nodeid = 'null';
   db.connection.query(
     'select * from JoinGroup where Groupname = ' + db.mysql.escape(req.query.groupname)
     + ' and userid = ' + db.mysql.escape(req.session.user_id),
@@ -153,7 +176,8 @@ function showpage(req, res, pageerror) {
                 message: pageerror,
                 remain_time: remain_time,
                 isjoin: isjoin,
-                iswriter: iswriter
+                iswriter: iswriter,
+                nodeid: nodeid
               });
             else
               res.render('group', {
@@ -161,7 +185,8 @@ function showpage(req, res, pageerror) {
                 groupdata: rows[0],
                 remain_time: remain_time,
                 isjoin: isjoin,
-                iswriter: iswriter
+                iswriter: iswriter,
+                nodeid: nodeid
               });
           }
           else {

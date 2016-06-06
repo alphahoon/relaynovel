@@ -6,14 +6,15 @@ function replaceAll(str, searchStr, replaceStr) {
 //-----------------------------------------------------------------------
 // 2) Send a http request with AJAX http://api.jquery.com/jQuery.ajax/
 //-----------------------------------------------------------------------
-function loadmore(divid, loadnum, url, htmlurl, senddata) {
+function loadmore(divid, loadnum, url, htmlurl, groupname, nodeid) {
     var div = document.getElementById(divid);
     $.ajax({
         url: url,                  //the script to call to get data          
         data: {
             start: nowIndex,
             num: loadnum,
-            senddata: senddata
+            groupname: groupname,
+            nodeid: nodeid
         },                        //you can insert url argumnets here to pass
         type: 'post',
         dataType: 'json',                //data format      

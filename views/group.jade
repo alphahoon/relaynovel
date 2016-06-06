@@ -274,9 +274,9 @@ block afterload-script
   script(type='text/javascript').
     var numInitialGroup = 3;
     var numIncremental = 4;
-    $(loadmore('readnodes', numInitialGroup, '/group/read', '/group/readnode', '#{groupdata.Groupname}'));
+    $(loadmore('readnodes', numInitialGroup, '/group/read', '/group/readnode', '#{groupdata.Groupname}', '#{nodeid}'));
     $( "#loadreadbutton" ).click(function() {
-      loadmore('readnodes', numIncremental, '/group/read', '/group/readnode', '#{groupdata.Groupname}');
+      loadmore('readnodes', numIncremental, '/group/read', '/group/readnode', '#{groupdata.Groupname}', '#{nodeid}');
     });
   script(type='text/javascript', src='viewjs/time2sec.js')
   script(type='text/javascript').

@@ -149,12 +149,12 @@ function setWriterTimer(timername, groupcreationtime, writelimit, groupname, cbe
 			"IF ((SELECT writerchanged FROM RenoGroup WHERE Groupname=group_name) = 1) "+
 			"THEN "+
 				"SET changetime = ADDTIME((SELECT writerchangetime FROM RenoGroup WHERE Groupname=group_name),(SELECT WriteLimit FROM RenoGroup WHERE Groupname=group_name));"+
-                "ALTER EVENT writer_group1 ON SCHEDULE AT changetime ENABLE;"+
+                "ALTER EVENT " + timername + " ON SCHEDULE AT changetime ENABLE;"+
 				"UPDATE RenoGroup SET writerchanged=0 WHERE Groupname=group_name;"+
 			"ELSE "+
 				"SET currenttime = NOW();"+
 				"SET changetime = ADDTIME(currenttime,(SELECT WriteLimit FROM RenoGroup WHERE Groupname=group_name));"+
-                "ALTER EVENT writer_group1 ON SCHEDULE AT changetime ENABLE;"+
+                "ALTER EVENT " + timername + " ON SCHEDULE AT changetime ENABLE;"+
                 "UPDATE RenoGroup SET writerchangetime=currenttime WHERE Groupname=group_name;"+
                 "IF ((SELECT count(userid) FROM JoinGroup WHERE Groupname=group_name AND isWriter=1) != 1) "+
                 "THEN "+
