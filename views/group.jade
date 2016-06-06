@@ -159,7 +159,6 @@ block afterload-script
   //- Write Module
   script(type='text/javascript').
     $('#writearea').trigger('autoresize');
-<<<<<<< HEAD
   //- script(type='text/javascript', src='viewjs/loadmoregroup.js')
   //- script(type='text/javascript').
   //-   var numInitialGroup = 5;
@@ -175,13 +174,3 @@ block afterload-script
   //-   $( "#loadmorebutton" ).click(function() {
   //-     loadmore('cgroup', numIncremental, '/dashboard/moregroup', grouphtml);
   //-   });
-=======
-  script(type='text/javascript', src='viewjs/loadmoregroup.js')
-  script(type='text/javascript').
-    var numInitialGroup = 8;
-    var numIncremental = 8;
-    $(loadmore('cgroup', numInitialGroup, '/dashboard/moregroup', grouphtml));
-    $( "#loadmorebutton" ).click(function() {
-      loadmore('cgroup', numIncremental, '/dashboard/moregroup', grouphtml);
-    });
->>>>>>> a717a55244466b141e2ba68da735b3cb3cbb1eaa
