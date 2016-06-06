@@ -1,5 +1,4 @@
 var nowIndex = 0;
-
 function replaceAll(str, searchStr, replaceStr) {
     return str.split(searchStr).join(replaceStr);
 }
@@ -21,6 +20,7 @@ function loadmore(divid, loadnum, url, htmlurl, senddata) {
         success: function (dataarray)          //on recieve of reply
         {
             if (dataarray.length > 0) {
+                curnodeid = dataarray[0].NodeID;
                 nowIndex += dataarray.length;
                 $.ajax({
                     url: htmlurl,                  //the script to call to get data

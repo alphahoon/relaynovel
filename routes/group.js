@@ -77,43 +77,38 @@ router.post('/write', function (req, res, next) {
 
 ///////////////////////// Reading Nodes ////////////////////////////////
 function recursiveRead(curnode, callback) {
-  if(ParentNode == null){
+  if (curnode.ParentNode == null) {
     var result = new Array();
-    result.push(curnode.Content);
-    callback(null, result);
+    callback(result);
   }
   else db.connection.query(
-    'select Content, ParentNode from Node where NodeID = '
+    'select Node.*, User.Nickname, User.Profilepic from Node left join User on User.userid = Node.writer where Node.NodeID = '
     + db.mysql.escape(curnode.ParentNode),
     function (err, rows) {
       if (rows) {
-        var curnode = rows[0].CurrentNode;
-        recursiveRead(curnode, function(){
+        recursiveRead(rows[0], function (result) {
+          result.push(rows[0]);
+          callback(result);
         });
       }
     });
 }
 
 router.post('/read', function (req, res, next) {
-  // var groupname = req.body.senddata;
-  // db.connection.query(
-  //   'SELECT CurrentNode from RenoGroup where Groupname='
-  //   + db.mysql.escape(groupname),
-  //   function (err, rows) {
-  //     if (rows) {
-  //       var curnode = rows[0].CurrentNode;
-        
-  //     }
-  //   });
-  var data = {
-    text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc elit magna, tincidunt quis nisl id, venenatis tincidunt ligula. Morbi sit amet consectetur ligula. Aliquam ac risus enim. Mauris scelerisque odio vel purus luctus, at eleifend augue porttitor. Phasellus malesuada efficitur elit, id congue nisi ultricies eu. Praesent pulvinar nisl eget venenatis lobortis. Duis mauris diam, fermentum nec quam ut, vestibulum viverra mauris. Sed consequat nibh et porta eleifend. Aliquam erat volutpat. Nulla id nulla nisi. In facilisis neque ut sem malesuada, eget pulvinar odio cursus. Duis scelerisque ipsum eget elit eleifend imperdiet. Nam venenatis nunc et felis volutpat tincidunt. Cras nec enim nibh. Nam a augue id lorem iaculis malesuada at vitae nisl.',
-    Profilepic: 'userimages/empty_user.gif',
-    Nickname: 'User_NickName',
-    TimeWritten: '2016-XX-XX'
-  };
-  var rows = [data, data, data, data, data, data, data, data, data, data];
-  res.send(rows);
+  var groupname = req.body.senddata;
+  db.connection.query(
+    'select Node.*, User.Nickname, User.Profilepic from Node left join User on User.userid = Node.writer where Node.NodeID = (SELECT CurrentNode from RenoGroup where Groupname='
+    + db.mysql.escape(groupname) + ')',
+    function (err, rows) {
+      if (rows) {
+        recursiveRead(rows[0], function (result) {
+          result.push(rows[0]);
+          res.send(result.splice(req.body.start, req.body.num));
+        });
+      }
+    });
 });
+
 router.get('/readnode', function (req, res, next) {
   fs.readFile(__dirname + '/../public/fakehtmls/readnode.html', 'utf8', function (err, data) {
     if (err) {
