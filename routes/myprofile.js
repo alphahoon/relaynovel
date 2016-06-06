@@ -2,8 +2,22 @@ var express = require('express');
 var router = express.Router();
 var form = require('../postedform.js');
 var db = require('../database.js');
+var renodb = require('../renodb.js');
 
 /* GET home page. */
+router.get('/quit', function (req, res, next) {
+  if (!req.session.logined)
+    res.redirect('/');
+  renodb.quitForever(req.session.user_id, 
+    function (err) {
+      console.log('quitForever err!' + err);
+    },
+    function () {
+      console.log('quitForever!');
+      req.session.destroy();
+      res.redirect('/');
+  });
+});
 router.get('/', function (req, res, next) {
   if (!req.session.logined)
     res.redirect('/');
@@ -11,7 +25,6 @@ router.get('/', function (req, res, next) {
     showpage(req, res, null);
   }
 });
-
 function showpage(req, res, pageerror) {
   var query = db.connection.query(
     'select * from User where userid= ' + db.mysql.escape(req.session.user_id),

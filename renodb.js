@@ -76,6 +76,14 @@ function exitGroup(groupname, userid, cberror, cbsuccess) {
             }
         });
 }
+function quitForever(userid, cberror, cbsuccess) {
+    db.connection.query('delete from User where userid = '
+        + db.mysql.escape(userid),
+        function(err) {
+            if (err) cberror(err);
+            else cbsuccess();
+        });
+}
 function setWritersReaders(groupname, deltawriters, deltareaders, cberror, cbsuccess) {
     db.connection.query('update RenoGroup '
         + 'set writers = writers' + deltawriters
@@ -277,5 +285,6 @@ module.exports = {
     setNewWriter : setNewWriter,
     exitGroup : exitGroup,
     joinGroup : joinGroup,
-    setVoteTimer : setVoteTimer
+    setVoteTimer : setVoteTimer,
+    quitForever : quitForever
 }
