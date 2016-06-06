@@ -7,6 +7,8 @@ var fs = require('fs');
 
 ///////////////////////// Change Role ////////////////////////////////
 router.get('/joinreader', function (req, res, next) {
+  if (!req.session.logined)
+    res.redirect('/');
   renodb.joinGroup(req.query.groupname, req.session.user_id, false, function (err) {
     res.redirect(encodeURI('/group?groupname=' + req.query.groupname));
   }, function () {
@@ -14,6 +16,8 @@ router.get('/joinreader', function (req, res, next) {
   });
 });
 router.get('/joinwriter', function (req, res, next) {
+  if (!req.session.logined)
+    res.redirect('/');
   renodb.joinGroup(req.query.groupname, req.session.user_id, true, function (err) {
     res.redirect(encodeURI('/group?groupname=' + req.query.groupname));
   }, function () {
@@ -21,6 +25,8 @@ router.get('/joinwriter', function (req, res, next) {
   });
 });
 router.get('/bereader', function (req, res, next) {
+  if (!req.session.logined)
+    res.redirect('/');
   renodb.beReader(req.query.groupname, req.session.user_id,
     function (err) {
       res.redirect(encodeURI('/group?groupname=' + req.query.groupname));
@@ -29,6 +35,8 @@ router.get('/bereader', function (req, res, next) {
     })
 });
 router.get('/bewriter', function (req, res, next) {
+  if (!req.session.logined)
+    res.redirect('/');
   renodb.beWriter(req.query.groupname, req.session.user_id,
     function (err) {
       res.redirect(encodeURI('/group?groupname=' + req.query.groupname));
@@ -37,6 +45,8 @@ router.get('/bewriter', function (req, res, next) {
     })
 });
 router.get('/exit', function (req, res, next) {
+  if (!req.session.logined)
+    res.redirect('/');
   renodb.exitGroup(req.query.groupname, req.session.user_id, function (err) {
     res.redirect(encodeURI('/group?groupname=' + req.query.groupname));
   }, function () {

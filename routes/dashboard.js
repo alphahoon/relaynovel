@@ -6,13 +6,15 @@ var fs = require('fs');
 /* GET home page. */
 
 router.post('/moregroup', function (req, res, next) {
+    if (!req.session.logined)
+        res.redirect('/');
     db.connection.query(
         'SELECT * from RenoGroup where Groupname in (SELECT Groupname from JoinGroup where userid= '
         + db.mysql.escape(req.session.user_id) + ') Limit ' + req.body.start + ', ' + req.body.num,
         function (err, rows) {
             //console.log(rows);
             if (rows) {
-                for(var i=0; i<rows.length; i++){                    
+                for (var i = 0; i < rows.length; i++) {
                     rows[i].dispvote = 'none';
                     rows[i].dispwrite = 'block';
                     rows[i].dispupdate = 'block';
@@ -23,7 +25,7 @@ router.post('/moregroup', function (req, res, next) {
 })
 
 router.get('/dashboardcard', function (req, res, next) {
-    fs.readFile(__dirname +'/../public/fakehtmls/dashboardcard.html', 'utf8', function (err, data) {
+    fs.readFile(__dirname + '/../public/fakehtmls/dashboardcard.html', 'utf8', function (err, data) {
         if (err) {
             return console.log(err);
         }

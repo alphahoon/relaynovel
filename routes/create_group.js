@@ -13,6 +13,8 @@ router.get('/', function (req, res, next) {
 });
 
 router.post('/', function (req, res, next) {
+    if (!req.session.logined)
+        res.redirect('/');
     form.handle_req(req, checkfield,
         'groupimages/',
         null,
@@ -29,7 +31,7 @@ router.post('/', function (req, res, next) {
                 + db.mysql.escape(req.session.user_id),
                 function (err) {
                     if (err) console.log(err);
-                    else renodb.setWriterTimer(postdata.Groupname.replace(/[^a-zA-Z0-9]+/g,'') + "TurnEvent", postdata.createtime,
+                    else renodb.setWriterTimer(postdata.Groupname.replace(/[^a-zA-Z0-9]+/g, '') + "TurnEvent", postdata.createtime,
                         postdata.WriteLimit, postdata.Groupname,
                         function (err) {
                             console.log(err);
