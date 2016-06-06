@@ -28,9 +28,11 @@ router.post('/', function (req, res, next) {
                 + ', isWriter = true, userid = '
                 + db.mysql.escape(req.session.user_id),
                 function (err) {
-                    renodb.setWriterTimer(postdata.Groupname + "TurnEvent", postdata.createtime,
+                    if (err) console.log(err);
+                    else renodb.setWriterTimer(postdata.Groupname + "TurnEvent", postdata.createtime,
                         postdata.WriteLimit, postdata.Groupname,
                         function (err) {
+                            console.log(setWriterTimer);
                         }, function () {
                             res.redirect(encodeURI('/group?groupname=' + postdata.Groupname));
                         })
