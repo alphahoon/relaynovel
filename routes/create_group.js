@@ -29,7 +29,7 @@ router.post('/', function (req, res, next) {
                 + db.mysql.escape(req.session.user_id),
                 function (err) {
                     renodb.setWriterTimer(postdata.Groupname + "TurnEvent", postdata.createtime,
-                        '00:00:30', postdata.Groupname,
+                        postdata.WriteLimit, postdata.Groupname,
                         function (err) {
                         }, function () {
                             res.redirect(encodeURI('/group?groupname=' + postdata.Groupname));
