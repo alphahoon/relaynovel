@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var db = require('../database.js');
+var renodb = require('../renodb.js');
 var moment = require('moment');
 
 ///////////////////////// Change Role ////////////////////////////////
@@ -23,22 +24,36 @@ router.get('/joinwriter', function (req, res, next) {
     });
 });
 router.get('/bereader', function (req, res, next) {
-  db.connection.query('update JoinGroup set isWriter = false where Groupname = '
-    + db.mysql.escape(req.query.groupname)
-    + ' and userid = '
-    + db.mysql.escape(req.session.user_id),
+  renodb.beReader(req.query.groupname, req.session.user_id,
     function (err) {
+      console.log("beReader Error");
       res.redirect(encodeURI('/group?groupname=' + req.query.groupname));
-    });
+    }, function () {
+      res.redirect(encodeURI('/group?groupname=' + req.query.groupname));
+    })
+  // db.connection.query('update JoinGroup set isWriter = false where Groupname = '
+  //   + db.mysql.escape(req.query.groupname)
+  //   + ' and userid = '
+  //   + db.mysql.escape(req.session.user_id),
+  //   function (err) {
+  //     res.redirect(encodeURI('/group?groupname=' + req.query.groupname));
+  //   });
 });
 router.get('/bewriter', function (req, res, next) {
-  db.connection.query('update JoinGroup set isWriter = true where Groupname = '
-    + db.mysql.escape(req.query.groupname)
-    + ' and userid = '
-    + db.mysql.escape(req.session.user_id),
+  renodb.beWriter(req.query.groupname, req.session.user_id,
     function (err) {
+      console.log("beWriter Error");
       res.redirect(encodeURI('/group?groupname=' + req.query.groupname));
-    });
+    }, function () {
+      res.redirect(encodeURI('/group?groupname=' + req.query.groupname));
+    })
+  // db.connection.query('update JoinGroup set isWriter = true where Groupname = '
+  //   + db.mysql.escape(req.query.groupname)
+  //   + ' and userid = '
+  //   + db.mysql.escape(req.session.user_id),
+  //   function (err) {
+  //     res.redirect(encodeURI('/group?groupname=' + req.query.groupname));
+  //   });
 });
 router.get('/exit', function (req, res, next) {
   db.connection.query('delete from JoinGroup where Groupname = '
@@ -55,7 +70,7 @@ router.post('/write', function (req, res, next) {
   // req.body.writearea 이용
   // userid : req.session.user_id
   // Groupname : req.query.groupname
-  
+
   res.redirect(encodeURI('/group?groupname=' + req.query.groupname));
 });
 
@@ -64,7 +79,7 @@ router.post('/read', function (req, res, next) {
   // req.body.writearea 이용
   // userid : req.session.user_id
   // Groupname : req.query.groupname
-  
+
 });
 
 /* GET home page. */
