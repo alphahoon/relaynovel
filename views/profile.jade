@@ -9,7 +9,7 @@ block contents
     .row
       h4.teal-text.text-darken-1(style="text-align:center; font-weight:bold;")= (userdata.Nickname)
     .row
-      img.circle.profile#img_profile(src=userdata.Profilepic style="width:250px; height:250px;")
+      img.circle.profile.z-depth-2#img_profile(src=userdata.Profilepic, onerror="this.src='/image_404.png'", style="width:250px; height:250px;")
     .row
       p 기타정보
     .row

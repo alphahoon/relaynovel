@@ -4,9 +4,9 @@
 */
 html {font-family: 'Noto Sans KR', 'Arial';}
 
-img .profile {
-  width: 250px;
-  height: 250px;
+img .circle .profile {
+  width: 250px!;
+  height: 250px!;
 }
 
 div .box-sm {
