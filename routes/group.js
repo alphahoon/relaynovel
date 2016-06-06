@@ -35,13 +35,6 @@ router.get('/bewriter', function (req, res, next) {
     }, function () {
       res.redirect(encodeURI('/group?groupname=' + req.query.groupname));
     })
-  // db.connection.query('update JoinGroup set isWriter = true where Groupname = '
-  //   + db.mysql.escape(req.query.groupname)
-  //   + ' and userid = '
-  //   + db.mysql.escape(req.session.user_id),
-  //   function (err) {
-  //     res.redirect(encodeURI('/group?groupname=' + req.query.groupname));
-  //   });
 });
 router.get('/exit', function (req, res, next) {
   renodb.exitGroup(req.query.groupname, req.session.user_id, function (err) {
