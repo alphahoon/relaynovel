@@ -76,6 +76,14 @@ function exitGroup(groupname, userid, cberror, cbsuccess) {
             }
         });
 }
+function quitForever(userid, cberror, cbsuccess) {
+    db.connection.query('delete from User where userid = '
+        + db.mysql.escape(userid),
+        function(err) {
+            if (err) cberror(err);
+            else cbsuccess();
+        });
+}
 function setWritersReaders(groupname, deltawriters, deltareaders, cberror, cbsuccess) {
     db.connection.query('update RenoGroup '
         + 'set writers = writers' + deltawriters
@@ -131,7 +139,7 @@ function submitContent(content, writer, groupname, cberror, cbsuccess) {
                             function (err) {
                                 cberror(err);
                             }, function () {
-                                cbsuccess();
+                                cbsuccess(nodevalues.NodeID);
                             });                        
                     }                    
                 });
@@ -326,5 +334,9 @@ module.exports = {
     exitGroup : exitGroup,
     joinGroup : joinGroup,
     setVoteTimer : setVoteTimer,
+<<<<<<< HEAD
     createVote : createVote
+=======
+    quitForever : quitForever
+>>>>>>> 6ebf233c50961a8fe3b80757a6fb63c4cf122cb5
 }
