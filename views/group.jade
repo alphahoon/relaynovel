@@ -130,24 +130,119 @@ block contents
                   strong User.Nickname
                   br
                   | 2016-XX-XX
-                
-    hr
-    //- Write Module
+    //- Write Module 접속자가 작성 turn 일때만 글쓰기 form이 보여야 함
     .row
-      h5.teal-text.text-darken-1(style="font-weight:bold;") 작성하기
+      h5.blue-text.text-darken-1(style="font-weight:bold;") 당신의 작성 차례입니다!
       form.col.s12(action='/group/write?groupname='+groupdata.Groupname, method='post')
         .row
-          .input-field.col.s12
-            i.material-icons.prefix mode_edit
-            textarea#writearea.materialize-textarea(name='writearea', length='250')
-            label(for='writearea') 소설 작성란
-          button.btn-large.waves-effect.waves-light.teal(type='submit', style="width:100%; max-width: 200px;") 소설 제출
+          textarea#writearea.materialize-textarea.z-depth-2(name='writearea', placeholder='여기에 작성해 주세요!', style="border: 1px solid lightgrey; clear: both; background-color: #eeeeee; font-size: 1.1em; width:100%; min-height: 100px; max-width: 800px; padding: 30px;")
+        .row
+          button.btn-large.waves-effect.waves-light.blue(type='submit', style="width:100%; max-width: 200px;") 단락 추가
+    //- Write form end
     hr
     .row
       h5.teal-text.text-darken-1(style="font-weight:bold;") 진행중인 투표
-    
+      .row
+        .col.s12
+          .card.grey.lighten-3
+            .card-content.grey-text.text-darken-3
+              .row
+                span.grey-text.text-darken-3(style="font-size: 1.6em;") 
+                  strong 단락 추가
+              .row
+                .col.s12
+                  .vote-container.z-depth-1
+                    a.waves-effect.waves-light.vote-up(href="#!", style="width:70%") 찬성 14 (70%)
+                    a.waves-effect.waves-light.vote-down(href="#!", style="width:30%") 반대 6 (30%)
+              .row(style="text-align:right;")
+                | 시작일 : 
+                span.teal-text 2016-XX-XX 
+                | / 종료일 : 
+                span.teal-text 2016-XX-XX
+                br
+              .row
+                a(href="#!", style="color: #00897b; font-size:1.2em; text-decoration: underline; position: absolute; left: 50%; margin-left:-44px; bottom: 15px;") 해당 글 보기
+      .row
+        .col.s12
+          .card.grey.lighten-3
+            .card-content.grey-text.text-darken-3
+              .row
+                span.grey-text.text-darken-3(style="font-size: 1.6em;") 
+                  strong 단락 수정
+              .row
+                .col.s12
+                  .vote-container.z-depth-1
+                    a.waves-effect.waves-light.vote-up(href="#!", style="width:40%") 찬성 4 (40%)
+                    a.waves-effect.waves-light.vote-down(href="#!", style="width:60%") 반대 6 (60%)
+              .row(style="text-align:right;")
+                | 시작일 : 
+                span.teal-text 2016-XX-XX 
+                | / 종료일 : 
+                span.teal-text 2016-XX-XX
+                br
+              .row
+                a(href="#!", style="color: #00897b; font-size:1.2em; text-decoration: underline; position: absolute; left: 50%; margin-left:-44px; bottom: 15px;") 해당 글 보기
+      .row
+        .col.s12
+          .card.grey.lighten-3
+            .card-content.grey-text.text-darken-3
+              .row
+                span.grey-text.text-darken-3(style="font-size: 1.6em;") 
+                  strong 리비전 롤백
+              .row
+                .col.s12
+                  .vote-container.z-depth-1
+                    a.waves-effect.waves-light.vote-up(href="#!", style="width:20%") 찬성 2 (20%)
+                    a.waves-effect.waves-light.vote-down(href="#!", style="width:80%") 반대 8 (80%)
+              .row(style="text-align:right;")
+                | 시작일 : 
+                span.teal-text 2016-XX-XX 
+                | / 종료일 : 
+                span.teal-text 2016-XX-XX
+                br
+              .row
+                a(href="#!", style="color: #00897b; font-size:1.2em; text-decoration: underline; position: absolute; left: 50%; margin-left:-44px; bottom: 15px;") 해당 글 보기
+      .row
+        .col.s12
+          .card.grey.lighten-3
+            .card-content.grey-text.text-darken-3
+              .row
+                span.grey-text.text-darken-3(style="font-size: 1.6em;") 
+                  strong 완결
+              .row
+                .col.s12
+                  .vote-container.z-depth-1
+                    a.waves-effect.waves-light.vote-up(href="#!", style="width:40%") 찬성 4 (40%)
+                    a.waves-effect.waves-light.vote-down(href="#!", style="width:60%") 반대 6 (60%)
+              .row(style="text-align:right;")
+                | 시작일 : 
+                span.teal-text 2016-XX-XX 
+                | / 종료일 : 
+                span.teal-text 2016-XX-XX
+                br
+              .row
+                a(href="#!", style="color: #00897b; font-size:1.2em; text-decoration: underline; position: absolute; left: 50%; margin-left:-44px; bottom: 15px;") 해당 글 보기
+      .row
+        .col.s12
+          .card.grey.lighten-3
+            .card-content.grey-text.text-darken-3
+              .row
+                span.grey-text.text-darken-3(style="font-size: 1.6em;") 
+                  strong 단락 추가
+              .row
+                .col.s12
+                  .vote-container.z-depth-1
+                    a.waves-effect.waves-light.vote-up(href="#!", style="width:70%") 찬성 1 (10%)
+                    a.waves-effect.waves-light.vote-down(href="#!", style="width:30%") 반대 9 (90%)
+              .row(style="text-align:right;")
+                | 시작일 : 
+                span.teal-text 2016-XX-XX 
+                | / 종료일 : 
+                span.teal-text 2016-XX-XX
+                br
+              .row
+                a(href="#!", style="color: #00897b; font-size:1.2em; text-decoration: underline; position: absolute; left: 50%; margin-left:-44px; bottom: 15px;") 해당 글 보기
 
-    
 block contents-footer
 block afterload-script
   //- 토스트 메세지

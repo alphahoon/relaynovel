@@ -4,6 +4,16 @@
 */
 html {font-family: 'Noto Sans KR', 'Arial';}
 
+body {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
+
+contents {
+  flex: 1 0 auto;
+}
+
 img .circle .profile {
   width: 250px!;
   height: 250px!;
@@ -118,4 +128,50 @@ hr {
   border: 1px solid lightgrey;
   margin-top: 50px;
   margin-bottom: 50px;
+}
+
+.vote-container {
+  height: 50px;
+  width: 100%;
+  display: block;
+  position: relative;
+  background-color: white;
+}
+
+.vote-container .vote-up {
+  left: 0;
+  bottom: 0;
+  height: 100%;
+  display: block;
+  position: absolute;
+  transition: .5s linear;
+  background-color: #66bb6a;
+  text-align: center;
+  font-size: 0.9em;
+  font-weight: normal;
+  color: white;
+  padding-top: 15px;
+}
+
+.vote-up:hover {
+  background-color: #43a047;
+}
+
+.vote-container .vote-down {
+  right: 0;
+  bottom: 0;
+  height: 100%;
+  display: block;
+  position: absolute;
+  transition: .5s linear;
+  background-color:#ef5350;
+  text-align: center;
+  font-size: 0.9em;
+  font-weight: normal;
+  color: white;
+  padding-top: 15px;
+}
+
+.vote-down:hover {
+  background-color: #e53935;
 }
