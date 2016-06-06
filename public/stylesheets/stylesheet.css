@@ -175,3 +175,45 @@ hr {
 .vote-down:hover {
   background-color: #e53935;
 }
+
+.badge-container {
+  position: absolute;
+  float: left;
+  padding: 10px;
+  
+  width: 100%;
+  height: 50px;
+}
+
+.badge-custom {
+  display: block;
+  float: left;
+  
+  width: 50px;
+  height: 25px;
+  border: 1px solid white;
+  border-radius: 24px;
+  margin-right: 10px;
+  padding-top: 1px;
+  z-index: 1000;
+  
+  font-size: 1em;
+  text-align: center;
+  color: white;
+}
+
+.badge-custom.badge-red {
+  background-color:#e53935;
+}
+
+.badge-custom.badge-orange {
+  background-color:#fb8c00;
+}
+
+.badge-custom.badge-teal {
+  background-color:#00897b;
+}
+
+.badge-custom.badge-blue {
+  background-color:#1e88e5;
+}
