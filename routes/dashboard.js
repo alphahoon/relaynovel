@@ -12,6 +12,11 @@ router.post('/moregroup', function (req, res, next) {
         function (err, rows) {
             //console.log(rows);
             if (rows) {
+                for(var i=0; i<rows.length; i++){                    
+                    rows[i].dispvote = 'none';
+                    rows[i].dispwrite = 'block';
+                    rows[i].dispupdate = 'block';
+                }
                 res.send(rows);
             }
         });
