@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var form = require('../postedform.js');
 var db = require('../database.js');
+var renodb = require('../renodb.js');
 var moment = require('moment');
 
 /* GET home page. */
@@ -21,13 +22,18 @@ router.post('/', function (req, res, next) {
         function (err) {
             res.render('create_group', { session: req.session, message: err });
         },
-        function (req, entries) {
+        function (req, entries, postdata) {
             db.connection.query('insert into JoinGroup set Groupname = '
                 + db.mysql.escape(entries.fields.id)
                 + ', isWriter = true, userid = '
                 + db.mysql.escape(req.session.user_id),
                 function (err) {
-                    res.redirect('/dashboard');
+                    renodb.setWriterTimer(postdata.Groupname + "TurnEvent", postdata.createtime,
+                        '00:00:30', postdata.Groupname,
+                        function (err) {
+                        }, function () {
+                            res.redirect(encodeURI('/group?groupname=' + postdata.Groupname));
+                        })
                 });
         });
 })
@@ -54,7 +60,8 @@ function checkfield(req, entries, cberror, cbsuccess) {
 }
 
 function setpostdata(req, entries, image, callback) {
-    var timenow = moment(new Date()).format("YYYY-MM-DD HH:mm:ss");
+    var timenow = moment().format("YYYY-MM-DD HH:mm:ss");
+    var rollback = entries.fields.allowrollback == 'on';
     var post = {
         Groupname: entries.fields.id,
         Genre: entries.fields.genre,
@@ -65,7 +72,7 @@ function setpostdata(req, entries, image, callback) {
         WriterLimit: entries.fields.writerlimit,
         CurrentNode: null,
         Finished: false,
-        AllowRollback: entries.fields.allowrollback,
+        AllowRollback: rollback,
         GroupImageURL: image,
         createtime: timenow,
         writerchanged: false,

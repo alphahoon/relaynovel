@@ -3,6 +3,7 @@ var router = express.Router();
 var db = require('../database.js');
 var renodb = require('../renodb.js');
 var moment = require('moment');
+var fs = require('fs');
 
 ///////////////////////// Change Role ////////////////////////////////
 router.get('/joinreader', function (req, res, next) {
@@ -31,13 +32,6 @@ router.get('/bereader', function (req, res, next) {
     }, function () {
       res.redirect(encodeURI('/group?groupname=' + req.query.groupname));
     })
-  // db.connection.query('update JoinGroup set isWriter = false where Groupname = '
-  //   + db.mysql.escape(req.query.groupname)
-  //   + ' and userid = '
-  //   + db.mysql.escape(req.session.user_id),
-  //   function (err) {
-  //     res.redirect(encodeURI('/group?groupname=' + req.query.groupname));
-  //   });
 });
 router.get('/bewriter', function (req, res, next) {
   renodb.beWriter(req.query.groupname, req.session.user_id,
@@ -75,11 +69,46 @@ router.post('/write', function (req, res, next) {
 });
 
 ///////////////////////// Reading Nodes ////////////////////////////////
-router.post('/read', function (req, res, next) {
-  // req.body.writearea 이용
-  // userid : req.session.user_id
-  // Groupname : req.query.groupname
+function recursiveRead(curnode, callback) {
+  if (curnode.ParentNode == null) {
+    var result = new Array();
+    callback(result);
+  }
+  else db.connection.query(
+    'select Node.*, User.Nickname, User.Profilepic from Node left join User on User.userid = Node.writer where Node.NodeID = '
+    + db.mysql.escape(curnode.ParentNode),
+    function (err, rows) {
+      if (rows&&rows[0]) {
+        recursiveRead(rows[0], function (result) {
+          result.push(rows[0]);
+          callback(result);
+        });
+      }
+    });
+}
 
+router.post('/read', function (req, res, next) {
+  var groupname = req.body.senddata;
+  db.connection.query(
+    'select Node.*, User.Nickname, User.Profilepic from Node left join User on User.userid = Node.writer where Node.NodeID = (SELECT CurrentNode from RenoGroup where Groupname='
+    + db.mysql.escape(groupname) + ')',
+    function (err, rows) {
+      if (rows&&rows[0]) {
+        recursiveRead(rows[0], function (result) {
+          result.push(rows[0]);
+          res.send(result.splice(req.body.start, req.body.num));
+        });
+      }
+    });
+});
+
+router.get('/readnode', function (req, res, next) {
+  fs.readFile(__dirname + '/../public/fakehtmls/readnode.html', 'utf8', function (err, data) {
+    if (err) {
+      return console.log(err);
+    }
+    res.send(data);
+  });
 });
 
 /* GET home page. */

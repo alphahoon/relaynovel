@@ -94,54 +94,57 @@ block contents
       h5.teal-text.text-darken-1(style="font-weight:bold;") 소설 읽기
       .row(style="text-align: right; padding-right: 20px;")
         a.btn.waves-effect.waves-light.teal.lighten-1(href="#!") 히스토리
+      div#readnodes
       .row
-        .col.s12
-          .card.grey.lighten-3
-            .card-content.grey-text.text-darken-3(style="text-align: left;")
-              .row(style="margin-bottom: 20px;")
-                p Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc elit magna, tincidunt quis nisl id, venenatis tincidunt ligula. Morbi sit amet consectetur ligula. Aliquam ac risus enim. Mauris scelerisque odio vel purus luctus, at eleifend augue porttitor. Phasellus malesuada efficitur elit, id congue nisi ultricies eu. Praesent pulvinar nisl eget venenatis lobortis. Duis mauris diam, fermentum nec quam ut, vestibulum viverra mauris. Sed consequat nibh et porta eleifend. Aliquam erat volutpat. Nulla id nulla nisi. In facilisis neque ut sem malesuada, eget pulvinar odio cursus. Duis scelerisque ipsum eget elit eleifend imperdiet. Nam venenatis nunc et felis volutpat tincidunt. Cras nec enim nibh. Nam a augue id lorem iaculis malesuada at vitae nisl.
-              .row(style="text-align: right; padding-right: 20px;")
-                img.circle.profile(src="userimages/empty_user.gif", onerror="this.src='image_404.png'", style="width:50px; height:50px; clear:left;")
-                .teal-text(style="float:right; margin-left: 20px;")
-                  strong User.Nickname
-                  br
-                  | 2016-XX-XX 
-              .row(style="text-align: right;")
-                  a.btn.btn-small.waves-effect.waves-light.blue.darken-1(href="#!", style="margin-right:5px;") 수정
-                  a.btn.btn-small.waves-effect.waves-light.orange.darken-1(href="#!", style="margin-right:5px;") 롤백
-                  a.btn.btn-small.waves-effect.waves-light.red.darken-1(href="#!") 신고
-      .row
-        .col.s12
-          .card.grey.lighten-3
-            .card-content.grey-text.text-darken-3(style="text-align: left;")
-              .row(style="margin-bottom: 20px;")
-                p Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc elit magna, tincidunt quis nisl id, venenatis tincidunt ligula. Morbi sit amet consectetur ligula. Aliquam ac risus enim. Mauris scelerisque odio vel purus luctus, at eleifend augue porttitor. Phasellus malesuada efficitur elit, id congue nisi ultricies eu. Praesent pulvinar nisl eget venenatis lobortis. Duis mauris diam, fermentum nec quam ut, vestibulum viverra mauris. Sed consequat nibh et porta eleifend. Aliquam erat volutpat. Nulla id nulla nisi. In facilisis neque ut sem malesuada, eget pulvinar odio cursus. Duis scelerisque ipsum eget elit eleifend imperdiet. Nam venenatis nunc et felis volutpat tincidunt. Cras nec enim nibh. Nam a augue id lorem iaculis malesuada at vitae nisl.
-              .row(style="text-align: right; padding-right: 20px;")
-                img.circle.profile(src="userimages/empty_user.gif", onerror="this.src='image_404.png'", style="width:50px; height:50px; clear:left;")
-                .teal-text(style="float:right; margin-left: 20px;")
-                  strong User.Nickname
-                  br
-                  | 2016-XX-XX 
-              .row(style="text-align: right;")
-                  a.btn.btn-small.waves-effect.waves-light.blue.darken-1(href="#!", style="margin-right:5px;") 수정
-                  a.btn.btn-small.waves-effect.waves-light.orange.darken-1(href="#!", style="margin-right:5px;") 롤백
-                  a.btn.btn-small.waves-effect.waves-light.red.darken-1(href="#!") 신고
-      .row
-        .col.s12
-          .card.grey.lighten-3
-            .card-content.grey-text.text-darken-3(style="text-align: left;")
-              .row(style="margin-bottom: 20px;")
-                p Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc elit magna, tincidunt quis nisl id, venenatis tincidunt ligula. Morbi sit amet consectetur ligula. Aliquam ac risus enim. Mauris scelerisque odio vel purus luctus, at eleifend augue porttitor. Phasellus malesuada efficitur elit, id congue nisi ultricies eu. Praesent pulvinar nisl eget venenatis lobortis. Duis mauris diam, fermentum nec quam ut, vestibulum viverra mauris. Sed consequat nibh et porta eleifend. Aliquam erat volutpat. Nulla id nulla nisi. In facilisis neque ut sem malesuada, eget pulvinar odio cursus. Duis scelerisque ipsum eget elit eleifend imperdiet. Nam venenatis nunc et felis volutpat tincidunt. Cras nec enim nibh. Nam a augue id lorem iaculis malesuada at vitae nisl.
-              .row(style="text-align: right; padding-right: 20px;")
-                img.circle.profile(src="userimages/empty_user.gif", onerror="this.src='image_404.png'", style="width:50px; height:50px; clear:left;")
-                .teal-text(style="float:right; margin-left: 20px;")
-                  strong User.Nickname
-                  br
-                  | 2016-XX-XX
-              .row(style="text-align: right;")
-                  a.btn.btn-small.waves-effect.waves-light.blue.darken-1(href="#!", style="margin-right:5px;") 수정
-                  a.btn.btn-small.waves-effect.waves-light.orange.darken-1(href="#!", style="margin-right:5px;") 롤백
-                  a.btn.btn-small.waves-effect.waves-light.red.darken-1(href="#!") 신고
+        a.btn.waves-effect.waves-light.teal.lighten-1#loadreadbutton(style="width:150px;") 더 보기
+      //- .row
+      //-   .col.s12
+      //-     .card.grey.lighten-3
+      //-       .card-content.grey-text.text-darken-3(style="text-align: left;")
+      //-         .row(style="margin-bottom: 20px;")
+      //-           p Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc elit magna, tincidunt quis nisl id, venenatis tincidunt ligula. Morbi sit amet consectetur ligula. Aliquam ac risus enim. Mauris scelerisque odio vel purus luctus, at eleifend augue porttitor. Phasellus malesuada efficitur elit, id congue nisi ultricies eu. Praesent pulvinar nisl eget venenatis lobortis. Duis mauris diam, fermentum nec quam ut, vestibulum viverra mauris. Sed consequat nibh et porta eleifend. Aliquam erat volutpat. Nulla id nulla nisi. In facilisis neque ut sem malesuada, eget pulvinar odio cursus. Duis scelerisque ipsum eget elit eleifend imperdiet. Nam venenatis nunc et felis volutpat tincidunt. Cras nec enim nibh. Nam a augue id lorem iaculis malesuada at vitae nisl.
+      //-         .row(style="text-align: right; padding-right: 20px;")
+      //-           img.circle.profile(src="userimages/empty_user.gif", onerror="this.src='image_404.png'", style="width:50px; height:50px; clear:left;")
+      //-           .teal-text(style="float:right; margin-left: 20px;")
+      //-             strong User.Nickname
+      //-             br
+      //-             | 2016-XX-XX 
+      //-         .row(style="text-align: right;")
+      //-             a.btn.btn-small.waves-effect.waves-light.blue.darken-1(href="#!", style="margin-right:5px;") 수정
+      //-             a.btn.btn-small.waves-effect.waves-light.orange.darken-1(href="#!", style="margin-right:5px;") 롤백
+      //-             a.btn.btn-small.waves-effect.waves-light.red.darken-1(href="#!") 신고
+      //- .row
+      //-   .col.s12
+      //-     .card.grey.lighten-3
+      //-       .card-content.grey-text.text-darken-3(style="text-align: left;")
+      //-         .row(style="margin-bottom: 20px;")
+      //-           p Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc elit magna, tincidunt quis nisl id, venenatis tincidunt ligula. Morbi sit amet consectetur ligula. Aliquam ac risus enim. Mauris scelerisque odio vel purus luctus, at eleifend augue porttitor. Phasellus malesuada efficitur elit, id congue nisi ultricies eu. Praesent pulvinar nisl eget venenatis lobortis. Duis mauris diam, fermentum nec quam ut, vestibulum viverra mauris. Sed consequat nibh et porta eleifend. Aliquam erat volutpat. Nulla id nulla nisi. In facilisis neque ut sem malesuada, eget pulvinar odio cursus. Duis scelerisque ipsum eget elit eleifend imperdiet. Nam venenatis nunc et felis volutpat tincidunt. Cras nec enim nibh. Nam a augue id lorem iaculis malesuada at vitae nisl.
+      //-         .row(style="text-align: right; padding-right: 20px;")
+      //-           img.circle.profile(src="userimages/empty_user.gif", onerror="this.src='image_404.png'", style="width:50px; height:50px; clear:left;")
+      //-           .teal-text(style="float:right; margin-left: 20px;")
+      //-             strong User.Nickname
+      //-             br
+      //-             | 2016-XX-XX 
+      //-         .row(style="text-align: right;")
+      //-             a.btn.btn-small.waves-effect.waves-light.blue.darken-1(href="#!", style="margin-right:5px;") 수정
+      //-             a.btn.btn-small.waves-effect.waves-light.orange.darken-1(href="#!", style="margin-right:5px;") 롤백
+      //-             a.btn.btn-small.waves-effect.waves-light.red.darken-1(href="#!") 신고
+      //- .row
+      //-   .col.s12
+      //-     .card.grey.lighten-3
+      //-       .card-content.grey-text.text-darken-3(style="text-align: left;")
+      //-         .row(style="margin-bottom: 20px;")
+      //-           p Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc elit magna, tincidunt quis nisl id, venenatis tincidunt ligula. Morbi sit amet consectetur ligula. Aliquam ac risus enim. Mauris scelerisque odio vel purus luctus, at eleifend augue porttitor. Phasellus malesuada efficitur elit, id congue nisi ultricies eu. Praesent pulvinar nisl eget venenatis lobortis. Duis mauris diam, fermentum nec quam ut, vestibulum viverra mauris. Sed consequat nibh et porta eleifend. Aliquam erat volutpat. Nulla id nulla nisi. In facilisis neque ut sem malesuada, eget pulvinar odio cursus. Duis scelerisque ipsum eget elit eleifend imperdiet. Nam venenatis nunc et felis volutpat tincidunt. Cras nec enim nibh. Nam a augue id lorem iaculis malesuada at vitae nisl.
+      //-         .row(style="text-align: right; padding-right: 20px;")
+      //-           img.circle.profile(src="userimages/empty_user.gif", onerror="this.src='image_404.png'", style="width:50px; height:50px; clear:left;")
+      //-           .teal-text(style="float:right; margin-left: 20px;")
+      //-             strong User.Nickname
+      //-             br
+      //-             | 2016-XX-XX
+      //-         .row(style="text-align: right;")
+      //-             a.btn.btn-small.waves-effect.waves-light.blue.darken-1(href="#!", style="margin-right:5px;") 수정
+      //-             a.btn.btn-small.waves-effect.waves-light.orange.darken-1(href="#!", style="margin-right:5px;") 롤백
+      //-             a.btn.btn-small.waves-effect.waves-light.red.darken-1(href="#!") 신고
     //- Write Module 접속자가 작성 turn 일때만 글쓰기 form이 보여야 함
     .row
       h5.blue-text.text-darken-1(style="font-weight:bold;") 당신의 작성 차례입니다!
@@ -266,18 +269,12 @@ block afterload-script
   //- Write Module
   script(type='text/javascript').
     $('#writearea').trigger('autoresize');
-  //- script(type='text/javascript', src='viewjs/loadmoregroup.js')
-  //- script(type='text/javascript').
-  //-   var numInitialGroup = 5;
-  //-   var numIncremental = 5;
-  //-   var grouphtml = `
-  //-   '<li class="collection-item avatar" style="padding-left:90px; padding-right:60px; text-align:left;">'
-  //-       +'<img src="'+ group.GroupImageURL + '" alt="" class="circle responsive-img" style="margin:auto; width:65px; height:65px;">'
-  //-       +'<span class="title"><strong>'+ group.Groupname + '</strong></span>'
-  //-       +'<p>Genre : '+ group.Genre + '<br>Second Line</p>'
-  //-       +'<a href="group?groupname=' + group.Groupname + '"class="secondary-content" style="margin:auto;"><i class="fa fa-sign-in fa-3x" aria-hidden="true"></i></a>'
-  //-   +'</li>'`;
-  //-   $(loadmore('cgroup', numInitialGroup, '/dashboard/moregroup', grouphtml));
-  //-   $( "#loadmorebutton" ).click(function() {
-  //-     loadmore('cgroup', numIncremental, '/dashboard/moregroup', grouphtml);
-  //-   });
+  //- Read Module
+  script(type='text/javascript', src='viewjs/loadmorenode.js')
+  script(type='text/javascript').
+    var numInitialGroup = 3;
+    var numIncremental = 4;
+    $(loadmore('readnodes', numInitialGroup, '/group/read', '/group/readnode', '#{groupdata.Groupname}'));
+    $( "#loadreadbutton" ).click(function() {
+      loadmore('readnodes', numIncremental, '/group/read', '/group/readnode', '#{groupdata.Groupname}');
+    });
