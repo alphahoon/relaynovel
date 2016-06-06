@@ -56,15 +56,18 @@ function checkfield(req, entries, cberror, cbsuccess) {
 }
 
 function setpostdata(req, entries, image, callback) {
-    var post = {
+    bcrypt.hash(String(entries.fields.pswd1), "", null, function (err, res) {
+        var encrypted_pswd = String(res);
+        var post = {
         userid: entries.fields.id,
         Nickname: entries.fields.name,
-        Password: bcrypt.hashSync(entries.fields.pswd1),
+        Password: encrypted_pswd,
         Admin: false,
         Blocked: false,
         Profilepic: image
-    }
-    callback(req, entries, post);
+        }
+        callback(req, entries, post);
+    });
 }
 
 module.exports = router;
