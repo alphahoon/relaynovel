@@ -1,8 +1,8 @@
-<div class="card small card-custom" style="position: relative;">
+var texthtml = ``+`<div class="card small card-custom" style="position: relative;">
     <div class="badge-container">
-        <div class="badge-custom badge-orange" style="display: --+ group.dispvote +--">투표</div>
-        <div class="badge-custom badge-blue" style="display: --+ group.dispwrite +--">작성</div>
-        <div class="badge-custom badge-teal" style="display: --+ group.dispupdate +--">갱신</div>
+        `+true?`<div class="badge-custom badge-orange">투표</div>`:``
+        +true?`<div class="badge-custom badge-blue">작성</div>`:``
+        +true?`<div class="badge-custom badge-teal">갱신</div>`:``+`
     </div>
     <div class="card-image waves-effect waves-block waves-light">
         <a href="group?groupname=--+ group.Groupname +--">
