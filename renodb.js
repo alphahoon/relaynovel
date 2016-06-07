@@ -334,9 +334,6 @@ module.exports = {
     exitGroup : exitGroup,
     joinGroup : joinGroup,
     setVoteTimer : setVoteTimer,
-<<<<<<< HEAD
-    createVote : createVote
-=======
+    createVote : createVote,
     quitForever : quitForever
->>>>>>> 6ebf233c50961a8fe3b80757a6fb63c4cf122cb5
 }
