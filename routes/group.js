@@ -191,44 +191,53 @@ function showpage(req, res, pageerror) {
         isjoin = false;
         iswriter = false;
       }
-
-      db.connection.query(
-        'select * from RenoGroup where Groupname = ' + db.mysql.escape(req.query.groupname),
-        function (err, rows) {
-          if (rows && rows[0]) {
-            var changetime = moment(rows[0].writerchangetime);
-            var writelimit = rows[0].WriteLimit.split(":");
-            for (var i = 0; i < writelimit.length; i++) writelimit[i] = parseInt(writelimit[i], 10);
-            var timeafter = changetime.add({ hours: writelimit[0], minutes: writelimit[1], seconds: writelimit[2] });
-            var remain_time = moment.utc(timeafter.diff(moment())).format("hh:mm:ss");
-            if (pageerror)
-              res.render('group', {
-                session: req.session,
-                groupdata: rows[0],
-                message: pageerror,
-                remain_time: remain_time,
-                isjoin: isjoin,
-                iswriter: iswriter,
-                nodeid: nodeid
-              });
-            else
-              res.render('group', {
-                session: req.session,
-                groupdata: rows[0],
-                remain_time: remain_time,
-                isjoin: isjoin,
-                iswriter: iswriter,
-                nodeid: nodeid
-              });
-          }
-          else {
-            res.redirect('/');
-          }
-
-        });
+      
+      renodb.getReaders(req.query.groupname, null,
+        function (err, numReaders) {
+          var readersCount = numReaders;
+          renodb.getWriters(req.query.groupname, null,
+          function (err, numWriters) {
+            var writersCount = numWriters;
+            db.connection.query(
+            'select * from RenoGroup where Groupname = ' + db.mysql.escape(req.query.groupname),
+            function (err, rows) {
+              if (rows && rows[0]) {
+                var changetime = moment(rows[0].writerchangetime);
+                var writelimit = rows[0].WriteLimit.split(":");
+                for (var i = 0; i < writelimit.length; i++) writelimit[i] = parseInt(writelimit[i], 10);
+                var timeafter = changetime.add({ hours: writelimit[0], minutes: writelimit[1], seconds: writelimit[2] });
+                var remain_time = moment.utc(timeafter.diff(moment())).format("hh:mm:ss");
+                if (pageerror)
+                  res.render('group', {
+                    session: req.session,
+                    groupdata: rows[0],
+                    message: pageerror,
+                    remain_time: remain_time,
+                    isjoin: isjoin,
+                    iswriter: iswriter,
+                    nodeid: nodeid,
+                    readersCount: readersCount,
+                    writersCount: writersCount
+                  });
+                else
+                  res.render('group', {
+                    session: req.session,
+                    groupdata: rows[0],
+                    remain_time: remain_time,
+                    isjoin: isjoin,
+                    iswriter: iswriter,
+                    nodeid: nodeid,
+                    readersCount: readersCount,
+                    writersCount: writersCount
+                  });
+              }
+              else {
+                res.redirect('/');
+              }
+            });
+          });
+      });
     });
-
-
 }
 
 
