@@ -178,8 +178,9 @@ router.post('/votedata', function (req, res, next) {
   var groupname = req.body.groupname;
 
   var nodes = new Array();
-  db.connection.query('select * from Vote where Group_GroupId = ' + db.mysql.escape(groupname)
-    , function (err, rows) {
+  db.connection.query('select * from Vote where Group_GroupId = ' + db.mysql.escape(groupname) +
+    ' and VoteStatus=true',
+    function (err, rows) {
       if (err || !rows) return;
       var count = 0;
       rows.forEach(function (element) {
@@ -207,19 +208,6 @@ router.post('/votedata', function (req, res, next) {
           });
       }, this);
     });
-
-  // var data = {
-  //   Votetype: '타입',
-  //   agree: '2',
-  //   agreePercent: '10',
-  //   disagree: '18',
-  //   disagreePercent: '90',
-  //   StartTime: 'YYYY-MM-DD HH:mm:ss',
-  //   EndTime: 'YYYY-MM-DD HH:mm:ss',
-  //   nodehref: '/home'
-  // }
-  // var result = [data, data];
-  // res.send(result);
 });
 
 router.get('/votenode', function (req, res, next) {

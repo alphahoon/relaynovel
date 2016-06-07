@@ -34,6 +34,9 @@ block contents
           label 작성 시간 제한
             select.browser-default(onChange='OnDropDownChange(this,"writetimelimit")')
               option(value='', disabled='', selected='') 선택
+              option(value='00:00:20') 20초
+              option(value='00:01:00') 1분
+              option(value='00:30:00') 30분
               option(value='01:00:00') 1시간
               option(value='02:00:00') 2시간
               option(value='03:00:00') 3시간
@@ -47,6 +50,9 @@ block contents
           label 투표 시간 제한
             select.browser-default(onChange='OnDropDownChange(this,"votetimelimit")')
               option(value='', disabled='', selected='') 선택 
+              option(value='00:00:20') 20초
+              option(value='00:01:00') 1분
+              option(value='00:30:00') 30분
               option(value='01:00:00') 1시간
               option(value='02:00:00') 2시간
               option(value='03:00:00') 3시간

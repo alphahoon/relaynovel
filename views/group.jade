@@ -40,11 +40,15 @@ block contents
         //- 총 글자수 count 하는 모듈
     .row(style="text-align:center;")
       //- 나중에 실시간으로 바꿀것
-      h6(style="text-align:center;") 현재 
-        span.teal-text.text-darken-1 #{groupdata.writer}
-        |  님이 작성 중입니다! (
-        span(style="color:#00897b")#tiktok #{remain_time}
-        |  남음)
+      if(groupdata.writer)
+        h6(style="text-align:center;") 현재 
+          span.teal-text.text-darken-1 #{groupdata.writer}
+          |  님이 작성 중입니다! (
+          span(style="color:#00897b")#tiktok #{remain_time}
+          |  남음)
+      else
+        h6(style="text-align:center;") 현재 투표 중 입니다!
+        
     form(action='/group', method='post', style='text-align:center;')
       .row
         if(!isjoin)
