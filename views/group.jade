@@ -108,12 +108,13 @@ block contents
             button.btn-large.waves-effect.waves-light.blue(type='submit', style="width:100%; max-width: 200px;") 단락 추가
     //- Write form end
     //- Vote Module
-    hr
-    .row
-      h5.teal-text.text-darken-1(style="font-weight:bold;") 진행중인 투표
-      div#votenodes
+    if(isjoin)
+      hr
       .row
-        a.btn.waves-effect.waves-light.teal.lighten-1#loadvotebutton(style="width:150px;") 더 보기
+        h5.teal-text.text-darken-1(style="font-weight:bold;") 진행중인 투표
+        div#votenodes
+        .row
+          a.btn.waves-effect.waves-light.teal.lighten-1#loadvotebutton(style="width:150px;") 더 보기
 block contents-footer
 block afterload-script
   //- 토스트 메세지
