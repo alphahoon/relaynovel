@@ -87,7 +87,7 @@ block contents
         .rule-card.grey.lighten-3
           strong 글자 수 제한
           br
-          span.teal-text 100-250
+          span.teal-text #{groupdata.minWrite}-#{groupdata.maxWrite}
     hr
     //- Read Module
     .row
@@ -107,110 +107,13 @@ block contents
           .col.s12
             button.btn-large.waves-effect.waves-light.blue(type='submit', style="width:100%; max-width: 200px;") 단락 추가
     //- Write form end
+    //- Vote Module
     hr
     .row
       h5.teal-text.text-darken-1(style="font-weight:bold;") 진행중인 투표
+      div#votenodes
       .row
-        .col.s12
-          .card.grey.lighten-3
-            .card-content.grey-text.text-darken-3
-              .row
-                span.grey-text.text-darken-3(style="font-size: 1.6em;") 
-                  strong 단락 추가
-              .row
-                .col.s12
-                  .vote-container.z-depth-1
-                    a.waves-effect.waves-light.vote-up(href="#!", style="width:70%") 찬성 14 (70%)
-                    a.waves-effect.waves-light.vote-down(href="#!", style="width:30%") 반대 6 (30%)
-              .row(style="text-align:right;")
-                | 시작일 : 
-                span.teal-text 2016-XX-XX 
-                | / 종료일 : 
-                span.teal-text 2016-XX-XX
-                br
-              .row
-                a(href="#!", style="color: #00897b; font-size:1.2em; text-decoration: underline; position: absolute; left: 50%; margin-left:-44px; bottom: 15px;") 해당 글 보기
-      .row
-        .col.s12
-          .card.grey.lighten-3
-            .card-content.grey-text.text-darken-3
-              .row
-                span.grey-text.text-darken-3(style="font-size: 1.6em;") 
-                  strong 단락 수정
-              .row
-                .col.s12
-                  .vote-container.z-depth-1
-                    a.waves-effect.waves-light.vote-up(href="#!", style="width:40%") 찬성 4 (40%)
-                    a.waves-effect.waves-light.vote-down(href="#!", style="width:60%") 반대 6 (60%)
-              .row(style="text-align:right;")
-                | 시작일 : 
-                span.teal-text 2016-XX-XX 
-                | / 종료일 : 
-                span.teal-text 2016-XX-XX
-                br
-              .row
-                a(href="#!", style="color: #00897b; font-size:1.2em; text-decoration: underline; position: absolute; left: 50%; margin-left:-44px; bottom: 15px;") 해당 글 보기
-      .row
-        .col.s12
-          .card.grey.lighten-3
-            .card-content.grey-text.text-darken-3
-              .row
-                span.grey-text.text-darken-3(style="font-size: 1.6em;") 
-                  strong 리비전 롤백
-              .row
-                .col.s12
-                  .vote-container.z-depth-1
-                    a.waves-effect.waves-light.vote-up(href="#!", style="width:20%") 찬성 2 (20%)
-                    a.waves-effect.waves-light.vote-down(href="#!", style="width:80%") 반대 8 (80%)
-              .row(style="text-align:right;")
-                | 시작일 : 
-                span.teal-text 2016-XX-XX 
-                | / 종료일 : 
-                span.teal-text 2016-XX-XX
-                br
-              .row
-                a(href="#!", style="color: #00897b; font-size:1.2em; text-decoration: underline; position: absolute; left: 50%; margin-left:-44px; bottom: 15px;") 해당 글 보기
-      .row
-        .col.s12
-          .card.grey.lighten-3
-            .card-content.grey-text.text-darken-3
-              .row
-                span.grey-text.text-darken-3(style="font-size: 1.6em;") 
-                  strong 완결
-              .row
-                .col.s12
-                  .vote-container.z-depth-1
-                    a.waves-effect.waves-light.vote-up(href="#!", style="width:40%") 찬성 4 (40%)
-                    a.waves-effect.waves-light.vote-down(href="#!", style="width:60%") 반대 6 (60%)
-              .row(style="text-align:right;")
-                | 시작일 : 
-                span.teal-text 2016-XX-XX 
-                | / 종료일 : 
-                span.teal-text 2016-XX-XX
-                br
-              .row
-                a(href="#!", style="color: #00897b; font-size:1.2em; text-decoration: underline; position: absolute; left: 50%; margin-left:-44px; bottom: 15px;") 해당 글 보기
-      .row
-        .col.s12
-          .card.grey.lighten-3
-            .card-content.grey-text.text-darken-3
-              .row
-                span.grey-text.text-darken-3(style="font-size: 1.6em;") 
-                  strong 단락 추가
-              .row
-                .col.s12
-                  .vote-container.z-depth-1
-                    a.waves-effect.waves-light.vote-up(href="#!", style="width:70%") 찬성 1 (10%)
-                    a.waves-effect.waves-light.vote-down(href="#!", style="width:30%") 반대 9 (90%)
-              .row(style="text-align:right;")
-                | 시작일 : 
-                span.teal-text 2016-XX-XX 
-                | / 종료일 : 
-                span.teal-text 2016-XX-XX
-                br
-              .row
-                a(href="#!", style="color: #00897b; font-size:1.2em; text-decoration: underline; position: absolute; left: 50%; margin-left:-44px; bottom: 15px;") 해당 글 보기
-
+        a.btn.waves-effect.waves-light.teal.lighten-1#loadvotebutton(style="width:150px;") 더 보기
 block contents-footer
 block afterload-script
   //- 토스트 메세지
@@ -231,6 +134,16 @@ block afterload-script
     $( "#loadreadbutton" ).click(function() {
       loadmore('readnodes', numIncremental, '/group/read', '/group/readnode', '#{groupdata.Groupname}', '#{nodeid}');
     });
+  //- Vote Module
+  script(type='text/javascript', src='viewjs/loadmorevote.js')
+  script(type='text/javascript').
+    var numInitialGroup = 3;
+    var numIncremental = 4;
+    $(loadmore('votenodes', numInitialGroup, '/group/votedata', '/group/votenode', '#{groupdata.Groupname}'));
+    $( "#loadvotebutton" ).click(function() {
+      loadmore('votenodes', numIncremental, '/group/votedata', '/group/votenode', '#{groupdata.Groupname}');
+    });  
+  //- Time Module
   script(type='text/javascript', src='viewjs/time2sec.js')
   script(type='text/javascript').
     var totalsec = time2sec('#{remain_time}');

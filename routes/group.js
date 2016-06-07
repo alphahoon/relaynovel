@@ -135,6 +135,32 @@ router.get('/readnode', function (req, res, next) {
   });
 });
 
+///////////////////////// Vote ////////////////////////////////
+
+router.post('/votedata', function (req, res, next) {
+  var data = {
+    Votetype:'타입',
+    agree:'2',
+    agreePercent:'10',
+    disagree:'18',
+    disagreePercent:'90',
+    StartTime:'YYYY-MM-DD HH:mm:ss',
+    EndTime:'YYYY-MM-DD HH:mm:ss',
+    nodehref:'/home'
+  }
+  var result = [data, data];
+  res.send(result);
+});
+
+router.get('/votenode', function (req, res, next) {
+  fs.readFile(__dirname + '/../public/fakehtmls/votenode.html', 'utf8', function (err, data) {
+    if (err) {
+      return console.log(err);
+    }
+    res.send(data);
+  });
+});
+
 /* GET home page. */
 router.get('/', function (req, res, next) {
   if (!req.session.logined)
