@@ -25,18 +25,34 @@ router.get('/joinreader', function (req, res, next) {
 router.get('/joinwriter', function (req, res, next) {
   if (!req.session.logined)
     res.redirect('/');
-  renodb.joinGroup(req.query.groupname, req.session.user_id, true, function (err) {
-    res.redirect(encodeURI('/group?groupname=' + req.query.groupname));
-  }, function () {
-    renodb.updateReadersWriters(req.query.groupname,
-      function (err) {
-        console.log('updateReadersWriters failed from /joinwriter' + err);
-        res.redirect(encodeURI('/group?groupname=' + req.query.groupname));
-      },
-      function () {
-        res.redirect(encodeURI('/group?groupname=' + req.query.groupname));
-      });
-  });
+
+  // check writer limit before join as a writer
+  db.connection.query('select writers, WriterLimit from RenoGroup where Groupname = '
+    + db.mysql.escape(req.query.groupname),
+    function (err, rows) {
+      if (err) console.log(err);
+      if (rows && rows[0]) {
+        if (rows[0].writers >= rows[0].WriterLimit) {
+          console.log('Cannot join : writer limit exceeded.');
+          res.redirect(encodeURI('/group?groupname=' + req.query.groupname+'&error=작가 수가 가득 찼습니다!'));
+        }
+        else {
+          renodb.joinGroup(req.query.groupname, req.session.user_id, true, function (err) {
+            res.redirect(encodeURI('/group?groupname=' + req.query.groupname));
+          }, function () {
+            renodb.updateReadersWriters(req.query.groupname,
+              function (err) {
+                console.log('updateReadersWriters failed from /joinwriter' + err);
+                res.redirect(encodeURI('/group?groupname=' + req.query.groupname));
+              },
+              function () {
+                res.redirect(encodeURI('/group?groupname=' + req.query.groupname));
+              });
+          });
+        }
+      }
+    }
+  );
 });
 router.get('/bereader', function (req, res, next) {
   if (!req.session.logined)
@@ -58,19 +74,35 @@ router.get('/bereader', function (req, res, next) {
 router.get('/bewriter', function (req, res, next) {
   if (!req.session.logined)
     res.redirect('/');
-  renodb.beWriter(req.query.groupname, req.session.user_id,
-    function (err) {
-      res.redirect(encodeURI('/group?groupname=' + req.query.groupname));
-    }, function () {
-      renodb.updateReadersWriters(req.query.groupname,
-        function (err) {
-          console.log('updateReadersWriters failed from /bewriter' + err);
-          res.redirect(encodeURI('/group?groupname=' + req.query.groupname));
-        },
-        function () {
-          res.redirect(encodeURI('/group?groupname=' + req.query.groupname));
-        });
-    })
+
+  // check writer limit before join as a writer
+  db.connection.query('select writers, WriterLimit from RenoGroup where Groupname = '
+    + db.mysql.escape(req.query.groupname),
+    function (err, rows) {
+      if (err) console.log(err);
+      if (rows && rows[0]) {
+        if (rows[0].writers >= rows[0].WriterLimit) {
+          console.log('Cannot join : writer limit exceeded.');
+          res.redirect(encodeURI('/group?groupname=' + req.query.groupname+'&error=작가 수가 가득 찼습니다!'));
+        }
+        else {
+          renodb.beWriter(req.query.groupname, req.session.user_id,
+            function (err) {
+              res.redirect(encodeURI('/group?groupname=' + req.query.groupname));
+            }, function () {
+              renodb.updateReadersWriters(req.query.groupname,
+                function (err) {
+                  console.log('updateReadersWriters failed from /bewriter' + err);
+                  res.redirect(encodeURI('/group?groupname=' + req.query.groupname));
+                },
+                function () {
+                  res.redirect(encodeURI('/group?groupname=' + req.query.groupname));
+                });
+            });
+        }
+      }
+    }
+  );
 });
 router.get('/exit', function (req, res, next) {
   if (!req.session.logined)
