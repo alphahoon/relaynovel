@@ -12,7 +12,14 @@ router.get('/joinreader', function (req, res, next) {
   renodb.joinGroup(req.query.groupname, req.session.user_id, false, function (err) {
     res.redirect(encodeURI('/group?groupname=' + req.query.groupname));
   }, function () {
-    res.redirect(encodeURI('/group?groupname=' + req.query.groupname));
+    renodb.updateReadersWriters(req.query.groupname,
+      function (err) {
+        console.log('updateReadersWriters failed from /joinreader' + err);
+        res.redirect(encodeURI('/group?groupname=' + req.query.groupname));
+      },
+      function () {
+        res.redirect(encodeURI('/group?groupname=' + req.query.groupname));
+      });
   });
 });
 router.get('/joinwriter', function (req, res, next) {
@@ -21,7 +28,14 @@ router.get('/joinwriter', function (req, res, next) {
   renodb.joinGroup(req.query.groupname, req.session.user_id, true, function (err) {
     res.redirect(encodeURI('/group?groupname=' + req.query.groupname));
   }, function () {
-    res.redirect(encodeURI('/group?groupname=' + req.query.groupname));
+      renodb.updateReadersWriters(req.query.groupname,
+      function (err) {
+        console.log('updateReadersWriters failed from /joinwriter' + err);
+        res.redirect(encodeURI('/group?groupname=' + req.query.groupname));
+      },
+      function () {
+        res.redirect(encodeURI('/group?groupname=' + req.query.groupname));
+      });
   });
 });
 router.get('/bereader', function (req, res, next) {
@@ -31,7 +45,14 @@ router.get('/bereader', function (req, res, next) {
     function (err) {
       res.redirect(encodeURI('/group?groupname=' + req.query.groupname));
     }, function () {
-      res.redirect(encodeURI('/group?groupname=' + req.query.groupname));
+      renodb.updateReadersWriters(req.query.groupname,
+      function (err) {
+        console.log('updateReadersWriters failed from /bereader' + err);
+        res.redirect(encodeURI('/group?groupname=' + req.query.groupname));
+      },
+      function () {
+        res.redirect(encodeURI('/group?groupname=' + req.query.groupname));
+      });
     })
 });
 router.get('/bewriter', function (req, res, next) {
@@ -41,7 +62,14 @@ router.get('/bewriter', function (req, res, next) {
     function (err) {
       res.redirect(encodeURI('/group?groupname=' + req.query.groupname));
     }, function () {
-      res.redirect(encodeURI('/group?groupname=' + req.query.groupname));
+      renodb.updateReadersWriters(req.query.groupname,
+      function (err) {
+        console.log('updateReadersWriters failed from /bewriter' + err);
+        res.redirect(encodeURI('/group?groupname=' + req.query.groupname));
+      },
+      function () {
+        res.redirect(encodeURI('/group?groupname=' + req.query.groupname));
+      });
     })
 });
 router.get('/exit', function (req, res, next) {
@@ -50,7 +78,14 @@ router.get('/exit', function (req, res, next) {
   renodb.exitGroup(req.query.groupname, req.session.user_id, function (err) {
     res.redirect(encodeURI('/group?groupname=' + req.query.groupname));
   }, function () {
-    res.redirect(encodeURI('/group?groupname=' + req.query.groupname));
+    renodb.updateReadersWriters(req.query.groupname,
+    function (err) {
+        console.log('updateReadersWriters failed from /exit' + err);
+        res.redirect(encodeURI('/group?groupname=' + req.query.groupname));
+      },
+      function () {
+        res.redirect(encodeURI('/group?groupname=' + req.query.groupname));
+      });
   });
 });
 
@@ -191,52 +226,52 @@ function showpage(req, res, pageerror) {
         isjoin = false;
         iswriter = false;
       }
-      
+
       renodb.getReaders(req.query.groupname, null,
         function (err, numReaders) {
           var readersCount = numReaders;
           renodb.getWriters(req.query.groupname, null,
-          function (err, numWriters) {
-            var writersCount = numWriters;
-            db.connection.query(
-            'select * from RenoGroup where Groupname = ' + db.mysql.escape(req.query.groupname),
-            function (err, rows) {
-              if (rows && rows[0]) {
-                var changetime = moment(rows[0].writerchangetime);
-                var writelimit = rows[0].WriteLimit.split(":");
-                for (var i = 0; i < writelimit.length; i++) writelimit[i] = parseInt(writelimit[i], 10);
-                var timeafter = changetime.add({ hours: writelimit[0], minutes: writelimit[1], seconds: writelimit[2] });
-                var remain_time = moment.utc(timeafter.diff(moment())).format("hh:mm:ss");
-                if (pageerror)
-                  res.render('group', {
-                    session: req.session,
-                    groupdata: rows[0],
-                    message: pageerror,
-                    remain_time: remain_time,
-                    isjoin: isjoin,
-                    iswriter: iswriter,
-                    nodeid: nodeid,
-                    readersCount: readersCount,
-                    writersCount: writersCount
-                  });
-                else
-                  res.render('group', {
-                    session: req.session,
-                    groupdata: rows[0],
-                    remain_time: remain_time,
-                    isjoin: isjoin,
-                    iswriter: iswriter,
-                    nodeid: nodeid,
-                    readersCount: readersCount,
-                    writersCount: writersCount
-                  });
-              }
-              else {
-                res.redirect('/');
-              }
+            function (err, numWriters) {
+              var writersCount = numWriters;
+              db.connection.query(
+                'select * from RenoGroup where Groupname = ' + db.mysql.escape(req.query.groupname),
+                function (err, rows) {
+                  if (rows && rows[0]) {
+                    var changetime = moment(rows[0].writerchangetime);
+                    var writelimit = rows[0].WriteLimit.split(":");
+                    for (var i = 0; i < writelimit.length; i++) writelimit[i] = parseInt(writelimit[i], 10);
+                    var timeafter = changetime.add({ hours: writelimit[0], minutes: writelimit[1], seconds: writelimit[2] });
+                    var remain_time = moment.utc(timeafter.diff(moment())).format("hh:mm:ss");
+                    if (pageerror)
+                      res.render('group', {
+                        session: req.session,
+                        groupdata: rows[0],
+                        message: pageerror,
+                        remain_time: remain_time,
+                        isjoin: isjoin,
+                        iswriter: iswriter,
+                        nodeid: nodeid,
+                        readersCount: readersCount,
+                        writersCount: writersCount
+                      });
+                    else
+                      res.render('group', {
+                        session: req.session,
+                        groupdata: rows[0],
+                        remain_time: remain_time,
+                        isjoin: isjoin,
+                        iswriter: iswriter,
+                        nodeid: nodeid,
+                        readersCount: readersCount,
+                        writersCount: writersCount
+                      });
+                  }
+                  else {
+                    res.redirect('/');
+                  }
+                });
             });
-          });
-      });
+        });
     });
 }
 
