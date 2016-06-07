@@ -248,9 +248,13 @@ router.post('/votedata', function (req, res, next) {
             if (adtotal == 0)
             { agp = 50; dgp = 50; }
             else
-            { agp = (agree).toFixed(2) / adtotal * 100.00; dgp = (disagree).toFixed(2) / adtotal * 100.00; }
+            { agp = (agree / adtotal * 100.00).toFixed(1); dgp = (disagree / adtotal * 100.00).toFixed(1); }
+            var Votetype;
+            if (element.Votetype == 'add') Votetype = '단락 추가';
+            else if (element.Votetype == 'change') Votetype = '단락 변경';
+            else if (element.Votetype == 'rollback') Votetype = '롤백';
             nodes.push({
-              Votetype: element.Votetype,
+              Votetype: Votetype,
               agree: agree,
               agreePercent: agp,
               disagree: disagree,
