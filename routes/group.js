@@ -5,8 +5,6 @@ var renodb = require('../renodb.js');
 var moment = require('moment');
 var fs = require('fs');
 
-moment.lang('kr');
-
 ///////////////////////// Change Role ////////////////////////////////
 router.get('/joinreader', function (req, res, next) {
   if (!req.session.logined)
@@ -143,7 +141,7 @@ router.post('/write', function (req, res, next) {
   renodb.submitContent(req.body.writearea, req.session.user_id, req.query.groupname, function (err) {
     res.redirect(encodeURI('/group?groupname=' + req.query.groupname));
   }, function (nodeid) {
-    res.redirect(encodeURI('/group?groupname=' + req.query.groupname + '&nodeid=' + nodeid));
+    res.redirect(encodeURI('/group?groupname=' + req.query.groupname));
   });
 });
 
@@ -368,7 +366,9 @@ function showpage(req, res, pageerror) {
               var writelimit = rows[0].WriteLimit.split(":");
               for (var i = 0; i < writelimit.length; i++) writelimit[i] = parseInt(writelimit[i], 10);
               var timeafter = changetime.add({ hours: writelimit[0], minutes: writelimit[1], seconds: writelimit[2] });
-              var remain_time = moment.utc(timeafter.diff(moment())).format("HH:mm:ss");
+              var remain_time;
+              if (timeafter >= moment()) remain_time = moment.utc(timeafter.diff(moment())).format("HH:mm:ss");
+              else remain_time = "00:00:00";
               if (pageerror)
                 res.render('group', {
                   session: req.session,

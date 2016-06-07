@@ -93,32 +93,57 @@ function quitForever(userid, cberror, cbsuccess) {
         + db.mysql.escape(userid),
             function(err, rows) {
                 if (err) cberror(err);
-                if (rows && rows[0])
-                {
+                if (rows && rows[0]) {
                     db.connection.query('delete from User where userid = '
                         + db.mysql.escape(userid),
-                        function(err) {
-                        if (err) cberror(err);
-                        else {
-                            var idx=0;
-                            rows.forEach(function(row) {
-                                updateReadersWriters(row.Groupname, 
-                                    function (err)
-                                    {
-                                        console.log(userid + ' quit ' + row.Groupname + ' FAILED!');
-                                        idx++;
-                                    },
-                                    function (success)
-                                    {
-                                        console.log(userid + ' quit ' + row.Groupname + ' SUCCESS!');
-                                        idx++;
-                                        if(idx == rows.length)
-                                            cbsuccess();
-                                    }
-                                );                                
-                            }, this);
-                        }
+                        function (err) {
+                            if (err) cberror(err);
+                            else {
+                                var idx = 0;
+                                rows.forEach(function (row) {
+                                    updateReadersWriters(row.Groupname,
+                                        function (err) {
+                                            console.log(userid + ' quit ' + row.Groupname + ' FAILED!');
+                                            idx++;
+                                        },
+                                        function (success) {
+                                            console.log(userid + ' quit ' + row.Groupname + ' SUCCESS!');
+                                            idx++;
+                                            if (idx == rows.length)
+                                                cbsuccess();
+                                        }
+                                    );
+                                }, this);
+                            }
                         });
+                    /*
+                    db.connection.query('', function (err) {
+                        db.connection.query('delete from User where userid = '
+                            + db.mysql.escape(userid),
+                            function (err) {
+                                db.connection.query('', function (err) {
+                                    if (err) cberror(err);
+                                    else {
+                                        var idx = 0;
+                                        rows.forEach(function (row) {
+                                            updateReadersWriters(row.Groupname,
+                                                function (err) {
+                                                    console.log(userid + ' quit ' + row.Groupname + ' FAILED!');
+                                                    idx++;
+                                                },
+                                                function (success) {
+                                                    console.log(userid + ' quit ' + row.Groupname + ' SUCCESS!');
+                                                    idx++;
+                                                    if (idx == rows.length)
+                                                        cbsuccess();
+                                                }
+                                            );
+                                        }, this);
+                                    }
+                                });
+                            });
+                    });
+                    */
                 }
             }
         );

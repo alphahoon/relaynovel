@@ -7,7 +7,7 @@ block global
     .toast-custom#toast
       span #{message}
   .fixed-action-btn(style='top: 10%; right: 10%;')
-    a.btn-floating.btn-large.blue(href='/group/?groupname='+groupdata.Groupname+'#readnodes')
+    a.btn-floating.btn-large.blue(href='/group/?groupname='+groupdata.Groupname+'#readSection')
       i.large.material-icons visibility
 block contents-header
 block contents
@@ -95,7 +95,7 @@ block contents
           strong 글자 수 제한
           br
           span.teal-text #{groupdata.minwrite}-#{groupdata.maxwrite}
-    hr
+    hr#readSection
     //- Read Module
     .row
       h5.teal-text.text-darken-1(style="font-weight:bold;") 소설 읽기
