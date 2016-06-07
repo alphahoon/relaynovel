@@ -76,6 +76,14 @@ function exitGroup(groupname, userid, cberror, cbsuccess) {
             }
         });
 }
+function quitForever(userid, cberror, cbsuccess) {
+    db.connection.query('delete from User where userid = '
+        + db.mysql.escape(userid),
+        function(err) {
+            if (err) cberror(err);
+            else cbsuccess();
+        });
+}
 function setWritersReaders(groupname, deltawriters, deltareaders, cberror, cbsuccess) {
     db.connection.query('update RenoGroup '
         + 'set writers = writers' + deltawriters
@@ -169,6 +177,54 @@ function setNewWriter (groupname, cberror, cbsuccess) {
                 });                    
             }
         });        
+}
+
+function createVote(nodevalues, votetype, NodetoModify, cberror, cbsuccess) {
+    db.connection.query("select count(VoteID) AS counts from Vote", function (err, Votes){
+        if (err) cberror(err);  
+        else if (Votes==null) cberror(err);            
+        else {
+            var VoteID = 0;
+            if (Votes[0] == null) cberror(err);
+            else VoteID = Votes[0].counts + 1;
+            console.log(VoteID);
+            console.log(Votes[0].counts);
+            db.connection.query("select VoteLimit from RenoGroup where Groupname =" + db.mysql.escape(nodevalues.Groupname),
+            function (err, votinglimit){
+                if (err) cberror(err);
+                else{            
+                    var start_time = moment();
+                    var voteLimit = votinglimit[0].VoteLimit.split(":");
+                    for (var i = 0; i < voteLimit.length; i++) voteLimit[i] = parseInt(voteLimit[i], 10);
+                    var timeafter = start_time.add({ hours: voteLimit[0], minutes: voteLimit[1], seconds: voteLimit[2] });
+                    var votevalues = {
+                        VoteID : VoteID,
+                        Group_GroupId : nodevalues.Groupname,
+                        Votetype : votetype,
+                        NodeId : nodevalues.NodeID,
+                        StartTime : start_time.format('YYYY-MM-DD HH:mm:ss'),
+                        EndTime : timeafter.format('YYYY-MM-DD HH:mm:ss'),
+                        VoteStatus : 1,
+                        ModifyNode : null
+                    };
+                    if (votetype == 'change') votevalues.ModifyNode = NodetoModify;
+                    console.log(votevalues);
+                    db.connection.query('insert into Vote set ?', votevalues, function(err) {
+                        if (err) cberror(err);
+                        else {
+                            console.log('success')
+                            setVoteTimer(votevalues.Votetype+votevalues.NodeId, votevalues.VoteID, votevalues.StartTime, votinglimit[0].VoteLimit,
+                            function(err) {
+                                cberror(err);
+                            }, function() {
+                                cbsuccess();
+                            });                            
+                        }
+                    });                        
+                }
+            });
+        }        
+    })
 }
 
 function setWriterTimer(timername, groupcreationtime, writelimit, groupname, cberror, cbsuccess) {
@@ -277,5 +333,7 @@ module.exports = {
     setNewWriter : setNewWriter,
     exitGroup : exitGroup,
     joinGroup : joinGroup,
-    setVoteTimer : setVoteTimer
+    setVoteTimer : setVoteTimer,
+    createVote : createVote,
+    quitForever : quitForever
 }
