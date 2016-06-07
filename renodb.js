@@ -160,7 +160,7 @@ function submitContent(content, writer, groupname, cberror, cbsuccess) {
             console.log('nonexistent group')
             }, function (revision_number) {
                 if (writer != groupinfo.writer){
-                    cberror(err)
+                    cberror(err);
                 }
                 else {
                     var nodevalues = {
@@ -181,7 +181,7 @@ function submitContent(content, writer, groupname, cberror, cbsuccess) {
                                 function (err) {
                                     cberror(err);
                                 }, function () {
-                                    createVote(nodevalues, 'add', null,
+                                    createVote(nodevalues, 'add', null, writer,
                                     function (err) {
                                         cberror(err);
                                     }, function() {
@@ -218,7 +218,7 @@ function submitModification (content, nodetomodify, writer, groupname, cberror, 
             function (err) {
                 if (err) cberror(err);
                 else {
-                    createVote(nodevalues, 'change', nodetomodify,
+                    createVote(nodevalues, 'change', nodetomodify, writer,
                     function (err) {
                         cberror(err);
                     }, function() {
@@ -235,34 +235,34 @@ function setNewWriter (groupname, cberror, cbsuccess) {
         function (err, group_query) {
             if (err) cberror(err);            
             else {
-                db.connection.query("SELECT userid FROM JoinGroup WHERE Groupname=" + db.mysql.escape(groupname)+
-                " AND isWriter=1 AND userid != " + db.mysql.escape(group_query[0].writer) + " order by rand() limit 1",
-                function (err, writer_2) {
-                    if (err) cberror(err);            
-                    else {
-                        var new_writer;
-                        if (writer_2[0] == null) new_writer = group_query[0].writer;
-                        else new_writer = writer_2[0].userid;
-                        var votelimit = group_query[0].VoteLimit.split(":");
-                        for (var i = 0; i < votelimit.length; i++) votelimit[i] = parseInt(votelimit[i], 10);
-                        var timeafter = moment().add({ hours: votelimit[0], minutes: votelimit[1], seconds: votelimit[2] }).format('YYYY-MM-DD HH:mm:ss');                        
-                        update_groupinfo = {
-                            writer : new_writer,
-                            writerchanged : 1,
-                            writerchangetime :timeafter  
-                        };
-                        db.connection.query('update RenoGroup set ? where Groupname = '+ db.mysql.escape(groupname), update_groupinfo,
-                        function (err) {
-                            if (err) cberror(err);
-                            else cbsuccess();
+                // db.connection.query("SELECT userid FROM JoinGroup WHERE Groupname=" + db.mysql.escape(groupname)+
+                // " AND isWriter=1 AND userid != " + db.mysql.escape(group_query[0].writer) + " order by rand() limit 1",
+                // function (err, writer_2) {
+                //     if (err) cberror(err);            
+                //     else {
+            var votelimit = group_query[0].VoteLimit.split(":");
+            for (var i = 0; i < votelimit.length; i++) votelimit[i] = parseInt(votelimit[i], 10);
+            var timeafter = moment().add({ hours: votelimit[0], minutes: votelimit[1], seconds: votelimit[2] }).format('YYYY-MM-DD HH:mm:ss');                        
+            update_groupinfo = {
+                writer : null,
+                writerchanged : 1,
+                writerchangetime :timeafter  
+            };
+            db.connection.query('update RenoGroup set ? where Groupname = '+ db.mysql.escape(groupname), update_groupinfo,
+            function (err) {
+                if (err) {
+                    console.log(err);
+                    cberror(err);
+                }
+                else cbsuccess();
                         });
-                    }
-                });                    
+                //     }
+                // });                    
             }
         });        
 }
 
-function createVote(nodevalues, votetype, NodetoModify, cberror, cbsuccess) {
+function createVote(nodevalues, votetype, NodetoModify, writer, cberror, cbsuccess) {
     db.connection.query("select count(VoteID) AS counts from Vote", function (err, Votes){
         if (err) cberror(err);  
         else if (Votes==null) cberror(err);            
@@ -270,8 +270,6 @@ function createVote(nodevalues, votetype, NodetoModify, cberror, cbsuccess) {
             var VoteID = 0;
             if (Votes[0] == null) cberror(err);
             else VoteID = Votes[0].counts + 1;
-            console.log(VoteID);
-            console.log(Votes[0].counts);
             db.connection.query("select VoteLimit from RenoGroup where Groupname =" + db.mysql.escape(nodevalues.Groupname),
             function (err, votinglimit){
                 if (err) cberror(err);
@@ -279,7 +277,8 @@ function createVote(nodevalues, votetype, NodetoModify, cberror, cbsuccess) {
                     var start_time = moment();
                     var voteLimit = votinglimit[0].VoteLimit.split(":");
                     for (var i = 0; i < voteLimit.length; i++) voteLimit[i] = parseInt(voteLimit[i], 10);
-                    var timeafter = start_time.add({ hours: voteLimit[0], minutes: voteLimit[1], seconds: voteLimit[2] });
+                    var timeafter = moment(start_time); 
+                    timeafter = timeafter.add({ hours: voteLimit[0], minutes: voteLimit[1], seconds: voteLimit[2] });
                     var votevalues = {
                         VoteID : VoteID,
                         Group_GroupId : nodevalues.Groupname,
@@ -291,12 +290,11 @@ function createVote(nodevalues, votetype, NodetoModify, cberror, cbsuccess) {
                         ModifyNode : null
                     };
                     if (votetype == 'change') votevalues.ModifyNode = NodetoModify;
-                    console.log(votevalues);
                     db.connection.query('insert into Vote set ?', votevalues, function(err) {
                         if (err) cberror(err);
                         else {
                             console.log('success')
-                            setVoteTimer(votevalues.Votetype+votevalues.NodeId, votevalues.VoteID, votevalues.StartTime, votinglimit[0].VoteLimit,
+                            setVoteTimer(votevalues.Votetype+votevalues.NodeId, votevalues.VoteID, votevalues.StartTime, votinglimit[0].VoteLimit, writer,
                             function(err) {
                                 cberror(err);
                             }, function() {
@@ -352,7 +350,7 @@ function setWriterTimer(timername, groupcreationtime, writelimit, groupname, cbe
         }); 
 }
 
-function setVoteTimer (timername, VoteID, VoteStart, VoteLimit, cberror, cbsuccess) {
+function setVoteTimer (timername, VoteID, VoteStart, VoteLimit, writer, cberror, cbsuccess) {
     db.connection.query("CREATE EVENT " + timername + " ON SCHEDULE AT (ADDTIME('" + VoteStart + "', '"+VoteLimit +"')) "+
     "DO BEGIN "+
         "DECLARE vote_type varchar(45);"+
@@ -362,6 +360,7 @@ function setVoteTimer (timername, VoteID, VoteStart, VoteLimit, cberror, cbsucce
         "DECLARE group_name varchar(45);"+
         "DECLARE current_node varchar(45);"+
         "DECLARE modify_node varchar(45);"+
+        "DECLARE new_writer varchar(45);"+
         "SET current_vote = "+VoteID+";"+
         "SET group_name = (SELECT Group_GroupId FROM Vote where VoteID = current_vote);"+
         "SET count_members = (SELECT Count(*) FROM JoinGroup WHERE Groupname=group_name);"+
@@ -369,6 +368,11 @@ function setVoteTimer (timername, VoteID, VoteStart, VoteLimit, cberror, cbsucce
         "SET vote_yes = (Select Count(*) from Voting where Vote_VoteID = current_vote AND Vote_Value='yes');"+
         "SET modify_node = (SELECT ModifyNode FROM Vote where VoteID = current_vote);"+
         "SET vote_type = (SELECT Votetype FROM Vote where VoteID = current_vote);"+
+        "SET new_writer = (SELECT userid FROM JoinGroup WHERE Groupname=group_name AND isWriter=1 AND userid != '"+writer+"');"+
+        "IF (new_writer IS NULL) "+
+        "THEN "+
+            "SET new_writer = '"+writer+"';"+
+        "END IF;"+
         "update Vote set VoteStatus = 0 where VoteID = current_vote;"+
         "IF (vote_type = 'add') "+
         "THEN "+
@@ -379,6 +383,7 @@ function setVoteTimer (timername, VoteID, VoteStart, VoteLimit, cberror, cbsucce
             "ELSE "+
                 "UPDATE Node set vote_status = 'inactive' where NodeID = current_node;"+
             "END IF;"+
+            "UPDATE RenoGroup set writer = new_writer where Groupname = group_name;"+            
         "ELSEIF (vote_type = 'rollback' or vote_type = 'complete') "+
         "THEN "+
             "IF (vote_yes >= count_members*0.75) "+
