@@ -84,7 +84,9 @@ function setpostdata(req, entries, image, callback) {
         writerchanged: false,
         writerchangetime: timenow,
         writer: req.session.user_id,
-        creator: req.session.user_id
+        creator: req.session.user_id,
+        minwrite: parseInt(entries.fields.lenmin),
+        maxwrite: parseInt(entries.fields.lenmax)
     }
     callback(req, entries, post);
 }

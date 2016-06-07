@@ -14,3 +14,8 @@ jsconfig.json
 .elasticbeanstalk/*
 !.elasticbeanstalk/*.cfg.yml
 !.elasticbeanstalk/*.global.yml
+
+# ESLint
+node_modules/eslint*
+node_modules/.bin/eslint*
+.eslint*
