@@ -6,6 +6,9 @@ block global
   if message
     .toast-custom#toast
       span #{message}
+  .fixed-action-btn(style='top: 10%; right: 10%;')
+    a.btn-floating.btn-large.blue(href='/group/?groupname='+groupdata.Groupname+'#readSection')
+      i.large.material-icons visibility
 block contents-header
 block contents
   //- Group Summary Module
@@ -47,7 +50,7 @@ block contents
           span(style="color:#00897b")#tiktok #{remain_time}
           |  남음)
       else
-        h6(style="text-align:center;") 현재 투표 중 입니다!
+        h6(style="text-align:center; font-weight: bold; color: red") 현재 투표 중 입니다!
         
     form(action='/group', method='post', style='text-align:center;')
       .row
@@ -92,7 +95,7 @@ block contents
           strong 글자 수 제한
           br
           span.teal-text #{groupdata.minwrite}-#{groupdata.maxwrite}
-    hr
+    hr#readSection
     //- Read Module
     .row
       h5.teal-text.text-darken-1(style="font-weight:bold;") 소설 읽기
@@ -164,4 +167,16 @@ block afterload-script
       else{
         $('span#tiktok').css('color','red');
       }
+    }, 1000);
+    setInterval(function () {
+      $('span.VoteRemainTime').each(function(idx, el) {
+        var totalsec = time2sec($(this).text());
+        if (totalsec > 0) {
+          totalsec = totalsec - 1;
+          $(this).text(sec2time(totalsec));
+        }
+        else {
+          $(this).css('color','red');
+        }
+      });
     }, 1000);

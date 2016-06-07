@@ -141,7 +141,7 @@ router.post('/write', function (req, res, next) {
   renodb.submitContent(req.body.writearea, req.session.user_id, req.query.groupname, function (err) {
     res.redirect(encodeURI('/group?groupname=' + req.query.groupname));
   }, function (nodeid) {
-    res.redirect(encodeURI('/group?groupname=' + req.query.groupname + '&nodeid=' + nodeid));
+    res.redirect(encodeURI('/group?groupname=' + req.query.groupname));
   });
 });
 
@@ -287,14 +287,21 @@ router.post('/votedata', function (req, res, next) {
             if (element.Votetype == 'add') Votetype = '단락 추가';
             else if (element.Votetype == 'change') Votetype = '단락 변경';
             else if (element.Votetype == 'rollback') Votetype = '롤백';
+            var StartTime = moment(element.StartTime).format('YYYY-MM-DD / HH:mm:ss');
+            var EndTime = moment(element.EndTime).format('YYYY-MM-DD / HH:mm:ss');
+            var VoteRemainTime;
+            if (element.EndTime >= moment()) VoteRemainTime = moment.utc(moment(element.EndTime).diff(moment())).format('HH:mm:ss');
+            else VoteRemainTime = 0;
+            console.log('VoteRemainTime = ' + VoteRemainTime);
             nodes.push({
               Votetype: Votetype,
               agree: agree,
               agreePercent: agp,
               disagree: disagree,
               disagreePercent: dgp,
-              StartTime: moment(element.StartTime).format('YYYY-MM-DD HH:mm:ss'),
-              EndTime: moment(element.EndTime).format('YYYY-MM-DD HH:mm:ss'),
+              StartTime: StartTime,
+              EndTime: EndTime,
+              VoteRemainTime: VoteRemainTime,
               nodehref: encodeURI('/group?groupname=' + groupname + '&nodeid=' + element.NodeId),
               agreehref: encodeURI('/group/vote?groupname=' + groupname + '&voteid=' + element.VoteID + '&value=' + 'yes'),
               disagreehref: encodeURI('/group/vote?groupname=' + groupname + '&voteid=' + element.VoteID + '&value=' + 'no')
@@ -359,7 +366,9 @@ function showpage(req, res, pageerror) {
               var writelimit = rows[0].WriteLimit.split(":");
               for (var i = 0; i < writelimit.length; i++) writelimit[i] = parseInt(writelimit[i], 10);
               var timeafter = changetime.add({ hours: writelimit[0], minutes: writelimit[1], seconds: writelimit[2] });
-              var remain_time = moment.utc(timeafter.diff(moment())).format("HH:mm:ss");
+              var remain_time;
+              if (timeafter >= moment()) remain_time = moment.utc(timeafter.diff(moment())).format("HH:mm:ss");
+              else remain_time = "00:00:00";
               if (pageerror)
                 res.render('group', {
                   session: req.session,
