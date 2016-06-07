@@ -8,14 +8,16 @@ var moment = require('moment');
 /* GET home page. */
 router.get('/', function (req, res, next) {
   if (!req.session.logined)
-    res.redirect('/');
+  { res.redirect('/'); next('router'); }
+  else next();
 }, function (req, res, next) {
     res.render('create_group', { session: req.session });
 });
 
 router.post('/', function (req, res, next) {
   if (!req.session.logined)
-    res.redirect('/');
+  { res.redirect('/'); next('router'); }
+  else next();
 }, function (req, res, next) {
     form.handle_req(req, checkfield,
         'groupimages/',

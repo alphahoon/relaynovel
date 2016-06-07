@@ -8,7 +8,8 @@ var fs = require('fs');
 ///////////////////////// Change Role ////////////////////////////////
 router.get('/joinreader', function (req, res, next) {
   if (!req.session.logined)
-    res.redirect('/');
+  { res.redirect('/'); next('router'); }
+  else next();
 }, function (req, res, next) {
   renodb.joinGroup(req.query.groupname, req.session.user_id, false, function (err) {
     res.redirect(encodeURI('/group?groupname=' + req.query.groupname));
@@ -25,8 +26,9 @@ router.get('/joinreader', function (req, res, next) {
 });
 router.get('/joinwriter', function (req, res, next) {
   if (!req.session.logined)
-    res.redirect('/');
-
+  { res.redirect('/'); next('router'); }
+  else next();
+}, function (req, res, next) {
   // check writer limit before join as a writer
   db.connection.query('select writers, WriterLimit from RenoGroup where Groupname = '
     + db.mysql.escape(req.query.groupname),
@@ -57,7 +59,8 @@ router.get('/joinwriter', function (req, res, next) {
 });
 router.get('/bereader', function (req, res, next) {
   if (!req.session.logined)
-    res.redirect('/');
+  { res.redirect('/'); next('router'); }
+  else next();
 }, function (req, res, next) {
   renodb.beReader(req.query.groupname, req.session.user_id,
     function (err) {
@@ -75,24 +78,9 @@ router.get('/bereader', function (req, res, next) {
 });
 router.get('/bewriter', function (req, res, next) {
   if (!req.session.logined)
-    res.redirect('/');
-<<<<<<< HEAD
+  { res.redirect('/'); next('router'); }
+  else next();
 }, function (req, res, next) {
-  renodb.beWriter(req.query.groupname, req.session.user_id,
-    function (err) {
-      res.redirect(encodeURI('/group?groupname=' + req.query.groupname));
-    }, function () {
-      renodb.updateReadersWriters(req.query.groupname,
-        function (err) {
-          console.log('updateReadersWriters failed from /bewriter' + err);
-          res.redirect(encodeURI('/group?groupname=' + req.query.groupname));
-        },
-        function () {
-          res.redirect(encodeURI('/group?groupname=' + req.query.groupname));
-        });
-    })
-=======
-
   // check writer limit before join as a writer
   db.connection.query('select writers, WriterLimit from RenoGroup where Groupname = '
     + db.mysql.escape(req.query.groupname),
@@ -121,11 +109,11 @@ router.get('/bewriter', function (req, res, next) {
       }
     }
   );
->>>>>>> 1a9a1d31a40807c0445bbd17c72013c173d4fe5d
 });
 router.get('/exit', function (req, res, next) {
   if (!req.session.logined)
-    res.redirect('/');
+  { res.redirect('/'); next('router'); }
+  else next();
 }, function (req, res, next) {
   renodb.exitGroup(req.query.groupname, req.session.user_id, function (err) {
     res.redirect(encodeURI('/group?groupname=' + req.query.groupname));
@@ -144,7 +132,8 @@ router.get('/exit', function (req, res, next) {
 ///////////////////////// Post Write ////////////////////////////////
 router.post('/write', function (req, res, next) {
   if (!req.session.logined)
-    res.redirect('/');
+  { res.redirect('/'); next('router'); }
+  else next();
 }, function (req, res, next) {
   // req.body.writearea 이용
   // userid : req.session.user_id
@@ -238,7 +227,8 @@ router.get('/readnode', function (req, res, next) {
 
 router.get('/rollback', function (req, res, next) {
   if (!req.session.logined)
-    res.redirect('/');
+  { res.redirect('/'); next('router'); }
+  else next();
 }, function (req, res, next) {
   renodb.setrollbackVote(req.query.NodeID,
     function (err) {
@@ -253,7 +243,8 @@ router.get('/rollback', function (req, res, next) {
 
 router.post('/votedata', function (req, res, next) {
   if (!req.session.logined)
-    res.redirect('/');
+  { res.redirect('/'); next('router'); }
+  else next();
 }, function (req, res, next) {
   var startidx = req.body.start;
   var nodenum = req.body.num;
@@ -309,7 +300,8 @@ router.get('/votenode', function (req, res, next) {
 
 router.get('/vote', function(req, res, next) {
   if (!req.session.logined)
-    res.redirect('/');
+  { res.redirect('/'); next('router'); }
+  else next();
 }, function (req, res, next) {
   renodb.vote(req.query.voteid, req.session.user_id, req.query.value, function(err) {
     if(err) res.redirect(encodeURI('/group?groupname=' + req.query.groupname + '&error='+err));
@@ -320,13 +312,13 @@ router.get('/vote', function(req, res, next) {
 /* GET home page. */
 router.get('/', function (req, res, next) {
   if (!req.session.logined)
-    res.redirect('/');
-  else {
+  { res.redirect('/'); next('router'); }
+  else next();
+}, function (req, res, next) {
     if (req.query && req.query.error)
       showpage(req, res, req.query.error);
     else
       showpage(req, res, null);
-  }
 });
 
 function showpage(req, res, pageerror) {

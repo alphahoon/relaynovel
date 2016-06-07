@@ -6,7 +6,8 @@ var db = require('../database.js');
 /* GET home page. */
 router.get('/', function (req, res, next) {
   if (!req.session.logined)
-    res.redirect('/');
+  { res.redirect('/'); next('router'); }
+  else next();
 }, function (req, res, next) {
     showpage(req, res, null);
 });

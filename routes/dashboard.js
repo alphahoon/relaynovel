@@ -7,7 +7,8 @@ var fs = require('fs');
 
 router.post('/moregroup', function (req, res, next) {
   if (!req.session.logined)
-    res.redirect('/');
+  { res.redirect('/'); next('router'); }
+  else next();
 }, function (req, res, next) {
     db.connection.query(
         'SELECT * from RenoGroup where Groupname in (SELECT Groupname from JoinGroup where userid= '
@@ -36,7 +37,8 @@ router.get('/dashboardcard', function (req, res, next) {
 
 router.get('/', function (req, res, next) {
   if (!req.session.logined)
-    res.redirect('/');
+  { res.redirect('/'); next('router'); }
+  else next();
 }, function (req, res, next) {
     res.render('dashboard', { session: req.session });
 });
