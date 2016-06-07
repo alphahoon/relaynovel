@@ -228,6 +228,8 @@ router.get('/rollback', function (req, res, next) {
 ///////////////////////// Vote ////////////////////////////////
 
 router.post('/votedata', function (req, res, next) {
+  if (!req.session.logined)
+    res.redirect('/');
   var startidx = req.body.start;
   var nodenum = req.body.num;
   var groupname = req.body.groupname;
@@ -255,7 +257,9 @@ router.post('/votedata', function (req, res, next) {
               disagreePercent: dgp,
               StartTime: moment(element.StartTime).format('YYYY-MM-DD HH:mm:ss'),
               EndTime: moment(element.EndTime).format('YYYY-MM-DD HH:mm:ss'),
-              nodehref: encodeURI('/group?groupname=' + groupname + '&nodeid=' + element.NodeId)
+              nodehref: encodeURI('/group?groupname=' + groupname + '&nodeid=' + element.NodeId),
+              agreehref: encodeURI('/group/vote?groupname=' + groupname + '&voteid=' + element.VoteID + '&value=' + 'yes' ),
+              disagreehref: encodeURI('/group/vote?groupname=' + groupname + '&voteid=' + element.VoteID + '&value=' + 'no' )
             });
             count++;
             if (count == rows.length)
@@ -273,6 +277,15 @@ router.get('/votenode', function (req, res, next) {
     res.send(data);
   });
 });
+
+router.get('/vote', function(req, res, next) {
+  if (!req.session.logined)
+    res.redirect('/');
+  renodb.vote(req.query.voteid, req.session.user_id, req.query.value, function(err) {
+    if(err) res.redirect(encodeURI('/group?groupname=' + req.query.groupname + '&error=votefail'));
+    else res.redirect(encodeURI('/group?groupname=' + req.query.groupname));
+  } )
+})
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
@@ -306,7 +319,8 @@ function showpage(req, res, pageerror) {
               var writelimit = rows[0].WriteLimit.split(":");
               for (var i = 0; i < writelimit.length; i++) writelimit[i] = parseInt(writelimit[i], 10);
               var timeafter = changetime.add({ hours: writelimit[0], minutes: writelimit[1], seconds: writelimit[2] });
-              var remain_time = moment.utc(timeafter.diff(moment())).format("hh:mm:ss");
+              var remain_time = moment.utc(timeafter.diff(moment())).format("HH:mm:ss")
+              console.log(timeafter);
               if (pageerror)
                 res.render('group', {
                   session: req.session,
