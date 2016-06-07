@@ -6,7 +6,9 @@ var bcrypt = require('bcrypt-nodejs');
 /* GET home page. */
 router.get('/', function (req, res, next) {
   if (req.session.logined)
-    res.redirect('/');
+  { res.redirect('/'); next('router'); }
+  else next();
+}, function (req, res, next) {
   res.render('login', { title: 'relaynovel' });
 });
 

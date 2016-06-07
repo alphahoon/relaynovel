@@ -394,6 +394,22 @@ function createVote(nodevalues, votetype, NodetoModify, writer, cberror, cbsucce
         }
     });
 }
+function vote(voteid, userid, value, callback) {
+    db.connection.query('select * from Voting where Vote_VoteID = ' + voteid + ' and userid =' + db.mysql.escape(userid),
+        function (err, rows) {
+            if (err) { callback(err); return; }
+            if(rows && rows[0])
+            {
+                callback('이미 투표하셨습니다');
+                return;
+            }
+            db.connection.query('insert into Voting(Vote_VoteID, Vote_Value, userid) values ('
+                + voteid + ', ' + db.mysql.escape(value) + ', ' + db.mysql.escape(userid) + ')',
+                function (err) {
+                    callback(err);
+                });
+        });
+}
 
 function setWriterTimer(timername, groupcreationtime, writelimit, groupname, cberror, cbsuccess) {
     // writer가 중간에 글을 제출하는 경우, writer 를 다른 멤버로, writerchanged=1,
@@ -553,5 +569,6 @@ module.exports = {
     updateReadersWriters: updateReadersWriters,
     countVote: countVote,
     isUserinGroup: isUserinGroup,
-    setrollbackVote : setrollbackVote
+    setrollbackVote : setrollbackVote,
+    vote : vote
 };

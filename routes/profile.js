@@ -6,10 +6,10 @@ var db = require('../database.js');
 /* GET home page. */
 router.get('/', function (req, res, next) {
   if (!req.session.logined)
-    res.redirect('/');
-  else {
+  { res.redirect('/'); next('router'); }
+  else next();
+}, function (req, res, next) {
     showpage(req, res, null);
-  }
 });
 
 function showpage(req, res, pageerror) {
