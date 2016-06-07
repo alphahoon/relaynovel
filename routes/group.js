@@ -26,19 +26,34 @@ router.get('/joinreader', function (req, res, next) {
 router.get('/joinwriter', function (req, res, next) {
   if (!req.session.logined)
     res.redirect('/');
-}, function (req, res, next) {
-  renodb.joinGroup(req.query.groupname, req.session.user_id, true, function (err) {
-    res.redirect(encodeURI('/group?groupname=' + req.query.groupname));
-  }, function () {
-    renodb.updateReadersWriters(req.query.groupname,
-      function (err) {
-        console.log('updateReadersWriters failed from /joinwriter' + err);
-        res.redirect(encodeURI('/group?groupname=' + req.query.groupname));
-      },
-      function () {
-        res.redirect(encodeURI('/group?groupname=' + req.query.groupname));
-      });
-  });
+
+  // check writer limit before join as a writer
+  db.connection.query('select writers, WriterLimit from RenoGroup where Groupname = '
+    + db.mysql.escape(req.query.groupname),
+    function (err, rows) {
+      if (err) console.log(err);
+      if (rows && rows[0]) {
+        if (rows[0].writers >= rows[0].WriterLimit) {
+          console.log('Cannot join : writer limit exceeded.');
+          res.redirect(encodeURI('/group?groupname=' + req.query.groupname+'&error=작가 수가 가득 찼습니다!'));
+        }
+        else {
+          renodb.joinGroup(req.query.groupname, req.session.user_id, true, function (err) {
+            res.redirect(encodeURI('/group?groupname=' + req.query.groupname));
+          }, function () {
+            renodb.updateReadersWriters(req.query.groupname,
+              function (err) {
+                console.log('updateReadersWriters failed from /joinwriter' + err);
+                res.redirect(encodeURI('/group?groupname=' + req.query.groupname));
+              },
+              function () {
+                res.redirect(encodeURI('/group?groupname=' + req.query.groupname));
+              });
+          });
+        }
+      }
+    }
+  );
 });
 router.get('/bereader', function (req, res, next) {
   if (!req.session.logined)
@@ -61,6 +76,7 @@ router.get('/bereader', function (req, res, next) {
 router.get('/bewriter', function (req, res, next) {
   if (!req.session.logined)
     res.redirect('/');
+<<<<<<< HEAD
 }, function (req, res, next) {
   renodb.beWriter(req.query.groupname, req.session.user_id,
     function (err) {
@@ -75,6 +91,37 @@ router.get('/bewriter', function (req, res, next) {
           res.redirect(encodeURI('/group?groupname=' + req.query.groupname));
         });
     })
+=======
+
+  // check writer limit before join as a writer
+  db.connection.query('select writers, WriterLimit from RenoGroup where Groupname = '
+    + db.mysql.escape(req.query.groupname),
+    function (err, rows) {
+      if (err) console.log(err);
+      if (rows && rows[0]) {
+        if (rows[0].writers >= rows[0].WriterLimit) {
+          console.log('Cannot join : writer limit exceeded.');
+          res.redirect(encodeURI('/group?groupname=' + req.query.groupname+'&error=작가 수가 가득 찼습니다!'));
+        }
+        else {
+          renodb.beWriter(req.query.groupname, req.session.user_id,
+            function (err) {
+              res.redirect(encodeURI('/group?groupname=' + req.query.groupname));
+            }, function () {
+              renodb.updateReadersWriters(req.query.groupname,
+                function (err) {
+                  console.log('updateReadersWriters failed from /bewriter' + err);
+                  res.redirect(encodeURI('/group?groupname=' + req.query.groupname));
+                },
+                function () {
+                  res.redirect(encodeURI('/group?groupname=' + req.query.groupname));
+                });
+            });
+        }
+      }
+    }
+  );
+>>>>>>> 1a9a1d31a40807c0445bbd17c72013c173d4fe5d
 });
 router.get('/exit', function (req, res, next) {
   if (!req.session.logined)
@@ -226,9 +273,13 @@ router.post('/votedata', function (req, res, next) {
             if (adtotal == 0)
             { agp = 50; dgp = 50; }
             else
-            { agp = (agree).toFixed(2) / adtotal * 100.00; dgp = (disagree).toFixed(2) / adtotal * 100.00; }
+            { agp = (agree / adtotal * 100.00).toFixed(1); dgp = (disagree / adtotal * 100.00).toFixed(1); }
+            var Votetype;
+            if (element.Votetype == 'add') Votetype = '단락 추가';
+            else if (element.Votetype == 'change') Votetype = '단락 변경';
+            else if (element.Votetype == 'rollback') Votetype = '롤백';
             nodes.push({
-              Votetype: element.Votetype,
+              Votetype: Votetype,
               agree: agree,
               agreePercent: agp,
               disagree: disagree,

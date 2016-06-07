@@ -33,7 +33,7 @@ block contents
         h5 #{readersCount}
       .col.s4
         h5.teal-text 작가
-        h5 #{writersCount}
+        h5#writerLimit #{writersCount} / #{groupdata.WriterLimit}
       .col.s4
         h5.teal-text 길이
         h5 0
@@ -55,7 +55,7 @@ block contents
           .col.s12.m4
             a.btn-large.waves-effect.waves-light(href='/group/joinreader?groupname='+groupdata.Groupname, style="width:100%; margin-bottom: 10px;") 독자되기
           .col.s12.m4
-            a.btn-large.waves-effect.waves-light.blue(href='/group/joinwriter?groupname='+groupdata.Groupname, style="width:100%; margin-bottom: 10px;") 작가되기
+            a.btn-large.waves-effect.waves-light.blue#writerButton(href='/group/joinwriter?groupname='+groupdata.Groupname, style="width:100%; margin-bottom: 10px;") 작가되기
           .col.s12.m4
             a.btn-large.disabled(style="width:100%; margin-bottom: 10px;") 탈퇴
         else
@@ -63,14 +63,14 @@ block contents
             .col.s12.m4
               a.btn-large.waves-effect.waves-light(href='/group/bereader?groupname='+groupdata.Groupname, style="width:100%; margin-bottom: 10px;") 독자되기
             .col.s12.m4
-              a.btn-large.disabled(style="width:100%; margin-bottom: 10px;") 작가되기
+              a.btn-large.disabled#writerButton(style="width:100%; margin-bottom: 10px;") 작가되기
             .col.s12.m4
               a.btn-large.waves-effect.waves-light.red(href='/group/exit?groupname='+groupdata.Groupname, style="width:100%; margin-bottom: 10px;") 탈퇴
           else
             .col.s12.m4
               a.btn-large.disabled(style="width:100%; margin-bottom: 10px;") 독자되기
             .col.s12.m4
-              a.btn-large.waves-effect.waves-light.blue(href='/group/bewriter?groupname='+groupdata.Groupname, style="width:100%; margin-bottom: 10px;") 작가되기
+              a.btn-large.waves-effect.waves-light.blue#writerButton(href='/group/bewriter?groupname='+groupdata.Groupname, style="width:100%; margin-bottom: 10px;") 작가되기
             .col.s12.m4
               a.btn-large.waves-effect.waves-light.red(href='/group/exit?groupname='+groupdata.Groupname, style="width:100%; margin-bottom: 10px;") 탈퇴
     hr
@@ -126,6 +126,10 @@ block afterload-script
   script(type="text/javascript").
     $(document).ready(function() {
       setTimeout("$('#toast').fadeOut(2000);", 2000);
+      if (parseInt('#{writersCount}') >= parseInt('#{groupdata.WriterLimit}')){
+        $('h5#writerLimit').css('color','red');
+        $('a#writerButton').addClass('disabled').removeClass('waves-effect').removeClass('waves-light').removeAttr('href');
+      }
     });
   //- Write Module
   script(type='text/javascript').

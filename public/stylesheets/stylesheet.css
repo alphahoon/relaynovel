@@ -151,6 +151,8 @@ hr {
   font-weight: normal;
   color: white;
   padding-top: 15px;
+  min-width: 10%;
+  max-width: 90%;
 }
 
 .vote-up:hover {
@@ -170,6 +172,8 @@ hr {
   font-weight: normal;
   color: white;
   padding-top: 15px;
+  min-width: 10%;
+  max-width: 90%;
 }
 
 .vote-down:hover {
