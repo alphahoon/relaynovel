@@ -228,7 +228,7 @@ function submitContent(content, writer, groupname, cberror, cbsuccess) {
               console.log('nonexistent group');
             }, function(revision_number) {
               if (writer != groupinfo.writer) {
-                  cberror(err);
+                  cberror('');
                 }
               else {
                   var nodevalues = {
