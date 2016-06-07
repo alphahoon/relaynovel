@@ -7,8 +7,9 @@ var bcrypt = require('bcrypt-nodejs');
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
-    if (req.session.logined)
-        res.redirect('/');
+  if (req.session.logined)
+    res.redirect('/');
+}, function (req, res, next) {
     res.render('register');
 });
 

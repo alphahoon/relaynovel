@@ -7,9 +7,8 @@ var db = require('../database.js');
 router.get('/', function (req, res, next) {
   if (!req.session.logined)
     res.redirect('/');
-  else {
+}, function (req, res, next) {
     showpage(req, res, null);
-  }
 });
 
 function showpage(req, res, pageerror) {

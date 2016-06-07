@@ -9,6 +9,7 @@ var fs = require('fs');
 router.get('/joinreader', function (req, res, next) {
   if (!req.session.logined)
     res.redirect('/');
+}, function (req, res, next) {
   renodb.joinGroup(req.query.groupname, req.session.user_id, false, function (err) {
     res.redirect(encodeURI('/group?groupname=' + req.query.groupname));
   }, function () {
@@ -25,6 +26,7 @@ router.get('/joinreader', function (req, res, next) {
 router.get('/joinwriter', function (req, res, next) {
   if (!req.session.logined)
     res.redirect('/');
+}, function (req, res, next) {
   renodb.joinGroup(req.query.groupname, req.session.user_id, true, function (err) {
     res.redirect(encodeURI('/group?groupname=' + req.query.groupname));
   }, function () {
@@ -41,6 +43,7 @@ router.get('/joinwriter', function (req, res, next) {
 router.get('/bereader', function (req, res, next) {
   if (!req.session.logined)
     res.redirect('/');
+}, function (req, res, next) {
   renodb.beReader(req.query.groupname, req.session.user_id,
     function (err) {
       res.redirect(encodeURI('/group?groupname=' + req.query.groupname));
@@ -58,6 +61,7 @@ router.get('/bereader', function (req, res, next) {
 router.get('/bewriter', function (req, res, next) {
   if (!req.session.logined)
     res.redirect('/');
+}, function (req, res, next) {
   renodb.beWriter(req.query.groupname, req.session.user_id,
     function (err) {
       res.redirect(encodeURI('/group?groupname=' + req.query.groupname));
@@ -75,6 +79,7 @@ router.get('/bewriter', function (req, res, next) {
 router.get('/exit', function (req, res, next) {
   if (!req.session.logined)
     res.redirect('/');
+}, function (req, res, next) {
   renodb.exitGroup(req.query.groupname, req.session.user_id, function (err) {
     res.redirect(encodeURI('/group?groupname=' + req.query.groupname));
   }, function () {
@@ -91,6 +96,9 @@ router.get('/exit', function (req, res, next) {
 
 ///////////////////////// Post Write ////////////////////////////////
 router.post('/write', function (req, res, next) {
+  if (!req.session.logined)
+    res.redirect('/');
+}, function (req, res, next) {
   // req.body.writearea 이용
   // userid : req.session.user_id
   // Groupname : req.query.groupname
@@ -184,6 +192,7 @@ router.get('/readnode', function (req, res, next) {
 router.get('/rollback', function (req, res, next) {
   if (!req.session.logined)
     res.redirect('/');
+}, function (req, res, next) {
   renodb.setrollbackVote(req.query.NodeID,
     function (err) {
       res.redirect(encodeURI('/group?groupname=' + req.query.groupname));
@@ -198,6 +207,7 @@ router.get('/rollback', function (req, res, next) {
 router.post('/votedata', function (req, res, next) {
   if (!req.session.logined)
     res.redirect('/');
+}, function (req, res, next) {
   var startidx = req.body.start;
   var nodenum = req.body.num;
   var groupname = req.body.groupname;
@@ -226,8 +236,8 @@ router.post('/votedata', function (req, res, next) {
               StartTime: moment(element.StartTime).format('YYYY-MM-DD HH:mm:ss'),
               EndTime: moment(element.EndTime).format('YYYY-MM-DD HH:mm:ss'),
               nodehref: encodeURI('/group?groupname=' + groupname + '&nodeid=' + element.NodeId),
-              agreehref: encodeURI('/group/vote?groupname=' + groupname + '&voteid=' + element.VoteID + '&value=' + 'yes' ),
-              disagreehref: encodeURI('/group/vote?groupname=' + groupname + '&voteid=' + element.VoteID + '&value=' + 'no' )
+              agreehref: encodeURI('/group/vote?groupname=' + groupname + '&voteid=' + element.VoteID + '&value=' + 'yes'),
+              disagreehref: encodeURI('/group/vote?groupname=' + groupname + '&voteid=' + element.VoteID + '&value=' + 'no')
             });
             count++;
             if (count == rows.length)
@@ -249,8 +259,9 @@ router.get('/votenode', function (req, res, next) {
 router.get('/vote', function(req, res, next) {
   if (!req.session.logined)
     res.redirect('/');
+}, function (req, res, next) {
   renodb.vote(req.query.voteid, req.session.user_id, req.query.value, function(err) {
-    if(err) res.redirect(encodeURI('/group?groupname=' + req.query.groupname + '&error=votefail'));
+    if(err) res.redirect(encodeURI('/group?groupname=' + req.query.groupname + '&error='+err));
     else res.redirect(encodeURI('/group?groupname=' + req.query.groupname));
   } )
 })

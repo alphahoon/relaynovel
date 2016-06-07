@@ -8,6 +8,7 @@ var renodb = require('../renodb.js');
 router.get('/quit', function (req, res, next) {
   if (!req.session.logined)
     res.redirect('/');
+}, function (req, res, next) {
   renodb.quitForever(req.session.user_id, 
     function (err) {
       console.log('quitForever err!' + err);
@@ -21,9 +22,8 @@ router.get('/quit', function (req, res, next) {
 router.get('/', function (req, res, next) {
   if (!req.session.logined)
     res.redirect('/');
-  else {
+}, function (req, res, next) {
     showpage(req, res, null);
-  }
 });
 function showpage(req, res, pageerror) {
   var query = db.connection.query(
