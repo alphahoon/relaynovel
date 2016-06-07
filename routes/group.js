@@ -291,7 +291,7 @@ router.post('/votedata', function (req, res, next) {
             var EndTime = moment(element.EndTime).format('YYYY-MM-DD / HH:mm:ss');
             var VoteRemainTime;
             if (element.EndTime >= moment()) VoteRemainTime = moment.utc(moment(element.EndTime).diff(moment())).format('HH:mm:ss');
-            else VoteRemainTime = 0;
+            else VoteRemainTime = '00:00:00';
             console.log('VoteRemainTime = ' + VoteRemainTime);
             nodes.push({
               Votetype: Votetype,
