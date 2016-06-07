@@ -482,18 +482,56 @@ function setVoteTimer(timername, VoteID, VoteStart, VoteLimit, writer, cberror, 
         });
 }
 
+//cberror: cberror(err)
+//cbsuccess: cbsuccess(agree, disagree)
+function countVote(voteid, cberror, cbsuccess) {
+    var agree = 0;
+    var disagree = 0;
+    db.connection.query('select Vote_Value from Voting where Vote_VoteID = '
+        + db.mysql.escape(voteid) + ' and Vote_Value = \'yes\'',
+        function (err, rows) {
+            if (err) { cberror(err); return; }
+            if (rows) {
+                agree = rows.length;
+            }
+            db.connection.query('select Vote_Value from Voting where Vote_VoteID = '
+                + db.mysql.escape(voteid) + ' and Vote_Value = \'no\'',
+                function (err, rows) {
+                    if (err) { cberror(err); return; }
+                    if (rows) {
+                        disagree = rows.length;
+                    }
+                    cbsuccess(agree, disagree);
+                });
+        });
+}
+
+//callback: callback(isjoin, isWriter)
+function isUserinGroup(userid, groupid, callback) {
+    db.connection.query('SELECT * FROM JoinGroup WHERE Groupname = ' +
+        db.mysql.escape(groupid) + ' and userid = ' + db.mysql.escape(userid),
+        function (err, rows) {
+            if (err) { callback(false, false); return; }
+            if (!rows) { callback(false, false); return; }
+            if (!rows[0]) { callback(false, false); return; }
+            callback(true, rows[0].isWriter);
+        });
+}
+
 module.exports = {
-  beReader: beReader,
-  beWriter: beWriter,
-  setWriterTimer: setWriterTimer,
-  submitContent: submitContent,
-  setNewWriter: setNewWriter,
-  exitGroup: exitGroup,
-  joinGroup: joinGroup,
-  setVoteTimer: setVoteTimer,
-  createVote: createVote,
-  quitForever: quitForever,
-  getReaders: getReaders,
-  getWriters: getWriters,
-  updateReadersWriters: updateReadersWriters
+    beReader: beReader,
+    beWriter: beWriter,
+    setWriterTimer: setWriterTimer,
+    submitContent: submitContent,
+    setNewWriter: setNewWriter,
+    exitGroup: exitGroup,
+    joinGroup: joinGroup,
+    setVoteTimer: setVoteTimer,
+    createVote: createVote,
+    quitForever: quitForever,
+    getReaders: getReaders,
+    getWriters: getWriters,
+    updateReadersWriters: updateReadersWriters,
+    countVote: countVote,
+    isUserinGroup: isUserinGroup
 };
