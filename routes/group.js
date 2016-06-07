@@ -274,8 +274,7 @@ function showpage(req, res, pageerror) {
               var writelimit = rows[0].WriteLimit.split(":");
               for (var i = 0; i < writelimit.length; i++) writelimit[i] = parseInt(writelimit[i], 10);
               var timeafter = changetime.add({ hours: writelimit[0], minutes: writelimit[1], seconds: writelimit[2] });
-              var remain_time = moment.utc(timeafter.diff(moment())).format("HH:mm:ss")
-              console.log(timeafter);
+              var remain_time = moment.utc(timeafter.diff(moment())).format("HH:mm:ss");
               if (pageerror)
                 res.render('group', {
                   session: req.session,
