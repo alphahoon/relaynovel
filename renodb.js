@@ -161,7 +161,7 @@ function submitContent(content, writer, groupname, cberror, cbsuccess) {
             }, function (revision_number) {
                 var nodevalues = {
                     NodeID : groupname + revision_number,
-                    revision = revision_number,
+                    revision : revision_number,
                     Groupname : groupname,
                     ParentNode : curr_node,
                     Content : content,
