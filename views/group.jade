@@ -30,13 +30,13 @@ block contents
     .row(style="text-align:center;")
       .col.s4
         h5.teal-text 독자
-        strong #{groupdata.readers}
+        h5 #{readersCount}
       .col.s4
         h5.teal-text 작가
-        strong #{groupdata.writers}
+        h5 #{writersCount}
       .col.s4
         h5.teal-text 길이
-        strong 0
+        h5 0
         //- 총 글자수 count 하는 모듈
     .row(style="text-align:center;")
       //- 나중에 실시간으로 바꿀것
@@ -118,7 +118,7 @@ block contents-footer
 block afterload-script
   //- 토스트 메세지
   script(type="text/javascript", src = 'viewjs/imageloader.js')
-  script.
+  script(type="text/javascript").
     $(document).ready(function() {
       setTimeout("$('#toast').fadeOut(2000);", 2000);
     });

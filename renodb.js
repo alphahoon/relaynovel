@@ -12,12 +12,15 @@ function joinGroup(groupname, userid, iswriter, cberror, cbsuccess) {
         + db.mysql.escape(userid),
         function (err) {
             if (err) cberror(err);
+            else cbsuccess();
+            /*
             else setWritersReaders(groupname, delwriter, delreader,
                 function (err) {
                     cberror(err);
                 }, function () {
                     cbsuccess();
                 });
+            */
         });
 }
 
@@ -28,12 +31,15 @@ function beWriter(groupname, userid, cberror, cbsuccess) {
         + db.mysql.escape(userid),
         function (err) {
             if (err) cberror(err);
+            else cbsuccess();
+            /*
             else setWritersReaders(groupname, '+1', '+0',
                 function (err) {
                     cberror(err);
                 }, function () {
                     cbsuccess();
                 });
+            */
         });
 }
 function beReader(groupname, userid, cberror, cbsuccess) {
@@ -43,12 +49,15 @@ function beReader(groupname, userid, cberror, cbsuccess) {
         + db.mysql.escape(userid),
         function (err) {
             if (err) cberror(err);
+            else cbsuccess();
+            /*
             else setWritersReaders(groupname, '-1', '+0',
                 function (err) {
                     cberror(err);
                 }, function () {
                     cbsuccess();
                 });
+            */
         });
 }
 function exitGroup(groupname, userid, cberror, cbsuccess) {
@@ -66,12 +75,15 @@ function exitGroup(groupname, userid, cberror, cbsuccess) {
                     + db.mysql.escape(userid),
                     function(err) {
                         if (err) cberror(err);
+                        else cbsuccess();
+                        /*
                         else setWritersReaders(groupname, delwriter, '-1',
                             function(err) {
                                 cberror(err);
                             }, function() {
                                 cbsuccess();
                             });
+                        */
                     });
             }
         });
@@ -83,6 +95,31 @@ function quitForever(userid, cberror, cbsuccess) {
             if (err) cberror(err);
             else cbsuccess();
         });
+}
+function getReaders(groupname, cberror, cbsuccess) {
+    db.connection.query('select count(*) as readersCount from JoinGroup where Groupname = '
+        + db.mysql.escape(groupname),
+        function(err, rows) {
+            if (err) cberror(err, null);
+            else {
+                if (rows && rows[0]) cbsuccess(null, rows[0].readersCount);
+                else console.log('renodb.getReaders error!');
+            }
+        }
+    );
+}
+function getWriters(groupname, cberror, cbsuccess) {
+    db.connection.query('select count(*) as writersCount from JoinGroup where Groupname = '
+        + db.mysql.escape(groupname)
+        + 'and isWriter = 1',
+        function(err, rows) {
+            if (err) cberror(err, null);
+            else {
+                if (rows && rows[0]) cbsuccess(null, rows[0].writersCount);
+                else console.log('renodb.getWriters error!');
+            }  
+        }
+    );
 }
 function setWritersReaders(groupname, deltawriters, deltareaders, cberror, cbsuccess) {
     db.connection.query('update RenoGroup '
@@ -335,5 +372,7 @@ module.exports = {
     joinGroup : joinGroup,
     setVoteTimer : setVoteTimer,
     createVote : createVote,
-    quitForever : quitForever
+    quitForever : quitForever,
+    getReaders : getReaders,
+    getWriters : getWriters
 }
