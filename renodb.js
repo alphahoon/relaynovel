@@ -133,12 +133,12 @@ function setWritersReaders(groupname, deltawriters, deltareaders, cberror, cbsuc
         });
 }
 
-function getCurrentNode(groupname, cberror, cbsuccess) {
-    db.connection.query('select CurrentNode from RenoGroup where Groupname=' + db.mysql.escape(groupname),
+function getGroupinfo(groupname, cberror, cbsuccess) {
+    db.connection.query('select * from RenoGroup where Groupname=' + db.mysql.escape(groupname),
         function (err, curr_node) {
             if (err) cberror(err);
             else if (curr_node[0] == null) cbsuccess(null);
-            else cbsuccess(curr_node[0].CurrentNode);
+            else cbsuccess(curr_node[0]);
         });    
 }
 
@@ -151,37 +151,83 @@ function getRevision(groupname, cberror, cbsuccess) {
 }
 
 function submitContent(content, writer, groupname, cberror, cbsuccess) {
-    getCurrentNode(groupname,
+    getGroupinfo(groupname,
     function (err) {
       console.log('nonexistent group')
-    }, function (curr_node) {
+    }, function (groupinfo) {
         getRevision(groupname,
             function (err) {
             console.log('nonexistent group')
             }, function (revision_number) {
-                var nodevalues = {
-                    NodeID : groupname + revision_number,
-                    Groupname : groupname,
-                    ParentNode : curr_node,
-                    Content : content,
-                    vote_status : 'wait',
-                    TimeWritten : moment().format('YYYY-MM-DD HH:mm:ss'),
-                    writer : writer 
-                };
-                db.connection.query('insert into Node set ?', nodevalues,
-                function (err) {
-                    if (err) cberror(err);
-                    else {
-                        setNewWriter(groupname,
-                            function (err) {
-                                cberror(err);
-                            }, function () {
-                                cbsuccess(nodevalues.NodeID);
-                            });                        
-                    }                    
-                });
+                if (writer != groupinfo.writer){
+                    cberror(err)
+                }
+                else {
+                    var nodevalues = {
+                        NodeID : groupname + revision_number,
+                        revision : revision_number,
+                        Groupname : groupname,
+                        ParentNode : groupinfo.CurrentNode,
+                        Content : content,
+                        vote_status : 'wait',
+                        TimeWritten : moment().format('YYYY-MM-DD HH:mm:ss'),
+                        writer : writer 
+                    };
+                    db.connection.query('insert into Node set ?', nodevalues,
+                    function (err) {
+                        if (err) cberror(err);
+                        else {
+                            setNewWriter(groupname,
+                                function (err) {
+                                    cberror(err);
+                                }, function () {
+                                    createVote(nodevalues, 'add', null,
+                                    function (err) {
+                                        cberror(err);
+                                    }, function() {
+                                        cbsuccess(nodevalues.NodeID);
+                                    });
+                                });                        
+                        }                    
+                    });
+                }
         })
     })    
+}
+
+function submitModification (content, nodetomodify, writer, groupname, cberror, cbsuccess) {
+    getCurrentNode(groupname,
+    function (err) {
+      console.log('nonexistent group')
+    }, function (curr_node) {
+            getRevision(groupname,
+            function (err) {
+            console.log('nonexistent group')
+            }, function (revision_number) {        
+            var nodevalues = {
+                NodeID : groupname + (10000+revision_number),
+                revision : 10000+revision_number,
+                Groupname : groupname,
+                ParentNode : null,
+                Content : content,
+                vote_status : 'wait',
+                TimeWritten : moment().format('YYYY-MM-DD HH:mm:ss'),
+                writer : writer 
+            };
+            db.connection.query('insert into Node set ?', nodevalues,
+            function (err) {
+                if (err) cberror(err);
+                else {
+                    createVote(nodevalues, 'change', nodetomodify,
+                    function (err) {
+                        cberror(err);
+                    }, function() {
+                        cbsuccess(nodevalues.NodeID);
+                    });                
+                }                    
+            });       
+        }); 
+    });    
 }
 
 function setNewWriter (groupname, cberror, cbsuccess) {
@@ -343,6 +389,7 @@ function setVoteTimer (timername, VoteID, VoteStart, VoteLimit, cberror, cbsucce
                 "THEN "+
                     "UPDATE RenoGroup set Finished = 1 where Groupname = group_name;"+
                     "UPDATE Vote SET VoteStatus = 0 where Group_GroupId = group_name;"+
+                    "UPDATE RenoGroup set writer = '' where Groupname = group_name;"+
                 "END IF;"+
             "ELSE "+
                 "UPDATE Node set vote_status = 'inactive' where NodeID = current_node;"+                    
