@@ -39,7 +39,7 @@ router.get('/joinwriter', function (req, res, next) {
       if (rows && rows[0]) {
         if (rows[0].writers >= rows[0].WriterLimit) {
           console.log('Cannot join : writer limit exceeded.');
-          res.redirect(encodeURI('/group?groupname=' + req.query.groupname+'&error=작가 수가 가득 찼습니다!'));
+          res.redirect(encodeURI('/group?groupname=' + req.query.groupname + '&error=작가 수가 가득 찼습니다!'));
         }
         else {
           renodb.joinGroup(req.query.groupname, req.session.user_id, true, function (err) {
@@ -91,7 +91,7 @@ router.get('/bewriter', function (req, res, next) {
       if (rows && rows[0]) {
         if (rows[0].writers >= rows[0].WriterLimit) {
           console.log('Cannot join : writer limit exceeded.');
-          res.redirect(encodeURI('/group?groupname=' + req.query.groupname+'&error=작가 수가 가득 찼습니다!'));
+          res.redirect(encodeURI('/group?groupname=' + req.query.groupname + '&error=작가 수가 가득 찼습니다!'));
         }
         else {
           renodb.beWriter(req.query.groupname, req.session.user_id,
@@ -154,7 +154,7 @@ function recursiveRead(curnode, callback) {
     callback(result);
   }
   else db.connection.query(
-    'select Node.*, User.Nickname, User.Profilepic, RenoGroup.AllowRollback from Node left join User on User.userid = Node.writer '+
+    'select Node.*, User.Nickname, User.Profilepic, RenoGroup.AllowRollback from Node left join User on User.userid = Node.writer ' +
     'left join RenoGroup on RenoGroup.Groupname = Node.Groupname where Node.NodeID = '
     + db.mysql.escape(curnode.ParentNode),
     function (err, rows) {
@@ -168,32 +168,23 @@ function recursiveRead(curnode, callback) {
 }
 
 router.post('/read', function (req, res, next) {
+  if (!req.session.logined)
+  { res.redirect('/'); next('router'); }
+  else next();
+}, function (req, res, next) {
   var groupname = req.body.groupname;
   var curid = req.body.nodeid;
   if (curid == 'null') {
     db.connection.query(
-      'select Node.*, User.Nickname, User.Profilepic, RenoGroup.AllowRollback from Node left join User on User.userid = Node.writer '+
-      'left join RenoGroup on RenoGroup.Groupname = Node.Groupname where Node.NodeID = '+ 
-      '(SELECT CurrentNode from RenoGroup where Groupname='+ db.mysql.escape(groupname) + ')',
+      'select Node.*, User.Nickname, User.Profilepic, RenoGroup.AllowRollback from Node left join User on User.userid = Node.writer ' +
+      'left join RenoGroup on RenoGroup.Groupname = Node.Groupname where Node.NodeID = ' +
+      '(SELECT CurrentNode from RenoGroup where Groupname=' + db.mysql.escape(groupname) + ')',
       function (err, rows) {
         if (rows && rows[0]) {
-          recursiveRead(rows[0], function (result) {
-            result.push(rows[0]);
-            result = result.splice(req.body.start, req.body.num);
-            for (var i = 0; i < result.length; i++) {
-              result[i].TimeWritten = moment(result[i].TimeWritten).format('YYYY-MM-DD HH:mm:ss');
-              if (result[i].AllowRollback) {
-                result[i].AllowRollback="";
-                result[i].rollbacklink="/group/rollback?groupname="+groupname+"&NodeID="+result[i].NodeID;
-              }
-              else {
-                result[i].AllowRollback="disabled";
-                result[i].rollbacklink="#!";
-              }
-            }
-            res.send(result);
-          });
+          req.rows = rows;
+          next();
         }
+        else next('router');
       });
   }
   else {
@@ -203,19 +194,46 @@ router.post('/read', function (req, res, next) {
       function (err, rows) {
         if (rows && rows[0]) {
           if (rows[0].Groupname == groupname) {
-            recursiveRead(rows[0], function (result) {
-              result.push(rows[0]);
-              result = result.splice(req.body.start, req.body.num);
-              for (var i = 0; i < result.length; i++) {
-                result[i].TimeWritten = moment(result[i].TimeWritten).format('YYYY-MM-DD HH:mm:ss');
-              }
-              res.send(result);
-            });
+            req.rows = rows;
+            next();
           }
+          else next('router');
         }
+        else next('router');
       });
   }
-});
+}, function (req, res, next) {
+  var groupname = req.body.groupname;
+  var rows = req.rows;
+  recursiveRead(rows[0], function (result) {
+    result.push(rows[0]);
+    result = result.splice(req.body.start, req.body.num);
+    for (var i = 0; i < result.length; i++) {
+      result[i].TimeWritten = moment(result[i].TimeWritten).format('YYYY-MM-DD HH:mm:ss');
+      if (result[i].writer == req.session.user_id && result[i].vote_status != 'wait') {
+        result[i].AllowModify = "";
+        result[i].modifylink = "/modify?groupname=" + groupname + "&NodeID=" + result[i].NodeID;
+      }
+      else {
+        result[i].AllowModify = "disabled";
+        result[i].modifylink = "";
+      }
+
+      if (result[i].AllowRollback && result[i].vote_status == 'approve') {
+        result[i].AllowRollback = "";
+        result[i].rollbacklink = "/group/rollback?groupname=" + groupname + "&NodeID=" + result[i].NodeID;
+      }
+      else {
+        result[i].AllowRollback = "disabled";
+        result[i].rollbacklink = "";
+      }
+
+    }
+    res.send(result);
+  });
+
+}
+);
 
 router.get('/readnode', function (req, res, next) {
   fs.readFile(__dirname + '/../public/fakehtmls/readnode.html', 'utf8', function (err, data) {
@@ -307,15 +325,15 @@ router.get('/votenode', function (req, res, next) {
   });
 });
 
-router.get('/vote', function(req, res, next) {
+router.get('/vote', function (req, res, next) {
   if (!req.session.logined)
   { res.redirect('/'); next('router'); }
   else next();
 }, function (req, res, next) {
-  renodb.vote(req.query.voteid, req.session.user_id, req.query.value, function(err) {
-    if(err) res.redirect(encodeURI('/group?groupname=' + req.query.groupname + '&error='+err));
+  renodb.vote(req.query.voteid, req.session.user_id, req.query.value, function (err) {
+    if (err) res.redirect(encodeURI('/group?groupname=' + req.query.groupname + '&error=' + err));
     else res.redirect(encodeURI('/group?groupname=' + req.query.groupname));
-  } )
+  })
 })
 
 /* GET home page. */
@@ -324,10 +342,10 @@ router.get('/', function (req, res, next) {
   { res.redirect('/'); next('router'); }
   else next();
 }, function (req, res, next) {
-    if (req.query && req.query.error)
-      showpage(req, res, req.query.error);
-    else
-      showpage(req, res, null);
+  if (req.query && req.query.error)
+    showpage(req, res, req.query.error);
+  else
+    showpage(req, res, null);
 });
 
 function showpage(req, res, pageerror) {
@@ -350,8 +368,7 @@ function showpage(req, res, pageerror) {
               var writelimit = rows[0].WriteLimit.split(":");
               for (var i = 0; i < writelimit.length; i++) writelimit[i] = parseInt(writelimit[i], 10);
               var timeafter = changetime.add({ hours: writelimit[0], minutes: writelimit[1], seconds: writelimit[2] });
-              var remain_time = moment.utc(timeafter.diff(moment())).format("HH:mm:ss")
-              console.log(timeafter);
+              var remain_time = moment.utc(timeafter.diff(moment())).format("HH:mm:ss");
               if (pageerror)
                 res.render('group', {
                   session: req.session,

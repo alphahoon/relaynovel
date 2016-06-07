@@ -1,0 +1,63 @@
+extends contents-layout
+block title
+  title 그룹
+block preload-script
+block global
+  if message
+    .toast-custom#toast
+      span #{message}
+block contents-header
+block contents
+  //- Group Summary Module
+  .container.box-lg(style='text-align:center;')
+    .row(style="text-align:center;")
+      h4.teal-text.text-darken-1(style="font-weight:bold;") #{groupdata.Groupname}
+      strong
+        span.grey-text.text-darken-3 Since 
+        span.teal-text= moment(groupdata.createtime).format("YYYY-MM-DD")
+        span.grey-text.text-darken-3  / Created by 
+        span.teal-text= (groupdata.creator)
+        br
+        span.grey-text.text-darken-3 장르 : 
+        span.teal-text= (groupdata.Genre)
+        span.grey-text.text-darken-3  / 상태 : 
+        if groupdata.Finished
+          span.red-text 연재 종료
+        else
+          span.green-text 연재 중
+    hr
+    //- Read Module
+    .row
+      h5.teal-text.text-darken-1(style="font-weight:bold;") 기존 내용
+      p Node: #{nodeid}
+    .row
+      .col.s12.card.grey.lighten-3.card-content.grey-text.text-darken-3(style='text-align: left;')
+          .row(style='margin-bottom: 20px;')
+          p #{nodeinfo.Content}
+          .row(style='text-align: right; padding-right: 20px;')
+              img.circle.profile(src='#{nodeinfo.Profilepic}', onerror="this.src='image_404.png'", style='width:50px; height:50px; clear:left;')
+              .teal-text(style='float:right; margin-left: 20px;')
+                  strong #{nodeinfo.Nickname}
+                  br
+                  | #{moment(nodeinfo.TimeWritten).format("YYYY-MM-DD HH:mm:ss")}
+    hr                  
+    .row
+    h5.blue-text.text-darken-1(style="font-weight:bold;") 수정할 내용을 입력 바랍니다.
+    form(action='/modify', method='post')
+        .col.s12
+          textarea.materialize-textarea#writearea(name='writearea', placeholder='여기에 작성해 주세요!', style="box-sizing:border-box; background-color: #eeeeee; border: 1px solid grey; padding-left: 10px; padding-right: 10px; min-height: 200px;")
+        .col.s12
+        input(type='hidden', name='nodeid', value='#{nodeid}')
+        input(type='hidden', name='groupname', value ='#{groupdata.Groupname}')
+        button.btn-large.waves-effect.waves-light.blue(type='submit', style="width:100%; max-width: 200px;") 단락 수정
+block contents-footer
+bilock afterload-script
+  //- 토스트 메세지
+  script(type="text/javascript", src = 'viewjs/imageloader.js')
+  script(type="text/javascript").
+    $(document).ready(function() {
+      setTimeout("$('#toast').fadeOut(2000);", 2000);
+    });
+  //- Write Module
+  script(type='text/javascript').
+    $('#writearea').trigger('autoresize');
