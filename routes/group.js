@@ -5,6 +5,8 @@ var renodb = require('../renodb.js');
 var moment = require('moment');
 var fs = require('fs');
 
+moment.lang('kr');
+
 ///////////////////////// Change Role ////////////////////////////////
 router.get('/joinreader', function (req, res, next) {
   if (!req.session.logined)
@@ -269,14 +271,21 @@ router.post('/votedata', function (req, res, next) {
             if (element.Votetype == 'add') Votetype = '단락 추가';
             else if (element.Votetype == 'change') Votetype = '단락 변경';
             else if (element.Votetype == 'rollback') Votetype = '롤백';
+            var StartTime = moment(element.StartTime).format('YYYY-MM-DD / HH:mm:ss');
+            var EndTime = moment(element.EndTime).format('YYYY-MM-DD / HH:mm:ss');
+            var VoteRemainTime;
+            if (element.EndTime >= moment()) VoteRemainTime = moment.utc(moment(element.EndTime).diff(moment())).format('HH:mm:ss');
+            else VoteRemainTime = 0;
+            console.log('VoteRemainTime = ' + VoteRemainTime);
             nodes.push({
               Votetype: Votetype,
               agree: agree,
               agreePercent: agp,
               disagree: disagree,
               disagreePercent: dgp,
-              StartTime: moment(element.StartTime).format('YYYY-MM-DD HH:mm:ss'),
-              EndTime: moment(element.EndTime).format('YYYY-MM-DD HH:mm:ss'),
+              StartTime: StartTime,
+              EndTime: EndTime,
+              VoteRemainTime: VoteRemainTime,
               nodehref: encodeURI('/group?groupname=' + groupname + '&nodeid=' + element.NodeId),
               agreehref: encodeURI('/group/vote?groupname=' + groupname + '&voteid=' + element.VoteID + '&value=' + 'yes'),
               disagreehref: encodeURI('/group/vote?groupname=' + groupname + '&voteid=' + element.VoteID + '&value=' + 'no')

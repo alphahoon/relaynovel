@@ -48,6 +48,11 @@ block contents
           |  남음)
       else
         h6(style="text-align:center;") 현재 투표 중 입니다!
+        h6(style="text-align:center;") 현재 투표 중 입니다!
+          span.teal-text.text-darken-1 #{groupdata.writer}
+          |  님이 작성 중입니다! (
+          span(style="color:#00897b")#tiktok #{remain_time}
+          |  남음)
         
     form(action='/group', method='post', style='text-align:center;')
       .row
@@ -164,4 +169,16 @@ block afterload-script
       else{
         $('span#tiktok').css('color','red');
       }
+    }, 1000);
+    setInterval(function () {
+      $('span.VoteRemainTime').each(function(idx, el) {
+        var totalsec = time2sec($(this).text());
+        if (totalsec > 0) {
+          totalsec = totalsec - 1;
+          $(this).text(sec2time(totalsec));
+        }
+        else {
+          $(this).css('color','red');
+        }
+      });
     }, 1000);
