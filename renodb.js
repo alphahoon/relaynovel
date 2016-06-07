@@ -329,6 +329,25 @@ function setNewWriter(groupname, cberror, cbsuccess) {
             }
         });
 }
+function setrollbackVote (nodeID, cberror, cbsuccess) {
+    db.connection.query("select Node.*, RenoGroup.AllowRollback from Node left join RenoGroup on RenoGroup.Groupname = Node.Groupname where Node.NodeID = '"
+    +nodeID+"'", function (err, row) {
+        if (err) {
+            console.log(err);
+            cberror(err);
+        }
+        else if (row==null || row[0] == null) cberror(err);
+        else if (row[0].AllowRollback == 0) cberror(err);
+        else {
+            createVote(row[0], 'rollback', null, null,
+            function(err) {
+                cberror(err);
+            }, function() {
+                cbsuccess();
+            });                   
+        }
+    });
+}
 
 function createVote(nodevalues, votetype, NodetoModify, writer, cberror, cbsuccess) {
   db.connection.query("select count(VoteID) AS counts from Vote", function(err, Votes) {
@@ -533,5 +552,6 @@ module.exports = {
     getWriters: getWriters,
     updateReadersWriters: updateReadersWriters,
     countVote: countVote,
-    isUserinGroup: isUserinGroup
+    isUserinGroup: isUserinGroup,
+    setrollbackVote : setrollbackVote
 };

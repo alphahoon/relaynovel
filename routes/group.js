@@ -108,7 +108,8 @@ function recursiveRead(curnode, callback) {
     callback(result);
   }
   else db.connection.query(
-    'select Node.*, User.Nickname, User.Profilepic from Node left join User on User.userid = Node.writer where Node.NodeID = '
+    'select Node.*, User.Nickname, User.Profilepic, RenoGroup.AllowRollback from Node left join User on User.userid = Node.writer '+
+    'left join RenoGroup on RenoGroup.Groupname = Node.Groupname where Node.NodeID = '
     + db.mysql.escape(curnode.ParentNode),
     function (err, rows) {
       if (rows && rows[0]) {
@@ -125,8 +126,9 @@ router.post('/read', function (req, res, next) {
   var curid = req.body.nodeid;
   if (curid == 'null') {
     db.connection.query(
-      'select Node.*, User.Nickname, User.Profilepic from Node left join User on User.userid = Node.writer where Node.NodeID = (SELECT CurrentNode from RenoGroup where Groupname='
-      + db.mysql.escape(groupname) + ')',
+      'select Node.*, User.Nickname, User.Profilepic, RenoGroup.AllowRollback from Node left join User on User.userid = Node.writer '+
+      'left join RenoGroup on RenoGroup.Groupname = Node.Groupname where Node.NodeID = '+ 
+      '(SELECT CurrentNode from RenoGroup where Groupname='+ db.mysql.escape(groupname) + ')',
       function (err, rows) {
         if (rows && rows[0]) {
           recursiveRead(rows[0], function (result) {
@@ -134,6 +136,14 @@ router.post('/read', function (req, res, next) {
             result = result.splice(req.body.start, req.body.num);
             for (var i = 0; i < result.length; i++) {
               result[i].TimeWritten = moment(result[i].TimeWritten).format('YYYY-MM-DD HH:mm:ss');
+              if (result[i].AllowRollback) {
+                result[i].AllowRollback="";
+                result[i].rollbacklink="/group/rollback?groupname="+groupname+"&NodeID="+result[i].NodeID;
+              }
+              else {
+                result[i].AllowRollback="disabled";
+                result[i].rollbacklink="#!";
+              }
             }
             res.send(result);
           });
@@ -169,6 +179,19 @@ router.get('/readnode', function (req, res, next) {
     res.send(data);
   });
 });
+
+
+router.get('/rollback', function (req, res, next) {
+  if (!req.session.logined)
+    res.redirect('/');
+  renodb.setrollbackVote(req.query.NodeID,
+    function (err) {
+      res.redirect(encodeURI('/group?groupname=' + req.query.groupname));
+    }, function () {
+      res.redirect(encodeURI('/group?groupname=' + req.query.groupname));
+    })
+});
+
 
 ///////////////////////// Vote ////////////////////////////////
 
