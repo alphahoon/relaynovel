@@ -289,14 +289,11 @@ function submitContent(content, writer, groupname, cberror, cbsuccess) {
 }
 
 function submitModification(content, nodetomodify, writer, groupname, cberror, cbsuccess) {
-  getCurrentNode(groupname,
-    function(err) {
-      console.log('nonexistent group');
-    }, function(curr_node) {
       getRevision(groupname,
             function(err) {
               console.log('nonexistent group');
             }, function(revision_number) {
+              console.log(content);
               var nodevalues = {
               NodeID: groupname + (10000 + revision_number),
               revision: 10000 + revision_number,
@@ -319,8 +316,7 @@ function submitModification(content, nodetomodify, writer, groupname, cberror, c
                     });
                 }
             });
-            });
-    });
+        });
 }
 
 function setNewWriter(groupname, cberror, cbsuccess) {
@@ -403,7 +399,10 @@ function createVote(nodevalues, votetype, NodetoModify, writer, cberror, cbsucce
                     };
                   if (votetype == 'change') votevalues.ModifyNode = NodetoModify;
                   db.connection.query('insert into Vote set ?', votevalues, function(err) {
-                      if (err) cberror(err);
+                      if (err) {
+                          console.log(err);
+                          cberror(err);
+                      }
                       else {
                           console.log('success');
                           setVoteTimer(votevalues.Votetype + votevalues.NodeId, votevalues.VoteID, votevalues.StartTime, votinglimit[0].VoteLimit, writer,
@@ -531,7 +530,7 @@ function setVoteTimer(timername, VoteID, VoteStart, VoteLimit, writer, cberror, 
         "THEN " +
             "IF (vote_yes >= count_members/2) " +
             "THEN " +
-                "UPDATE Node set Content=(SELECT * FROM (SELECT Content from Node where NodeID=modify_node) Node) where NodeID=current_node;" +
+                "UPDATE Node set Content=(SELECT * FROM (SELECT Content from Node where NodeID=current_node) Node) where NodeID=modify_node;" +
             "END IF;" +
             "DELETE from Node where NodeID=current_node;" +
         "END IF;" +
@@ -595,5 +594,6 @@ module.exports = {
     countVote: countVote,
     isUserinGroup: isUserinGroup,
     setrollbackVote : setrollbackVote,
-    vote : vote
+    vote : vote,
+    submitModification : submitModification
 };
