@@ -1,5 +1,7 @@
 var db = require('./database.js');
 var moment = require('moment');
+var sleep = require('sleep-async');
+var InfiniteLoop = require('infinite-loop');
 
 // cberror : function(err)
 // cbsuccess : function()
@@ -436,6 +438,43 @@ function vote(voteid, userid, value, callback) {
         });
 }
 
+// function setWriterTimer(timername, groupcreationtime, writelimit, groupname, cberror, cbsuccess) {
+//     var loop = new InfiniteLoop;
+    
+// }
+// function swt1(targettime, groupname) {
+//     var timediff = targettime-moment();
+    
+//     sleep.sleep(timediff., function () {
+//         db.connection.query('SELECT writer, writerchanged FROM RenoGroup WHERE Groupname='
+//             + db.mysql.escape(groupname), function (err, data) {
+//                 if (err) return;
+//                 if (!data[0]) return;
+                
+//                 if(data[0].writerchanged)
+//                     swt2(data[0].writer, sleeptime, groupname);
+//                 else
+//                     swt3(data[0].writer, sleeptime, groupname);
+//             });
+//     });
+// }
+function swt2(writer, sleeptime, groupname) {
+    db.connection.query('SELECT writerchangetime, WriteLimit FROM RenoGroup WHERE Groupname='
+        + db.mysql.escape(groupname), function (err, data) {
+            if (err) return;
+            if (!data[0]) return;
+            var nexttime = data[0].writerchangetime + data[0].WriterLimit;
+            swt1(nexttime, group)
+        });
+}
+function swt3(writer, sleeptime, groupname) {
+    db.connection.query('SELECT writerchanged FROM RenoGroup WHERE Groupname=group_name'
+        + db.mysql.escape(groupname), function (err, rows) {
+            if (err) return;
+            swt2(groupcreationtime, sleeptime, groupname);
+        });
+}
+
 function setWriterTimer(timername, groupcreationtime, writelimit, groupname, cberror, cbsuccess) {
     // writer가 중간에 글을 제출하는 경우, writer 를 다른 멤버로, writerchanged=1,
     // writerchangetime=now()+VoteLimit 으로 바꿔줘야됨
@@ -456,12 +495,11 @@ function setWriterTimer(timername, groupcreationtime, writelimit, groupname, cbe
 			"IF ((SELECT writerchanged FROM RenoGroup WHERE Groupname=group_name) = 1) " +
 			"THEN " +
 				"SET changetime = ADDTIME((SELECT writerchangetime FROM RenoGroup WHERE Groupname=group_name),(SELECT WriteLimit FROM RenoGroup WHERE Groupname=group_name));" +
+				"UPDATE RenoGroup SET writerchanged=false WHERE Groupname=group_name;" +
                 "ALTER EVENT " + timername + " ON SCHEDULE AT changetime ENABLE;" +
-				"UPDATE RenoGroup SET writerchanged=0 WHERE Groupname=group_name;" +
 			"ELSE " +
 				"SET currenttime = NOW();" +
 				"SET changetime = ADDTIME(currenttime,(SELECT WriteLimit FROM RenoGroup WHERE Groupname=group_name));" +
-                "ALTER EVENT " + timername + " ON SCHEDULE AT changetime ENABLE;" +
                 "UPDATE RenoGroup SET writerchangetime=currenttime WHERE Groupname=group_name;" +
                 "IF ((SELECT count(userid) FROM JoinGroup WHERE Groupname=group_name AND isWriter=1) != 1) " +
                 "THEN " +
@@ -470,6 +508,7 @@ function setWriterTimer(timername, groupcreationtime, writelimit, groupname, cbe
                     "SET writer2 = writer1;" +
                 "END IF;" +
                 "UPDATE RenoGroup SET writer=writer2 WHERE Groupname=group_name;" +
+                "ALTER EVENT " + timername + " ON SCHEDULE AT changetime ENABLE;" +
             "END IF;" +
 		"END",
         function(err) {
