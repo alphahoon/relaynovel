@@ -64,11 +64,16 @@ router.post('/', function (req, res, next) {
     if (!req.session.logined)
         res.redirect('/');
     else {
-        var content = req.body.whitearea;
+        var content = req.body.writearea;
         var groupname = req.body.groupname;
         var nodeid = req.body.nodeid;
         var modifier = req.session.user_id;
-        res.redirect('/group');
+        renodb.submitModification(content, nodeid, req.session.user_id, groupname,
+        function (err) {
+          res.redirect(encodeURI('/group?groupname=' + groupname));
+        }, function () {
+          res.redirect(encodeURI('/group?groupname=' + groupname));
+        });
     }
 });
 
