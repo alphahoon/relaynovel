@@ -77,8 +77,8 @@ function checkfield(req, entries, cberror, cbsuccess) {
       return;
     }
   }
-  if (entries.fields.name.length < 4 || entries.fields.name.length > 16) {
-    cberror('닉네임은 4~16자 이내로 작성 바랍니다.');
+  if (entries.fields.name.length < 3 || entries.fields.name.length > 16) {
+    cberror('닉네임은 3~16자 이내로 작성 바랍니다.');
     return;
   }
   db.connection.query('select Nickname from User where Nickname=' + db.mysql.escape(entries.fields.nickname),
