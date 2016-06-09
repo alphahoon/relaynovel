@@ -1,6 +1,6 @@
 # Relay Novel System
-Elastic Beanstalk<br>
-http://relaynovel-dev.ap-northeast-2.elasticbeanstalk.com<br>
-http://relaynovel.com<br>
-http://www.relaynovel.com<br>
-http://aws.relaynovel.com<br>
+2016 Spring, KAIST CS350<br>
+Heewoo Nam, Jinyeob Kim, Jaehoon Lee<br>
+<br>
+DB Schema generating .sql script file(renodb.sql) has added to the root directory.<br>
+(DB Server is currently unavailable.)<br>
